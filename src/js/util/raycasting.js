@@ -54,7 +54,7 @@ doCast = (startX, startY, xStep, yStep, castType, maxDistance) => {
         }
         if (internalHasBlock(x, y)) {
             // Got a block!
-            const blockId = ~~(x / CELL_SIZE) + ~~(y / CELL_SIZE) * W.matrix.length;
+            const blockId = ~~(x / CELL_SIZE) + ~~(y / CELL_SIZE) * G.level.definition.matrix.length;
             return {
                 'x': x,
                 'y': y,

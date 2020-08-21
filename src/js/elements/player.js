@@ -231,6 +231,24 @@ class Player {
             );
         });
 
+        const angles = [];
+
+        R.strokeStyle = '#f00';
+        R.fillStyle = '#f00';
+        R.globalAlpha = 0.2;
+        R.lineWidth = 5;
+
+        beginPath();
+        for (let angle = 0 ; angle < PI * 2 ; angle += PI / 16) {
+            const impact = castRay(this.x, this.y, angle, 400);
+            // beginPath();
+            // moveTo(this.x, this.y);
+            lineTo(impact.x, impact.y);
+            // stroke();
+        }
+
+        fill();
+
         // const allAdjustments = this.allSnapAdjustments();
         // allAdjustments.forEach((adjustment) => {
         //     R.strokeStyle = 'blue';

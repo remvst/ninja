@@ -21,6 +21,29 @@ class Game {
 
             this.level.render();
         });
+
+        if (DEBUG) {
+            wrap(() => {
+                R.font = '24pt Arial';
+                R.textAlign = 'left';
+                fs('#fff');
+
+                const fpsGauge = [];
+                for (let i = 0 ; i < (G.fps / 60) * 20 ; i++) {
+                    fpsGauge.push('-');
+                }
+
+                const info = [
+                    'fps: ' + G.fps,
+                    fpsGauge.join(''),
+                ];
+                let y = 40;
+                info.forEach(info => {
+                    fillText(info, 40, y);
+                    y += 40;
+                });
+            });
+        }
     }
 
 }
