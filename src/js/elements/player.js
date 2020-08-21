@@ -2,31 +2,49 @@ class Player {
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.previous = {'x': x, 'y': y};
+        this.previous = {};
 
         this.vX = this.vY = 0;
+    }
+
+    get landed() {
+        const leftX = this.x - PLAYER_RADIUS;
+        const rightX = this.x + PLAYER_RADIUS;
+        const bottomY = this.y + PLAYER_RADIUS + 1;
+
+        return hasBlock(leftX, bottomY) || hasBlock(rightX, bottomY);
     }
 
     cycle(e) {
         // Save the previous state
         this.previous.x = this.x;
         this.previous.y = this.y;
+        this.previous.landed = this.landed;
 
         // Fall down
         this.vY += GRAVITY_ACCELERATION * e;
 
-        // this.y += this.vY * e;
+        this.y += this.vY * e;
 
-        let dX = 0, dY = 0;
+        if (down[KEYBOARD_SPACE]) {
+            this.jump();
+        }
+
+        // Left/right
+        let dX = 0;
         if (down[KEYBOARD_LEFT]) dX = -1;
         if (down[KEYBOARD_RIGHT]) dX = 1;
-        if (down[KEYBOARD_UP]) dY = -1;
-        if (down[KEYBOARD_DOWN]) dY = 1;
 
-        this.x += dX * 500 * e;
-        this.y += dY * 500 * e;
+        // TODO use friction
+        this.x += dX * PLAYER_HORIZONTAL_SPEED * e;
 
         this.readjust();
+    }
+
+    jump() {
+        if (this.landed) {
+            this.vY = -100;
+        }
     }
 
     goToClosestAdjustment(reference, adjustments) {
@@ -43,7 +61,6 @@ class Player {
         if (closestAdjustment) {
             this.x = closestAdjustment.x;
             this.y = closestAdjustment.y;
-            // console.log(closestAdjustment);
         }
 
         return closestAdjustment;
@@ -54,10 +71,10 @@ class Player {
     }
 
     allSnapAdjustments() {
-        const leftX = this.x - PLAYER_HORIZONTAL_RADIUS;
-        const rightX = this.x + PLAYER_HORIZONTAL_RADIUS;
-        const topY = this.y - PLAYER_VERTICAL_RADIUS;
-        const bottomY = this.y + PLAYER_VERTICAL_RADIUS;
+        const leftX = this.x - PLAYER_RADIUS;
+        const rightX = this.x + PLAYER_RADIUS;
+        const topY = this.y - PLAYER_RADIUS;
+        const bottomY = this.y + PLAYER_RADIUS;
 
         const leftCol = this.toCellUnit(leftX);
         const rightCol = this.toCellUnit(rightX);
@@ -69,26 +86,23 @@ class Player {
         const bottomLeft = hasBlock(leftX, bottomY);
         const bottomRight = hasBlock(rightX, bottomY);
 
-        const collision = topLeft || topRight || bottomLeft || bottomRight;
-        if (!collision) {
-            return [];
-        }
-
-        // console.log(leftCol, rightCol, topRow, bottomRow);
-        // console.log(!!hasBlock(leftX, topY));
+        // const collision = topLeft || topRight || bottomLeft || bottomRight;
+        // if (!collision) {
+        //     return [];
+        // }
 
         const snapX = [this.previous.x, this.x];
         const snapY = [this.previous.y, this.y];
         for (let col = leftCol ; col <= rightCol ; col++) {
             snapX.push(
-                col * CELL_SIZE + PLAYER_HORIZONTAL_RADIUS,
-                (col + 1) * CELL_SIZE - PLAYER_HORIZONTAL_RADIUS - 0.0001
+                col * CELL_SIZE + PLAYER_RADIUS,
+                (col + 1) * CELL_SIZE - PLAYER_RADIUS - 0.0001
             );
         }
         for (let row = topRow ; row <= bottomRow ; row++) {
             snapY.push(
-                row * CELL_SIZE + PLAYER_VERTICAL_RADIUS,
-                (row + 1) * CELL_SIZE - PLAYER_VERTICAL_RADIUS - 0.0001
+                row * CELL_SIZE + PLAYER_RADIUS,
+                (row + 1) * CELL_SIZE - PLAYER_RADIUS - 0.0001
             );
         }
 
@@ -103,36 +117,30 @@ class Player {
             return !hasBlock(
                 adjustment.x,
                 adjustment.y,
-                PLAYER_HORIZONTAL_RADIUS
+                PLAYER_RADIUS
             );
         });
     }
 
     readjust() {
-        const allAdjustments = this.allSnapAdjustments();
+        const { x, y } = this;
 
-        // console.log('all adjustments: ', allAdjustments);
+        const allAdjustments = this.allSnapAdjustments();
         const adjustment = this.goToClosestAdjustment(this, allAdjustments);
 
-        return;
+        if (this.landed) {
+            // Landed, reset the vertical velocity
+            this.vY = min(0, this.vY);
 
-        // const allAdjustments = [
-        //     this.possibleAdjustmentsFor(topRow, leftCol, this),
-        //     this.possibleAdjustmentsFor(topRow, rightCol, this),
-        //     this.possibleAdjustmentsFor(bottomRow, leftCol, this),
-        //     this.possibleAdjustmentsFor(bottomRow, rightCol, this),
-        // ].flat();
-        //
-        // // allAdjustments.forEach(adjustment => {
-        // //     G.level.renderables.push(new PointRenderable(adjustment.x, adjustment.y, PLAYER_HORIZONTAL_RADIUS, 'rgba(255,0,0,0.1)'));
-        // // })
-        //
-        // // console.log(allAdjustments);
-        //
-        // const adjustment = this.goToClosestAdjustment(this.previous, allAdjustments);
-        // console.log(adjustment);
+            if (!this.previous.landed) {
+                console.log('LAND!')
+            }
+        } else if (this.y > y) {
+            console.log('OUCH!');
 
-        // TODO land or tap based on adjustment
+            // Tapped its head, cancel all jump
+            this.vY = max(0, this.vY);
+        }
 
     }
 
@@ -142,17 +150,17 @@ class Player {
 
             R.fillStyle = '#f00';
             fr(
-                -PLAYER_HORIZONTAL_RADIUS,
-                -PLAYER_VERTICAL_RADIUS,
-                PLAYER_HORIZONTAL_RADIUS * 2,
-                PLAYER_VERTICAL_RADIUS * 2
+                -PLAYER_RADIUS,
+                -PLAYER_RADIUS,
+                PLAYER_RADIUS * 2,
+                PLAYER_RADIUS * 2
             );
         });
 
         const allAdjustments = this.allSnapAdjustments();
         allAdjustments.forEach((adjustment) => {
             R.strokeStyle = 'blue';
-            strokeRect(adjustment.x - PLAYER_HORIZONTAL_RADIUS, adjustment.y - PLAYER_HORIZONTAL_RADIUS, PLAYER_HORIZONTAL_RADIUS * 2, PLAYER_HORIZONTAL_RADIUS * 2);
+            strokeRect(adjustment.x - PLAYER_RADIUS, adjustment.y - PLAYER_RADIUS, PLAYER_RADIUS * 2, PLAYER_RADIUS * 2);
         });
     }
 }
