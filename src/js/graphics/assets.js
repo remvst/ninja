@@ -1,18 +1,19 @@
 SKY_BACKGROUND = createCanvasPattern(200, CANVAS_HEIGHT, (c) => {
     const g = c.createLinearGradient(0, 0, 0, CANVAS_HEIGHT);
-    g.addColorStop(0, '#221680');
-    g.addColorStop(1, '#9a8afd');
+    g.addColorStop(0, '#00032c');
+    g.addColorStop(0.7, '#14106f');
+    g.addColorStop(1, '#64196c');
 
     c.fillStyle = g;
     c.fr(0, 0, 200, CANVAS_HEIGHT);
 });
 
-WINDOW_PATTERN = createCanvasPattern(40, 40, c => {
-    c.fillStyle = '#888';
-    c.fillRect(0, 0, 40, 40);
+WINDOW_PATTERN = createCanvasPattern(CELL_SIZE * 2, CELL_SIZE * 2, (c, can) => {
+    c.fillStyle = '#8c9bee';
+    c.fillRect(0, 0, 999, 999);
 
-    c.fillStyle = '#fff';
-    c.fillRect(10, 10, 20, 20);
+    c.fillStyle = '#f29afb';
+    c.fillRect(can.width / 4, can.height / 4, can.width / 2, can.width / 2);
 });
 
 BUILDINGS_BACKGROUND = createCanvasPattern(800, 400, (c, can) => {

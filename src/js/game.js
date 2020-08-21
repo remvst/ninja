@@ -8,7 +8,7 @@ class Game {
         this.level.start();
 
         this.altitude = 0;
-        this.centerLevel(LEVELS[1]);
+        this.centerLevel(this.level);
     }
 
     cycle(e) {
@@ -51,6 +51,11 @@ class Game {
         // Sky
         R.fillStyle = SKY_BACKGROUND;
         fr(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT); // TODO maybe split into two?
+
+        R.fillStyle = '#fff';
+        beginPath();
+        arc(CANVAS_WIDTH - 200, 100, 50, 0, PI * 2, true);
+        fill();
 
         // Buildings
         // const xRatio = this.level.player.x / (CELL_SIZE * LEVEL_COLS);

@@ -4,12 +4,12 @@
     "const": "let",
     "null": 0,
 
-    "CANVAS_WIDTH": 1200,
+    "CANVAS_WIDTH": 1600,
     "CANVAS_HEIGHT": 900,
 
     "LEVEL_ROWS": 20,
     "LEVEL_COLS": 20,
-    "CELL_SIZE": 40,
+    "CELL_SIZE": 36,
 
     "GRAVITY_ACCELERATION": 4000,
     "PLAYER_RADIUS": 15,

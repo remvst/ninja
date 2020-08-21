@@ -2,7 +2,7 @@
     margin: 0;
     width: 100%;
     height: 100%;
-    image-rendering: optimizeSpeed;
+    /* image-rendering: optimizeSpeed; */
     background: #000;
     position: relative;
 }
