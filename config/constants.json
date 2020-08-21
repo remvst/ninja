@@ -4,8 +4,8 @@
     "const": "let",
     "null": 0,
 
-    "CANVAS_WIDTH": 1600,
-    "CANVAS_HEIGHT": 800,
+    "CANVAS_WIDTH": 1200,
+    "CANVAS_HEIGHT": 900,
 
     "LEVEL_ROWS": 20,
     "LEVEL_COLS": 20,

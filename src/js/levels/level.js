@@ -1,9 +1,13 @@
 class Level {
-    constructor(definition) {
+    constructor(index, definition) {
+        this.index = index;
         this.definition = definition;
-        this.index = LEVELS.indexOf(this.definition);
-        this.bottomY = LEVELS.length - this.index * LEVEL_ROWS * CELL_SIZE;
 
+        this.cyclables = [];
+        this.renderables = [];
+    }
+
+    start() {
         this.cyclables = [];
         this.renderables = [];
 
@@ -14,21 +18,6 @@ class Level {
 
         this.cyclables.push(this.player);
         this.renderables.push(this.player);
-
-        // this.snaps = [];
-        // for (let row = 0 ; row < LEVEL_ROWS ; row++) {
-        //     this.snaps.push([]);
-        //     for (let col = 0 ; col < LEVEL_COLS ; col++) {
-        //         const x1 = col * CELL_SIZE + PLAYER_VERTICAL_RADIUS;
-        //         const x2 = col * CELL_SIZE + PLAYER_VERTICAL_RADIUS;
-        //
-        //         this.snaps[row][col] = [
-        //             {
-        //                 'x': col * CELL_SIZE + PLAYER_VERTICAL_RADIUS
-        //             }
-        //         ];
-        //     }
-        // }
     }
 
     cycle(e) {
