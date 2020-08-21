@@ -5,8 +5,15 @@ class Player {
         this.previous = {};
 
         this.vX = this.vY = 0;
+
         this.jumpHoldTime = 0;
-        this.holdingJump = false;
+        this.jumpReleased = true;
+        this.jumpStartY = 0;
+        this.jumpEndY = 0;
+        this.jumpPeakTime = 0;
+        this.wallJump = 0;
+
+        this.clock = 0;
     }
 
     get landed() {
@@ -17,24 +24,71 @@ class Player {
         return hasBlock(leftX, bottomY) || hasBlock(rightX, bottomY);
     }
 
+    get sticksToWall() {
+        if (this.landed) {
+            return 0;
+        }
+
+        const leftX = this.x - PLAYER_RADIUS - 1;
+        const rightX = this.x + PLAYER_RADIUS + 1;
+
+        if (hasBlock(leftX, this.y) && w.down[KEYBOARD_LEFT]) {
+            return 1;
+        }
+
+        if (hasBlock(rightX, this.y) && w.down[KEYBOARD_RIGHT]) {
+            return -1;
+        }
+
+        return 0;
+    }
+
     cycle(e) {
         // Save the previous state
         this.previous.x = this.x;
         this.previous.y = this.y;
+        this.previous.clock = this.clock;
         this.previous.landed = this.landed;
+        this.previous.jumpHoldTime = this.jumpHoldTime;
 
-        // Fall down
-        this.vY += GRAVITY_ACCELERATION * e;
+        this.clock += e;
 
-        this.y += this.vY * e;
+        const holdingJump = down[KEYBOARD_SPACE];
+        this.jumpReleased = this.jumpReleased || !down[KEYBOARD_SPACE];
 
-        const holdingJump = down[KEYBOARD_SPACE] && (this.jumpHoldTime || this.landed);
         if (holdingJump) {
             this.jumpHoldTime += e;
-            this.jump();
         } else {
             this.jumpHoldTime = 0;
-            this.jumpVY = MIN_JUMP_VY;
+        }
+
+        const newJump = holdingJump && this.jumpReleased && (this.landed || this.sticksToWall);
+        if (newJump) {
+            this.jumpReleased = false;
+            this.jumpStartY = this.y;
+            this.jumpStartTime = this.clock;
+            this.wallJump = this.sticksToWall;
+
+            this.vX += this.wallJump * 800;
+        }
+
+        if (holdingJump && !this.jumpReleased) {
+            const jumpHoldRatio = min(this.jumpHoldTime, MAX_JUMP_HOLD_TIME) / MAX_JUMP_HOLD_TIME;
+            const height = CELL_SIZE / 2 + jumpHoldRatio * CELL_SIZE * 3;
+
+            this.jumpPeakTime = 0.1 + 0.2 * jumpHoldRatio;
+            this.jumpEndY = this.jumpStartY - height;
+        }
+
+        if (this.clock < this.jumpStartTime + this.jumpPeakTime) {
+            // Rise up
+            const jumpRatio = (this.clock - this.jumpStartTime) / this.jumpPeakTime;
+            this.y = easeOutQuad(jumpRatio) * (this.jumpEndY - this.jumpStartY) + this.jumpStartY;
+        } else {
+            // Fall down
+            const gravity = this.sticksToWall && this.vY > 0 ? 1000 : GRAVITY_ACCELERATION;
+            this.vY = max(0, this.vY + gravity * e);
+            this.y += this.vY * e;
         }
 
         // Left/right
@@ -48,31 +102,15 @@ class Player {
             targetVX = PLAYER_HORIZONTAL_SPEED;
         }
 
-        const distanceToTargetVX = targetVX - this.vX;
-        const HORIZONTAL_ACCELERATION = this.landed ? 3000 : 800;
-        const appliedDistanceToTargetVX = limit(
-            -HORIZONTAL_ACCELERATION * e,
-            distanceToTargetVX,
-            HORIZONTAL_ACCELERATION * e
+        const horizontalAcceleration = this.landed ? PLAYER_HORIZONTAL_FLOOR_ACCELERATION : PLAYER_HORIZONTAL_FLIGHT_ACCELERATION;
+        this.vX += limit(
+            -horizontalAcceleration * e,
+            targetVX - this.vX,
+            horizontalAcceleration * e
         );
-        this.vX += appliedDistanceToTargetVX;
-
-        // TODO use friction
         this.x += this.vX * e;
 
         this.readjust();
-    }
-
-    jump() {
-        const jumpHoldTime = min(this.jumpHoldTime, MAX_JUMP_HOLD_TIME);
-        const jumpRatio = jumpHoldTime / MAX_JUMP_HOLD_TIME;
-        const jumpVY = jumpRatio * (MAX_JUMP_VY - MIN_JUMP_VY) + MIN_JUMP_VY;
-
-        this.vY = -jumpVY;
-
-        if (jumpRatio == 1) {
-            this.jumpHoldTime = 0;
-        }
     }
 
     goToClosestAdjustment(reference, adjustments) {
@@ -152,17 +190,19 @@ class Player {
         const adjustment = this.goToClosestAdjustment(this, allAdjustments);
 
         if (this.landed) {
-            // Landed, reset the vertical velocity
+            // Landed, reset the jump
             this.vY = min(0, this.vY);
 
             if (!this.previous.landed) {
                 console.log('LAND!')
+                this.jumpStartTime = -1;
             }
         } else if (this.y > y) {
             console.log('OUCH!');
 
             // Tapped its head, cancel all jump
             this.vY = max(0, this.vY);
+            this.jumpStartTime = -1;
         }
 
         if (this.x != x) {
