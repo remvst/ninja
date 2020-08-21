@@ -8,7 +8,7 @@ class Game {
     }
 
     cycle(e) {
-
+        this.level.cycle(e);
     }
 
     render() {
