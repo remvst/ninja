@@ -5,6 +5,8 @@ class Player {
         this.previous = {};
 
         this.vX = this.vY = 0;
+        this.jumpHoldTime = 0;
+        this.holdingJump = false;
     }
 
     get landed() {
@@ -26,8 +28,13 @@ class Player {
 
         this.y += this.vY * e;
 
-        if (down[KEYBOARD_SPACE]) {
+        const holdingJump = down[KEYBOARD_SPACE] && (this.jumpHoldTime || this.landed);
+        if (holdingJump) {
+            this.jumpHoldTime += e;
             this.jump();
+        } else {
+            this.jumpHoldTime = 0;
+            this.jumpVY = MIN_JUMP_VY;
         }
 
         // Left/right
@@ -42,8 +49,14 @@ class Player {
     }
 
     jump() {
-        if (this.landed) {
-            this.vY = -100;
+        const jumpHoldTime = min(this.jumpHoldTime, MAX_JUMP_HOLD_TIME);
+        const jumpRatio = jumpHoldTime / MAX_JUMP_HOLD_TIME;
+        const jumpVY = jumpRatio * (MAX_JUMP_VY - MIN_JUMP_VY) + MIN_JUMP_VY;
+
+        this.vY = -jumpVY;
+
+        if (jumpRatio == 1) {
+            this.jumpHoldTime = 0;
         }
     }
 
@@ -85,11 +98,6 @@ class Player {
         const topRight = hasBlock(rightX, topY);
         const bottomLeft = hasBlock(leftX, bottomY);
         const bottomRight = hasBlock(rightX, bottomY);
-
-        // const collision = topLeft || topRight || bottomLeft || bottomRight;
-        // if (!collision) {
-        //     return [];
-        // }
 
         const snapX = [this.previous.x, this.x];
         const snapY = [this.previous.y, this.y];
@@ -157,10 +165,10 @@ class Player {
             );
         });
 
-        const allAdjustments = this.allSnapAdjustments();
-        allAdjustments.forEach((adjustment) => {
-            R.strokeStyle = 'blue';
-            strokeRect(adjustment.x - PLAYER_RADIUS, adjustment.y - PLAYER_RADIUS, PLAYER_RADIUS * 2, PLAYER_RADIUS * 2);
-        });
+        // const allAdjustments = this.allSnapAdjustments();
+        // allAdjustments.forEach((adjustment) => {
+        //     R.strokeStyle = 'blue';
+        //     strokeRect(adjustment.x - PLAYER_RADIUS, adjustment.y - PLAYER_RADIUS, PLAYER_RADIUS * 2, PLAYER_RADIUS * 2);
+        // });
     }
 }
