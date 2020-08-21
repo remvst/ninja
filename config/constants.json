@@ -4,11 +4,12 @@
     "const": "let",
     "null": 0,
 
-    "CANVAS_WIDTH": 1080,
-    "CANVAS_HEIGHT": 600,
+    "CANVAS_WIDTH": 1600,
+    "CANVAS_HEIGHT": 800,
 
     "LEVEL_ROWS": 20,
     "LEVEL_COLS": 20,
+    "CELL_SIZE": 40,
 
     "KEYBOARD_TAB": 9,
     "KEYBOARD_ENTER": 13,
