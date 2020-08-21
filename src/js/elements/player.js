@@ -38,12 +38,27 @@ class Player {
         }
 
         // Left/right
-        let dX = 0;
-        if (down[KEYBOARD_LEFT]) dX = -1;
-        if (down[KEYBOARD_RIGHT]) dX = 1;
+        let dX = 0, targetVX = 0;
+        if (down[KEYBOARD_LEFT]) {
+            dX = -1;
+            targetVX = -PLAYER_HORIZONTAL_SPEED;
+        }
+        if (down[KEYBOARD_RIGHT]) {
+            dX = 1;
+            targetVX = PLAYER_HORIZONTAL_SPEED;
+        }
+
+        const distanceToTargetVX = targetVX - this.vX;
+        const HORIZONTAL_ACCELERATION = this.landed ? 3000 : 800;
+        const appliedDistanceToTargetVX = limit(
+            -HORIZONTAL_ACCELERATION * e,
+            distanceToTargetVX,
+            HORIZONTAL_ACCELERATION * e
+        );
+        this.vX += appliedDistanceToTargetVX;
 
         // TODO use friction
-        this.x += dX * PLAYER_HORIZONTAL_SPEED * e;
+        this.x += this.vX * e;
 
         this.readjust();
     }
@@ -148,6 +163,11 @@ class Player {
 
             // Tapped its head, cancel all jump
             this.vY = max(0, this.vY);
+        }
+
+        if (this.x != x) {
+            // Player hit an obstacle, reset horizontal momentum
+            this.vX = 0;
         }
 
     }
