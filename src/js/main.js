@@ -17,8 +17,6 @@ onload = () => {
     console.log('LOADED');
 
     new Game();
-    G.render();
-    return;
 
     // Start cycle()
     let lastFrame = Date.now();

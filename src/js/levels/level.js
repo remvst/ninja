@@ -14,6 +14,21 @@ class Level {
 
         this.cyclables.push(this.player);
         this.renderables.push(this.player);
+
+        // this.snaps = [];
+        // for (let row = 0 ; row < LEVEL_ROWS ; row++) {
+        //     this.snaps.push([]);
+        //     for (let col = 0 ; col < LEVEL_COLS ; col++) {
+        //         const x1 = col * CELL_SIZE + PLAYER_VERTICAL_RADIUS;
+        //         const x2 = col * CELL_SIZE + PLAYER_VERTICAL_RADIUS;
+        //
+        //         this.snaps[row][col] = [
+        //             {
+        //                 'x': col * CELL_SIZE + PLAYER_VERTICAL_RADIUS
+        //             }
+        //         ];
+        //     }
+        // }
     }
 
     cycle(e) {
@@ -33,6 +48,11 @@ class Level {
                     fr(col * CELL_SIZE, row * CELL_SIZE, CELL_SIZE, CELL_SIZE);
                 }
             }
+        }
+
+        for (let k = 0 ; k < LEVEL_ROWS ; k++) {
+            fr(0, k * CELL_SIZE, LEVEL_COLS * CELL_SIZE, 1);
+            fr(k * CELL_SIZE, 0, 1, LEVEL_ROWS * CELL_SIZE);
         }
 
         // Render renderables

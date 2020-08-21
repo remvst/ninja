@@ -9,6 +9,7 @@ class Game {
 
     cycle(e) {
         this.level.cycle(e);
+        this.render();
     }
 
     render() {

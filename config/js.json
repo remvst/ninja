@@ -7,6 +7,7 @@
     "src/js/util/interp.js",
     "src/js/util/raycasting.js",
     "src/js/util/array-utils.js",
+    "src/js/util/point-renderable.js",
 
     "src/js/graphics/create-canvas.js",
     "src/js/graphics/create-pattern.js",

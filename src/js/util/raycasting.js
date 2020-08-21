@@ -23,10 +23,10 @@ castRay = (x, y, angle, maxDistance) => {
 castAgainstHorizontal = (startX, startY, angle, maxDistance) => {
     var pointingDown = sin(angle) > 0;
 
-    var y = ~~(startY / BLOCK_SIZE) * BLOCK_SIZE + (pointingDown ? BLOCK_SIZE : -0.0001);
+    var y = ~~(startY / CELL_SIZE) * CELL_SIZE + (pointingDown ? CELL_SIZE : -0.0001);
     var x = startX + (y - startY) / tan(angle);
 
-    var yStep = pointingDown ? BLOCK_SIZE : -BLOCK_SIZE;
+    var yStep = pointingDown ? CELL_SIZE : -CELL_SIZE;
     var xStep = yStep / tan(angle);
 
     return doCast(x, y, xStep, yStep, 1, maxDistance);
@@ -35,10 +35,10 @@ castAgainstHorizontal = (startX, startY, angle, maxDistance) => {
 castAgainstVertical = (startX, startY, angle, maxDistance) => {
     var pointingRight = cos(angle) > 0;
 
-    var x = ~~(startX / BLOCK_SIZE) * BLOCK_SIZE + (pointingRight ? BLOCK_SIZE : -0.0001);
+    var x = ~~(startX / CELL_SIZE) * CELL_SIZE + (pointingRight ? CELL_SIZE : -0.0001);
     var y = startY + (x - startX) * tan(angle);
 
-    var xStep = pointingRight ? BLOCK_SIZE : -BLOCK_SIZE;
+    var xStep = pointingRight ? CELL_SIZE : -CELL_SIZE;
     var yStep = xStep * tan(angle);
 
     return doCast(x, y, xStep, yStep, 0, maxDistance);
@@ -54,7 +54,7 @@ doCast = (startX, startY, xStep, yStep, castType, maxDistance) => {
         }
         if (internalHasBlock(x, y)) {
             // Got a block!
-            const blockId = ~~(x / BLOCK_SIZE) + ~~(y / BLOCK_SIZE) * W.matrix.length;
+            const blockId = ~~(x / CELL_SIZE) + ~~(y / CELL_SIZE) * W.matrix.length;
             return {
                 'x': x,
                 'y': y,
@@ -79,17 +79,17 @@ doCast = (startX, startY, xStep, yStep, castType, maxDistance) => {
 
 hasBlock = (x, y, radius = 0) => {
     return internalHasBlock(x, y) ||
-        internalHasBlock(x + radius, y) ||
-        internalHasBlock(x - radius, y) ||
-        internalHasBlock(x, y - radius) ||
-        internalHasBlock(x, y + radius);
+        internalHasBlock(x - radius, y - radius) ||
+        internalHasBlock(x - radius, y + radius) ||
+        internalHasBlock(x + radius, y - radius) ||
+        internalHasBlock(x + radius, y + radius);
 }
 
 internalHasBlock = (x, y) => {
-    return !isOut(x, y) && W.matrix[~~(y / BLOCK_SIZE)][~~(x / BLOCK_SIZE)];
+    return !isOut(x, y) && G.level.definition.matrix[~~(y / CELL_SIZE)][~~(x / CELL_SIZE)];
 }
 
 isOut = (x, y) => {
-    return !between(0, x, W.matrix[0].length * BLOCK_SIZE - 1) ||
-        !between(0, y, W.matrix.length * BLOCK_SIZE - 1);
+    return !between(0, x, G.level.definition.matrix[0].length * CELL_SIZE - 1) ||
+        !between(0, y, G.level.definition.matrix.length * CELL_SIZE - 1);
 }
