@@ -7,6 +7,9 @@
     "CANVAS_WIDTH": 1080,
     "CANVAS_HEIGHT": 600,
 
+    "LEVEL_ROWS": 20,
+    "LEVEL_COLS": 20,
+
     "KEYBOARD_TAB": 9,
     "KEYBOARD_ENTER": 13,
     "KEYBOARD_ESC": 27,

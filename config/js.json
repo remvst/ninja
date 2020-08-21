@@ -11,6 +11,8 @@
     "src/js/graphics/create-canvas.js",
     "src/js/graphics/create-pattern.js",
 
+    "src/js/levels/levels.js",
+
     "src/js/sound/jsfxr.js",
     "src/js/sound/sounds.js",
 
