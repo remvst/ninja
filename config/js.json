@@ -1,0 +1,20 @@
+[
+    "src/js/globals.js",
+    "src/js/math.js",
+    "src/js/canvas-additions.js",
+
+    "src/js/util/resizer.js",
+    "src/js/util/interp.js",
+    "src/js/util/raycasting.js",
+    "src/js/util/array-utils.js",
+
+    "src/js/graphics/create-canvas.js",
+    "src/js/graphics/create-pattern.js",
+
+    "src/js/sound/jsfxr.js",
+    "src/js/sound/sounds.js",
+
+    "src/js/keyboard.js",
+    "src/js/game.js",
+    "src/js/main.js"
+]
