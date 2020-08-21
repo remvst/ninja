@@ -11,7 +11,7 @@ class Level {
         fr(0, 0, LEVEL_ROWS * CELL_SIZE, LEVEL_COLS * CELL_SIZE);
 
         // Matrix
-        R.fillStyle = '#00f';
+        R.fillStyle = '#000';
         for (let row = 0 ; row < LEVEL_ROWS ; row++) {
             for (let col = 0 ; col < LEVEL_ROWS ; col++) {
                 if (this.definition.matrix[row][col]) {
