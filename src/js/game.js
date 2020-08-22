@@ -16,6 +16,10 @@ class Game {
         this.level.cycle(e);
         INTERPOLATIONS.slice().forEach(i => i.cycle(e));
 
+        if (this.menu) {
+            this.menu.cycle(e);
+        }
+
         this.render();
     }
 

@@ -22,6 +22,10 @@ class Menu {
         interp(this, 'dimAlpha', 1, 0, 0.3, 0.2);
     }
 
+    cycle(e) {
+        
+    }
+
     render() {
         const levelWidth = LEVEL_COLS * CELL_SIZE;
         const levelHeight = LEVEL_ROWS * CELL_SIZE;

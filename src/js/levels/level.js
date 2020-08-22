@@ -8,31 +8,47 @@ class Level {
         this.stop();
     }
 
+    endWith(f) {
+        if (!this.ended) {
+            this.ended = true;
+            this.player.controllable = false;
+            f();
+        }
+    }
+
     foundExit() {
-        // Avoid finding the exit twice
-        remove(this.cyclables, this.exit);
+        this.endWith(() => {
+            G.menu = new Menu(
+                'SEARCHING FOR EVIL PLANS...',
+                '404 NOT FOUND'
+            );
+            G.menu.animateIn();
 
-        // Prevent the player from moving
-        this.player.controllable = false;
+            setTimeout(() => {
+                G.menu.animateOut();
+            }, 2000);
 
-        G.menu = new Menu(
-            'SEARCHING FOR EVIL PLANS...',
-            '404 NOT FOUND'
-        );
-        G.menu.animateIn();
+            setTimeout(() => {
+                G.nextLevel();
 
-        setTimeout(() => {
-            G.menu.animateOut();
-        }, 2000);
+                interp(this, 'windowsAlpha', 0, 1, 0.2);
+            }, 2500);
+        });
+    }
 
-        setTimeout(() => {
-            G.nextLevel();
-
-            interp(this, 'windowsAlpha', 0, 1, 0.2);
-        }, 2500);
+    wasFound() {
+        this.endWith(() => {
+            G.menu = new Menu(
+                'YOU WERE FOUND!',
+                'PRESS [R] TO TRY AGAIN'
+            );
+            G.menu.animateIn();
+        });
     }
 
     start() {
+        this.ended = false;
+
         interp(this, 'windowsAlpha', 1, 0, 0.2);
 
         this.clock = 0;
@@ -69,20 +85,20 @@ class Level {
         });
 
         // Show a menu
-        const menu = G.menu = new Menu(
-            'Floor ' + (this.index + 1),
-            ''
-        );
-        menu.animateIn();
+        // const menu = G.menu = new Menu(
+        //     'Floor ' + (this.index + 1),
+        //     ''
+        // );
+        // menu.animateIn();
 
         setTimeout(() => {
-            menu.animateOut();
+        //     menu.animateOut();
 
             this.player.controllable = true;
             this.player.spawn();
             this.cyclables.push(this.player);
             this.renderables.push(this.player);
-        }, 2000);
+        }, 500);
     }
 
     stop() {

@@ -12,7 +12,7 @@ class Camera {
         this.x = x;
         this.y = y;
 
-        // [duration, fromAngle, toAngle, startTime]
+        // [fromAngle, toAngle, duration, startTime]
         this.cycleDescription = [
             [fromAngle, fromAngle, pauseDuration],
             [fromAngle, toAngle, rotationDuration],
@@ -45,10 +45,16 @@ class Camera {
         const progressRatio = progressWithinItem / duration;
 
         // Calculate the angle based on that progress
-        this.angle = progressRatio * (toAngle - fromAngle) + fromAngle;
+        const angleToPlayer = normalize(angleBetween(this, this.level.player));
+        if (this.foundPlayer) {
+            this.angle = angleToPlayer;
+        } else {
+            this.angle = progressRatio * (toAngle - fromAngle) + fromAngle;
+        }
 
-        if (this.seesPlayer) {
-            // TODO end level
+        this.foundPlayer = this.foundPlayer || this.seesPlayer;
+        if (this.foundPlayer) {
+            this.level.wasFound();
         }
     }
 
@@ -66,14 +72,13 @@ class Camera {
     }
 
     render() {
-        const seesPlayer = this.seesPlayer;
         renderVision(
             this.x,
             this.y,
             this.angle - CAMERA_HALF_FOV,
             this.angle + CAMERA_HALF_FOV,
             CAMERA_MAX_DISTANCE,
-            seesPlayer ? '#f00': '#ff0'
+            this.foundPlayer ? '#f00': '#ff0'
         );
 
         wrap(() => {
