@@ -161,6 +161,17 @@ class Player {
                 remove(this.level.renderables, renderable);
             });
         }
+
+        if (this.sticksToWall) {
+            for (let i = 0 ; i < 10 ; i++)
+            this.level.particle({
+                'size': [6],
+                'color': '#ccc',
+                'duration': rnd(0.4, 0.8),
+                'x': [this.x - this.sticksToWall * PLAYER_RADIUS, rnd(-10, 10)],
+                'y': [this.y + rnd(-PLAYER_RADIUS, PLAYER_RADIUS), rnd(-10, 10)]
+            });
+        }
     }
 
     goToClosestAdjustment(reference, adjustments) {
