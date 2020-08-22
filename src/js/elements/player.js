@@ -247,7 +247,7 @@ class Player {
             // stroke();
         }
 
-        fill();
+        // fill();
 
         // const allAdjustments = this.allSnapAdjustments();
         // allAdjustments.forEach((adjustment) => {
