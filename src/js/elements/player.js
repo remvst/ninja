@@ -266,19 +266,30 @@ class Player {
                     rotate(jumpRatio * PI * 2);
                 }
 
-                fr(
+                beginPath();
+                roundedRectangle(
                     -bodyWidth / 2,
                     -visualRadius,
                     bodyWidth,
-                    bodyHeight
+                    bodyHeight,
+                    6
                 );
 
-                R.fillStyle = '#daab79';
-                fr(bodyWidth / 2, -visualRadius + 4, -bodyWidth / 2, 4);
 
+
+
+
+                // arc(0, 0, visualRadius, 0, PI * 2, true);
+                fill();
+
+                // Skin
+                R.fillStyle = '#daab79';
+                fr(bodyWidth / 2, -visualRadius + 6, -bodyWidth / 2, 4);
+
+                // Eyes
                 R.fillStyle = '#000';
-                fr(bodyWidth / 2 - 1, -visualRadius + 5, -2, 2);
-                fr(bodyWidth / 2 - 5, -visualRadius + 5, -2, 2);
+                fr(bodyWidth / 2 - 1, -visualRadius + 7, -2, 2);
+                fr(bodyWidth / 2 - 5, -visualRadius + 7, -2, 2);
             });
 
             // Render legs
