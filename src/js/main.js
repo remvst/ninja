@@ -5,7 +5,6 @@ onload = () => {
     CANVAS.height = CANVAS_HEIGHT;
 
     R = CANVAS.getContext('2d');
-    // R.imageSmoothingEnabled = false;
 
     // Shortcut for all canvas methods to the main canvas
     Object.getOwnPropertyNames(canvasProto).forEach(n => {
@@ -13,8 +12,6 @@ onload = () => {
             w[n] = canvasProto[n].bind(R);
         }
     });
-
-    console.log('LOADED');
 
     new Game();
 
