@@ -168,8 +168,8 @@ class Player {
                 'size': [6],
                 'color': '#ccc',
                 'duration': rnd(0.4, 0.8),
-                'x': [this.x - this.sticksToWall * PLAYER_RADIUS, rnd(-10, 10)],
-                'y': [this.y + rnd(-PLAYER_RADIUS, PLAYER_RADIUS), rnd(-10, 10)]
+                'x': [this.x - this.sticksToWall * PLAYER_RADIUS, rnd(-20, 20)],
+                'y': [this.y + rnd(-PLAYER_RADIUS, PLAYER_RADIUS), rnd(-20, 20)]
             });
         }
     }
