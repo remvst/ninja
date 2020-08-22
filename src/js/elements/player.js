@@ -22,6 +22,8 @@ class Player {
         this.clock = 0;
 
         this.bandanaTrail = [];
+
+        this.spawn();
     }
 
     get landed() {
@@ -239,6 +241,18 @@ class Player {
                 'duration': rnd(0.4, 0.8),
                 'x': [this.x + rnd(-PLAYER_RADIUS, PLAYER_RADIUS), rnd(-10, 10)],
                 'y': [y, sign(this.y - y) * rnd(10, 5)]
+            });
+        }
+    }
+
+    spawn() {
+        for (let i = 0 ; i < 100 ; i++) {
+            this.level.particle({
+                'size': [10, -10],
+                'color': '#000',
+                'duration': rnd(1, 2),
+                'x': [this.x + rnd(-PLAYER_RADIUS, PLAYER_RADIUS) * 1.5, rnd(-20, 20)],
+                'y': [this.y + rnd(-PLAYER_RADIUS, PLAYER_RADIUS) * 1.5, rnd(-20, 20)]
             });
         }
     }
