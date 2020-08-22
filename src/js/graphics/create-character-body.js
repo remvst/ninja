@@ -24,11 +24,11 @@ createCharacterBody = instructions => createCanvas(bodyWidth, bodyHeight + legLe
 PLAYER_BODY = createCharacterBody((c, can) => {
     // Skin
     c.fillStyle = '#daab79';
-    c.fr(can.width, 6, -bodyWidth / 2, 4);
+    c.fr(can.width, 6, -bodyWidth / 2 - 4, 6);
 
     // Belt
-    c.fillStyle = '#222';
-    c.fr(0, bodyHeight - 10, 99, 2);
+    c.fillStyle = '#400';
+    c.fr(0, bodyHeight - 10, 99, 4);
 });
 
 GUARD_BODY = createCharacterBody((c, can) => {
@@ -91,8 +91,8 @@ renderEyes = (context) => {
     const middleBlinkTime = blinkInterval - blinkTime / 2;
     const eyeScale = min(1, max(-moduloTime + middleBlinkTime, moduloTime - middleBlinkTime) / (blinkTime / 2));
 
-    context.fr(bodyWidth - 1, 7, -2, 2 * eyeScale);
-    context.fr(bodyWidth - 5, 7, -2, 2 * eyeScale);
+    context.fr(bodyWidth - 1, 7, -4, 4 * eyeScale);
+    context.fr(bodyWidth - 8, 7, -4, 4 * eyeScale);
 };
 
 renderLegs = (context, walking) => {
