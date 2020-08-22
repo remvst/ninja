@@ -5,6 +5,9 @@ class Player {
         this.previous = {};
 
         this.vX = this.vY = 0;
+        this.facing = 1;
+        this.walking = false;
+        this.facingScale = 1;
 
         this.jumpHoldTime = 0;
         this.jumpReleased = true;
@@ -54,6 +57,7 @@ class Player {
         this.previous.x = this.x;
         this.previous.y = this.y;
         this.previous.clock = this.clock;
+        this.previous.facing = this.facing;
         this.previous.landed = this.landed;
         this.previous.jumpHoldTime = this.jumpHoldTime;
 
@@ -107,6 +111,14 @@ class Player {
             dX = 1;
             targetVX = PLAYER_HORIZONTAL_SPEED;
         }
+
+        if (this.landed && dX) {
+            this.facing = dX;
+        }
+        if (this.facing != this.previous.facing) {
+            interp(this, 'facingScale', -1, 1, 0.1);
+        }
+        this.walking = dX;
 
         const horizontalAcceleration = this.landed ? PLAYER_HORIZONTAL_FLOOR_ACCELERATION : PLAYER_HORIZONTAL_FLIGHT_ACCELERATION;
         this.vX += limit(
@@ -221,14 +233,62 @@ class Player {
     render() {
         wrap(() => {
             translate(this.x, this.y);
+            scale(this.facing * this.facingScale, 1);
 
-            R.fillStyle = '#f00';
-            fr(
-                -PLAYER_RADIUS,
-                -PLAYER_RADIUS,
-                PLAYER_RADIUS * 2,
-                PLAYER_RADIUS * 2
-            );
+            const legLength = 4;
+            const visualRadius = PLAYER_RADIUS + 2;
+            const bodyWidth = visualRadius * 2 - 8;
+            const bodyHeight = visualRadius * 2 - legLength;
+
+            // Hitbox
+            R.fillStyle = 'rgba(255,0,0,0.5)';
+            // fr(
+            //     -PLAYER_RADIUS,
+            //     -PLAYER_RADIUS,
+            //     PLAYER_RADIUS * 2,
+            //     PLAYER_RADIUS * 2
+            // );
+
+            R.fillStyle = '#000';
+
+            // Render body
+            wrap(() => {
+                // Bobbing
+                if (this.walking) {
+                    rotate(
+                        sin(this.clock * PI * 2 / 0.25) * PI / 32
+                    );
+                }
+
+                // Flip animation
+                if (this.clock < this.jumpStartTime + this.jumpPeakTime) {
+                    const jumpRatio = (this.clock - this.jumpStartTime) / this.jumpPeakTime;
+                    rotate(jumpRatio * PI * 2);
+                }
+
+                fr(
+                    -bodyWidth / 2,
+                    -visualRadius,
+                    bodyWidth,
+                    bodyHeight
+                );
+
+                R.fillStyle = '#daab79';
+                fr(bodyWidth / 2, -visualRadius + 4, -bodyWidth / 2, 4);
+
+                R.fillStyle = '#000';
+                fr(bodyWidth / 2 - 1, -visualRadius + 5, -2, 2);
+                fr(bodyWidth / 2 - 5, -visualRadius + 5, -2, 2);
+            });
+
+            // Render legs
+            if (this.landed) {
+                const legLengthRatio = sin(this.clock * PI * 2 / 0.25) * 0.5 + 0.5;
+                const leftRatio = this.walking ? legLengthRatio : 1
+                const rightRatio = this.walking ? 1 - legLengthRatio : 1;
+                fr(-8, visualRadius - legLength, 4, leftRatio * legLength);
+                fr(8, visualRadius - legLength, -4, rightRatio * legLength);
+            }
         });
 
         const angles = [];

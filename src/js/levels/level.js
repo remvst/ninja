@@ -48,6 +48,9 @@ class Level {
         //     fr(k * CELL_SIZE, 0, 1, LEVEL_ROWS * CELL_SIZE);
         // }
 
+        // Render renderables
+        this.renderables.forEach(x => wrap(() => x.render()));
+
         // Matrix
         R.fillStyle = '#010640';
         for (let row = 0 ; row < LEVEL_ROWS ; row++) {
@@ -57,9 +60,6 @@ class Level {
                 }
             }
         }
-
-        // Render renderables
-        this.renderables.forEach(x => x.render());
 
         if (!this.active) {
             R.fillStyle = WINDOW_PATTERN;
