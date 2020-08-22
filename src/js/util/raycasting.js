@@ -93,3 +93,5 @@ isOut = (x, y) => {
     return !between(0, x, G.level.definition.matrix[0].length * CELL_SIZE - 1) ||
         !between(0, y, G.level.definition.matrix.length * CELL_SIZE - 1);
 }
+
+toCellUnit = x => ~~(x / CELL_SIZE);

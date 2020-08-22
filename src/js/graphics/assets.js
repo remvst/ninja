@@ -8,6 +8,59 @@ SKY_BACKGROUND = createCanvasPattern(200, CANVAS_HEIGHT, (c) => {
     c.fr(0, 0, 200, CANVAS_HEIGHT);
 });
 
+GOD_RAY = createCanvas(CELL_SIZE * 0.6, CELL_SIZE * 4, (c, can) => {
+    const g = c.createLinearGradient(0, 0, 0, CELL_SIZE * 4);
+    g.addColorStop(0, 'rgba(255,255,255, 0)');
+    g.addColorStop(0.5, 'rgba(255,255,255, 0.5)');
+    g.addColorStop(1, 'rgba(255,255,255, 0)');
+
+    c.fillStyle = g;
+    c.fillRect(0, 0, 99, 999);
+});
+
+HALO = createCanvas(CELL_SIZE * 4, CELL_SIZE * 4, (c, can) => {
+    const g = c.createRadialGradient(can.width / 2, can.height / 2, 0, can.width / 2, can.height / 2, can.width / 2);
+    g.addColorStop(0.5, 'rgba(255,255,255, 0.5)');
+    g.addColorStop(1, 'rgba(255,255,255, 0)');
+
+    c.fillStyle = g;
+    c.fillRect(0, 0, 999, 999);
+});
+
+COMPUTER = createCanvas(CELL_SIZE * 0.6, CELL_SIZE * 0.6, (c, can) => {
+    c.fillStyle = '#000';
+    c.fr(0, 0, 99, 99);
+
+    c.fillStyle = '#a9a9a9';
+    // c.fr(2, 2, can.width - 4, 20);
+    c.fr(2, 2, can.width - 4, can.height - 4);
+
+    c.fillStyle = '#4253ff';
+    c.fr(4, 4, can.width - 8, can.height - 12);
+
+    c.fillStyle = '#000';
+    c.fr(4, can.height - 6, can.width - 8, 2);
+
+    c.fillStyle = '#a5dc40';
+    c.fr(can.width - 6, can.height - 6, 2, 2);
+
+    // document.body.appendChild(can);
+});
+
+KEYBOARD = createCanvas(CELL_SIZE * 0.8, CELL_SIZE * 0.4, (c, can) => {
+    c.fillStyle = '#000';
+    c.fr(0, 0, 99, 99);
+
+    c.fillStyle = '#a9a9a9';
+    // c.fr(2, 2, can.width - 4, 20);
+    c.fr(2, 2, can.width - 4, can.height - 4);
+
+    c.fillStyle = '#000';
+    c.fr(4, 4, can.width - 8, can.height - 8);
+
+    // document.body.appendChild(can);
+});
+
 WINDOW_PATTERN = createCanvasPattern(CELL_SIZE * 2, CELL_SIZE * 2, (c, can) => {
     c.fillStyle = '#8c9bee';
     c.fillRect(0, 0, 999, 999);
@@ -47,7 +100,7 @@ WINDOW = createCanvas(CELL_SIZE * 0.8, CELL_SIZE * 1.2, (c, can) => {
     c.fillRect(0, can.height * 0.7, can.width, 4);
 });
 
-DESK = createCanvas(CELL_SIZE * 0.9, CELL_SIZE * 0.5, (c, can) => {
+DESK = createCanvas(CELL_SIZE * 1.1, CELL_SIZE * 0.5, (c, can) => {
     // Legs
     c.fillStyle = '#000';
     c.fillRect(2, 0, 2, can.height);
@@ -59,8 +112,16 @@ DESK = createCanvas(CELL_SIZE * 0.9, CELL_SIZE * 0.5, (c, can) => {
 
     // Drawers
     c.fillStyle = '#ccc';
-    c.fillRect(4, 4, can.width - 8, can.height / 3);
-    // c.fillRect(can.width - 4, 4, -can.width / 4, can.height / 3);
+    c.fillRect(4, 4, can.width / 4, can.height / 3);
+    c.fillRect(can.width - 4, 4, -can.width / 4, can.height / 3);
+});
+
+EXIT = createCanvas(CELL_SIZE, CELL_SIZE * 4, (c, can) => {
+    c.drawImage(COMPUTER, (can.width - COMPUTER.width) / 2, 0);
+    // c.drawImage(KEYBOARD, 0, COMPUTER.height);
+    c.drawImage(DESK, 0, COMPUTER.height);
+
+    // document.body.appendChild(can);
 });
 
 TRASH = createCanvas(CELL_SIZE * 0.3, CELL_SIZE * 0.4, (c, can) => {

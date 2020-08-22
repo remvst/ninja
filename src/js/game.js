@@ -12,6 +12,8 @@ class Game {
     }
 
     cycle(e) {
+        this.clock += e;
+
         this.level.cycle(e);
         INTERPOLATIONS.slice().forEach(i => i.cycle(e));
 

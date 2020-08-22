@@ -33,6 +33,7 @@ onload = () => {
         G.cycle(e);
 
         requestAnimationFrame(frame);
+        // setTimeout(frame, 1000 / 25);
     };
     frame();
 };

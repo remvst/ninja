@@ -25,6 +25,14 @@ class Level {
 
         this.cyclables.push(this.player);
         this.renderables.push(this.player);
+
+        const exit = new Exit(
+            this,
+            (this.definition.exit[1] + 0.5) * CELL_SIZE,
+            (this.definition.exit[0] + 0.5) * CELL_SIZE
+        );
+        this.cyclables.push(exit);
+        this.renderables.push(exit);
     }
 
     stop() {

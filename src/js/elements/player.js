@@ -58,6 +58,15 @@ class Player {
     }
 
     cycle(e) {
+        let remaining = e;
+        do {
+            const sub = min(remaining, 1 / 60);
+            remaining -= sub;
+            this.subCycle(sub);
+        } while (remaining > 0);
+    }
+
+    subCycle(e) {
         // Save the previous state
         this.previous.x = this.x;
         this.previous.y = this.y;
@@ -193,20 +202,16 @@ class Player {
         return closestAdjustment;
     }
 
-    toCellUnit(x) {
-        return ~~(x / CELL_SIZE);
-    }
-
     allSnapAdjustments() {
         const leftX = this.x - PLAYER_RADIUS;
         const rightX = this.x + PLAYER_RADIUS;
         const topY = this.y - PLAYER_RADIUS;
         const bottomY = this.y + PLAYER_RADIUS;
 
-        const leftCol = this.toCellUnit(leftX);
-        const rightCol = this.toCellUnit(rightX);
-        const topRow = this.toCellUnit(topY);
-        const bottomRow = this.toCellUnit(bottomY);
+        const leftCol = toCellUnit(leftX);
+        const rightCol = toCellUnit(rightX);
+        const topRow = toCellUnit(topY);
+        const bottomRow = toCellUnit(bottomY);
 
         const topLeft = hasBlock(leftX, topY);
         const topRight = hasBlock(rightX, topY);

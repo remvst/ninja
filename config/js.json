@@ -18,6 +18,7 @@
     "src/js/levels/levels.js",
 
     "src/js/elements/player.js",
+    "src/js/elements/exit.js",
 
     "src/js/sound/jsfxr.js",
     "src/js/sound/sounds.js",
