@@ -132,9 +132,6 @@ LIGHT = padCanvas(3, 10, 0, createCanvas(CELL_SIZE * 5, CELL_SIZE * 3, (c, can) 
 }));
 
 LEVEL_BACKGROUND = createCanvasPattern(CELL_SIZE * 4, CELL_SIZE * 6, (c, can) => {
-    c.fillStyle = '#29c2fd';
-    c.fr(0, 0, can.width, can.height);
-
     c.fillStyle = '#000';
     c.globalAlpha = 0.05;
 

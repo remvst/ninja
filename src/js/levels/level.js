@@ -113,6 +113,8 @@ class Level {
     render() {
         // Background
         R.fillStyle = '#29c2fd';
+        fr(0, 0, LEVEL_ROWS * CELL_SIZE, LEVEL_COLS * CELL_SIZE);
+
         R.fillStyle = LEVEL_BACKGROUND;
         fr(0, 0, LEVEL_ROWS * CELL_SIZE, LEVEL_COLS * CELL_SIZE);
 
