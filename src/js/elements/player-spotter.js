@@ -20,12 +20,16 @@ class PlayerSpotter {
         const angleToPlayer = angleBetween(this, this.level.player);
         const distToPlayer = dist(this, this.level.player)
 
+        if (distToPlayer < PLAYER_RADIUS * 2) {
+            return true;
+        }
+
         if (abs(normalize(this.angle - angleToPlayer)) > this.halfFov || distToPlayer > this.maxDistance) {
             return false;
-        } else {
-            const impact = castRay(this.x, this.y, angleToPlayer, this.maxDistance);
-            return dist(this, impact) >= distToPlayer;
         }
+
+        const impact = castRay(this.x, this.y, angleToPlayer, this.maxDistance);
+        return dist(this, impact) >= distToPlayer;
     }
 
     render() {

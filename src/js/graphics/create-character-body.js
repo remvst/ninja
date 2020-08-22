@@ -84,8 +84,15 @@ renderPlayer = (
 
 renderEyes = (context) => {
     context.fillStyle = '#000';
-    context.fr(bodyWidth - 1, 7, -2, 2);
-    context.fr(bodyWidth - 5, 7, -2, 2);
+
+    const blinkInterval = 4;
+    const blinkTime = 0.3;
+    const moduloTime = G.clock % blinkInterval;
+    const middleBlinkTime = blinkInterval - blinkTime / 2;
+    const eyeScale = min(1, max(-moduloTime + middleBlinkTime, moduloTime - middleBlinkTime) / (blinkTime / 2));
+
+    context.fr(bodyWidth - 1, 7, -2, 2 * eyeScale);
+    context.fr(bodyWidth - 5, 7, -2, 2 * eyeScale);
 };
 
 renderLegs = (context, walking) => {
