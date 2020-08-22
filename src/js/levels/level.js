@@ -3,10 +3,9 @@ class Level {
         this.index = index;
         this.definition = definition;
 
-        this.cyclables = [];
-        this.renderables = [];
-
         this.background = createLevelBackground(this.definition.matrix);
+
+        this.windowsAlpha = 0;
 
         this.stop();
     }
@@ -20,7 +19,7 @@ class Level {
 
         G.menu = new Menu(
             'SEARCHING FOR EVIL PLANS...',
-            'NOT FOUND'
+            '404 NOT FOUND'
         );
         G.menu.animateIn();
 
@@ -30,11 +29,13 @@ class Level {
 
         setTimeout(() => {
             G.nextLevel();
+
+            interp(this, 'windowsAlpha', 0, 1, 0.2);
         }, 2500);
     }
 
     start() {
-        this.active = true;
+        interp(this, 'windowsAlpha', 1, 0, 0.2);
 
         this.cyclables = [];
         this.renderables = [];
@@ -55,14 +56,14 @@ class Level {
         this.renderables.push(this.exit);
 
         // Show a menu
-        G.menu = new Menu(
+        const menu = G.menu = new Menu(
             'Floor ' + (this.index + 1),
             ''
         );
-        G.menu.animateIn();
+        menu.animateIn();
 
         setTimeout(() => {
-            G.menu.animateOut();
+            menu.animateOut();
 
             this.player.controllable = true;
             this.player.spawn();
@@ -72,7 +73,8 @@ class Level {
     }
 
     stop() {
-        this.active = false;
+        this.cyclables = [];
+        this.renderables = [];
     }
 
     cycle(e) {
@@ -93,8 +95,17 @@ class Level {
         //     fr(k * CELL_SIZE, 0, 1, LEVEL_ROWS * CELL_SIZE);
         // }
 
-        // Render renderables
+        // Renderables
         this.renderables.forEach(x => wrap(() => x.render()));
+
+        R.textAlign = 'center';
+        R.textBaseline = 'middle';
+        R.fillStyle = 'rgba(255,255,255,0.5)';
+        R.font = 'italic 24pt Impact';
+
+        const levelWidth = LEVEL_COLS * CELL_SIZE;
+        const levelHeight = LEVEL_ROWS * CELL_SIZE;
+        fillText(this.definition.message || '', levelWidth / 2, levelHeight / 2);
 
         // Matrix
         R.fillStyle = '#010640';
@@ -106,10 +117,9 @@ class Level {
             }
         }
 
-        // if (!this.active) {
-        //     R.fillStyle = WINDOW_PATTERN;
-        //     fr(0, 0, LEVEL_ROWS * CELL_SIZE, LEVEL_COLS * CELL_SIZE);
-        // }
+        R.globalAlpha = this.windowsAlpha;
+        R.fillStyle = WINDOW_PATTERN;
+        // fr(0, 0, LEVEL_ROWS * CELL_SIZE, LEVEL_COLS * CELL_SIZE);
     }
 
     particle(properties) {

@@ -39,7 +39,6 @@ class Menu {
         R.fillStyle = 'rgba(0,0,0,' + this.dimAlpha * 0.8 + ')';
         fr(0, 0, levelWidth, levelHeight);
 
-        CANVAS.style.letterSpacing = '-50px';
         R.textAlign = 'center';
         R.textBaseline = 'middle';
         R.fillStyle = '#fff';

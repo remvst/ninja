@@ -307,10 +307,10 @@ class Player {
     renderCharacter(context) {
         context.scale(this.facing * this.facingScale, 1);
 
-        const legLength = 4;
+        const legLength = 6;
         const visualRadius = PLAYER_RADIUS + 2;
         const bodyWidth = visualRadius * 2 - 8;
-        const bodyHeight = visualRadius * 2 - legLength;
+        const bodyHeight = visualRadius * 2 - 4;
 
         // Hitbox
         // R.fillStyle = 'rgba(255,0,0,0.5)';
