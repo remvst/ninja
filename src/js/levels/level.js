@@ -67,4 +67,11 @@ class Level {
             fr(0, 0, LEVEL_ROWS * CELL_SIZE, LEVEL_COLS * CELL_SIZE);
         }
     }
+
+    particle(properties) {
+        let particle;
+        properties.onFinish = () => remove(this.renderables, particle);
+        this.renderables.push(particle = new Particle(properties));
+    }
+
 }

@@ -12,6 +12,7 @@
     "src/js/graphics/create-canvas.js",
     "src/js/graphics/create-pattern.js",
     "src/js/graphics/assets.js",
+    "src/js/graphics/particle.js",
 
     "src/js/levels/level.js",
     "src/js/levels/levels.js",

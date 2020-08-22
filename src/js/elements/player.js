@@ -155,7 +155,7 @@ class Player {
             }
 
             this.level.renderables.push(renderable);
-            interp(renderable, 'alpha', 0.2, 0, 0.5, 0.2, null, () => {
+            interp(renderable, 'alpha', 0.1, 0, 0.5, 0.2, null, () => {
                 remove(this.level.renderables, renderable);
             });
         }
@@ -231,6 +231,18 @@ class Player {
         });
     }
 
+    dust(y) {
+        for (let i = 0 ; i < 10 ; i++) {
+            this.level.particle({
+                'size': [4],
+                'color': '#ccc',
+                'duration': rnd(0.4, 0.8),
+                'x': [this.x + rnd(-PLAYER_RADIUS, PLAYER_RADIUS), rnd(-10, 10)],
+                'y': [y, sign(this.y - y) * rnd(10, 5)]
+            });
+        }
+    }
+
     readjust() {
         const { x, y } = this;
 
@@ -242,11 +254,11 @@ class Player {
             this.vY = min(0, this.vY);
 
             if (!this.previous.landed) {
-                console.log('LAND!')
+                this.dust(this.y + PLAYER_RADIUS);
                 this.jumpStartTime = -1;
             }
         } else if (this.y > y) {
-            console.log('OUCH!');
+            this.dust(this.y - PLAYER_RADIUS);
 
             // Tapped its head, cancel all jump
             this.vY = max(0, this.vY);
