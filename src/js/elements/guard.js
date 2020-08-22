@@ -9,6 +9,8 @@ class Guard extends PlayerSpotter {
     }
 
     cycle(e) {
+        const { facing } = this;
+
         if (!this.foundPlayer) {
             this.cycleDefinition.update(this, this.level.clock);
         } else {
@@ -17,8 +19,6 @@ class Guard extends PlayerSpotter {
 
         // If the guard is facing back, add a quick 180 degrees
         this.angle = this.facing > 0 ? 0 : PI;
-
-        const { facing } = this;
 
         super.cycle(e);
 
@@ -32,9 +32,6 @@ class Guard extends PlayerSpotter {
 
         wrap(() => {
             translate(this.x, this.y);
-
-            fs('#f00');
-            fr(-10,-10,20,20);
 
             renderPlayer(
                 R,

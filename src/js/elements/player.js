@@ -318,10 +318,11 @@ class Player {
         // Render bandana
         R.lineWidth = 8;
         R.strokeStyle = '#000';
+        R.lineJoin = 'round';
         beginPath();
         moveTo(this.bandanaTrail[0].x, this.bandanaTrail[0].y);
 
-        let remainingLength = 40;
+        let remainingLength = MAX_BANDANA_LENGTH;
 
         for (let i = 1 ; i < this.bandanaTrail.length && remainingLength > 0 ; i++) {
             const current = this.bandanaTrail[i];
