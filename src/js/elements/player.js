@@ -15,7 +15,6 @@ class Player {
         this.jumpStartY = 0;
         this.jumpEndY = 0;
         this.jumpPeakTime = 0;
-        this.wallJump = 0;
 
         this.controllable = false;
 
@@ -91,9 +90,8 @@ class Player {
             this.jumpReleased = false;
             this.jumpStartY = this.y;
             this.jumpStartTime = this.clock;
-            this.wallJump = this.sticksToWall;
 
-            this.vX += this.wallJump * 800;
+            this.vX += this.sticksToWall * 800;
         }
 
         if (holdingJump && !this.jumpReleased) {
@@ -276,6 +274,7 @@ class Player {
     }
 
     readjust() {
+        // Desired position
         const { x, y } = this;
 
         const allAdjustments = this.allSnapAdjustments();
@@ -297,7 +296,7 @@ class Player {
             this.jumpStartTime = -1;
         }
 
-        if (this.x != x) {
+        if (this.x != x && sign(this.x - x) != this.facing) {
             // Player hit an obstacle, reset horizontal momentum
             this.vX = 0;
         }
