@@ -143,7 +143,7 @@ class Player {
         this.bandanaTrail.forEach(position => position.y += e * 100);
 
         // Trail
-        if (!this.landed) {
+        if (!this.landed && !this.sticksToWall) {
             const {x,y} = this;
             const trail = createCanvas(CELL_SIZE * 2, CELL_SIZE * 2, (r) => {
                 r.translate(CELL_SIZE, CELL_SIZE);
@@ -166,7 +166,7 @@ class Player {
             for (let i = 0 ; i < 10 ; i++)
             this.level.particle({
                 'size': [6],
-                'color': '#ccc',
+                'color': '#888',
                 'duration': rnd(0.4, 0.8),
                 'x': [this.x - this.sticksToWall * PLAYER_RADIUS, rnd(-20, 20)],
                 'y': [this.y + rnd(-PLAYER_RADIUS, PLAYER_RADIUS), rnd(-20, 20)]
@@ -248,7 +248,7 @@ class Player {
         for (let i = 0 ; i < 10 ; i++) {
             this.level.particle({
                 'size': [4],
-                'color': '#ccc',
+                'color': '#888',
                 'duration': rnd(0.4, 0.8),
                 'x': [this.x + rnd(-PLAYER_RADIUS, PLAYER_RADIUS), rnd(-10, 10)],
                 'y': [y, sign(this.y - y) * rnd(10, 5)]
