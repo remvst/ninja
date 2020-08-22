@@ -18,6 +18,7 @@ class Level {
         this.renderables = [];
 
         this.player = new Player(
+            this,
             (this.definition.spawn[1] + 0.5) * CELL_SIZE,
             (this.definition.spawn[0] + 0.5) * CELL_SIZE
         );

@@ -1,5 +1,6 @@
 class Player {
-    constructor(x, y) {
+    constructor(level, x, y) {
+        this.level = level;
         this.x = x;
         this.y = y;
         this.previous = {};
@@ -132,12 +133,32 @@ class Player {
 
         this.readjust();
 
-        this.bandanaTrail.unshift({'x': this.x - this.facing * 5, 'y': this.y - 10});
+        // Bandana
+        this.bandanaTrail.unshift({'x': this.x - this.facing * 5, 'y': this.y - 10 + rnd(-1, 1)});
         while (this.bandanaTrail.length > 30) {
             this.bandanaTrail.pop();
         }
-
         this.bandanaTrail.forEach(position => position.y += e * 100);
+
+        // Trail
+        if (!this.landed) {
+            const {x,y} = this;
+            const trail = createCanvas(CELL_SIZE * 2, CELL_SIZE * 2, (r) => {
+                r.translate(CELL_SIZE, CELL_SIZE);
+                this.renderCharacter(r);
+            })
+            const renderable = {
+                'render': () => {
+                    R.globalAlpha = renderable.alpha;
+                    drawImage(trail, x - trail.width / 2, y - trail.height / 2);
+                }
+            }
+
+            this.level.renderables.push(renderable);
+            interp(renderable, 'alpha', 0.2, 0, 0.5, 0.2, null, () => {
+                remove(this.level.renderables, renderable);
+            });
+        }
     }
 
     goToClosestAdjustment(reference, adjustments) {
@@ -239,6 +260,76 @@ class Player {
 
     }
 
+    renderCharacter(context) {
+        context.scale(this.facing * this.facingScale, 1);
+
+        const legLength = 4;
+        const visualRadius = PLAYER_RADIUS + 2;
+        const bodyWidth = visualRadius * 2 - 8;
+        const bodyHeight = visualRadius * 2 - legLength;
+
+        // Hitbox
+        // R.fillStyle = 'rgba(255,0,0,0.5)';
+        // fr(
+        //     -PLAYER_RADIUS,
+        //     -PLAYER_RADIUS,
+        //     PLAYER_RADIUS * 2,
+        //     PLAYER_RADIUS * 2
+        // );
+
+        context.fillStyle = '#000';
+
+        // Render body
+        context.wrap(() => {
+            // Bobbing
+            if (this.walking) {
+                context.rotate(
+                    sin(this.clock * PI * 2 / 0.25) * PI / 32
+                );
+            }
+
+            // Flip animation
+            if (this.clock < this.jumpStartTime + this.jumpPeakTime) {
+                const jumpRatio = (this.clock - this.jumpStartTime) / this.jumpPeakTime;
+                context.rotate(jumpRatio * PI * 2);
+            }
+
+            context.beginPath();
+            context.roundedRectangle(
+                -bodyWidth / 2,
+                -visualRadius,
+                bodyWidth,
+                bodyHeight,
+                6
+            );
+
+            // arc(0, 0, visualRadius, 0, PI * 2, true);
+            context.fill();
+
+            // Skin
+            context.fillStyle = '#daab79';
+            context.fr(bodyWidth / 2, -visualRadius + 6, -bodyWidth / 2, 4);
+
+            // Eyes
+            context.fillStyle = '#000';
+            context.fr(bodyWidth / 2 - 1, -visualRadius + 7, -2, 2);
+            context.fr(bodyWidth / 2 - 5, -visualRadius + 7, -2, 2);
+
+            // Belt
+            context.fillStyle = '#222';
+            context.fr(-bodyWidth / 2, 4, bodyWidth, 2);
+        });
+
+        // Render legs
+        if (this.landed) {
+            const legLengthRatio = sin(this.clock * PI * 2 / 0.25) * 0.5 + 0.5;
+            const leftRatio = this.walking ? legLengthRatio : 1
+            const rightRatio = this.walking ? 1 - legLengthRatio : 1;
+            context.fr(-8, visualRadius - legLength, 4, leftRatio * legLength);
+            context.fr(8, visualRadius - legLength, -4, rightRatio * legLength);
+        }
+    }
+
     render() {
         // Render bandana
         R.lineWidth = 8;
@@ -267,77 +358,7 @@ class Player {
 
         wrap(() => {
             translate(this.x, this.y);
-            scale(this.facing * this.facingScale, 1);
-
-            const legLength = 4;
-            const visualRadius = PLAYER_RADIUS + 2;
-            const bodyWidth = visualRadius * 2 - 8;
-            const bodyHeight = visualRadius * 2 - legLength;
-
-            // Hitbox
-            // R.fillStyle = 'rgba(255,0,0,0.5)';
-            // fr(
-            //     -PLAYER_RADIUS,
-            //     -PLAYER_RADIUS,
-            //     PLAYER_RADIUS * 2,
-            //     PLAYER_RADIUS * 2
-            // );
-
-            R.fillStyle = '#000';
-
-            // Render body
-            wrap(() => {
-                // Bobbing
-                if (this.walking) {
-                    rotate(
-                        sin(this.clock * PI * 2 / 0.25) * PI / 32
-                    );
-                }
-
-                // Flip animation
-                if (this.clock < this.jumpStartTime + this.jumpPeakTime) {
-                    const jumpRatio = (this.clock - this.jumpStartTime) / this.jumpPeakTime;
-                    rotate(jumpRatio * PI * 2);
-                }
-
-                beginPath();
-                roundedRectangle(
-                    -bodyWidth / 2,
-                    -visualRadius,
-                    bodyWidth,
-                    bodyHeight,
-                    6
-                );
-
-
-
-
-
-                // arc(0, 0, visualRadius, 0, PI * 2, true);
-                fill();
-
-                // Skin
-                R.fillStyle = '#daab79';
-                fr(bodyWidth / 2, -visualRadius + 6, -bodyWidth / 2, 4);
-
-                // Eyes
-                R.fillStyle = '#000';
-                fr(bodyWidth / 2 - 1, -visualRadius + 7, -2, 2);
-                fr(bodyWidth / 2 - 5, -visualRadius + 7, -2, 2);
-
-                // Belt
-                R.fillStyle = '#222';
-                fr(-bodyWidth / 2, 4, bodyWidth, 2);
-            });
-
-            // Render legs
-            if (this.landed) {
-                const legLengthRatio = sin(this.clock * PI * 2 / 0.25) * 0.5 + 0.5;
-                const leftRatio = this.walking ? legLengthRatio : 1
-                const rightRatio = this.walking ? 1 - legLengthRatio : 1;
-                fr(-8, visualRadius - legLength, 4, leftRatio * legLength);
-                fr(8, visualRadius - legLength, -4, rightRatio * legLength);
-            }
+            this.renderCharacter(R);
         });
 
         const angles = [];
