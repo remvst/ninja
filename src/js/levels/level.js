@@ -35,6 +35,8 @@ class Level {
     start() {
         interp(this, 'windowsAlpha', 1, 0, 0.2);
 
+        this.clock = 0;
+
         this.cyclables = [];
         this.renderables = [];
 
@@ -44,7 +46,6 @@ class Level {
             (this.definition.spawn[0] + 0.5) * CELL_SIZE
         );
 
-
         this.exit = new Exit(
             this,
             (this.definition.exit[1] + 0.5) * CELL_SIZE,
@@ -52,6 +53,20 @@ class Level {
         );
         this.cyclables.push(this.exit);
         this.renderables.push(this.exit);
+
+        this.definition.cameras.forEach(([row, col, fromAngle, toAngle, pauseDuration, rotationDuration]) => {
+            const camera = new Camera(
+                this,
+                (col + 0.5) * CELL_SIZE,
+                (row + 0.5) * CELL_SIZE,
+                fromAngle,
+                toAngle,
+                pauseDuration,
+                rotationDuration
+            );
+            this.cyclables.push(camera);
+            this.renderables.push(camera);
+        });
 
         // Show a menu
         const menu = G.menu = new Menu(
@@ -76,6 +91,8 @@ class Level {
     }
 
     cycle(e) {
+        this.clock += e;
+
         this.cyclables.forEach(x => x.cycle(e));
     }
 

@@ -16,12 +16,14 @@
     "src/js/graphics/assets.js",
     "src/js/graphics/particle.js",
     "src/js/graphics/menu.js",
+    "src/js/graphics/render-vision.js",
 
     "src/js/levels/level.js",
     "src/js/levels/levels.js",
 
     "src/js/elements/player.js",
     "src/js/elements/exit.js",
+    "src/js/elements/camera.js",
 
     "src/js/sound/jsfxr.js",
     "src/js/sound/sounds.js",
