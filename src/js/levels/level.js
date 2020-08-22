@@ -58,30 +58,28 @@ class Level {
 
         this.player = new Player(
             this,
-            (this.definition.spawn[1] + 0.5) * CELL_SIZE,
-            (this.definition.spawn[0] + 0.5) * CELL_SIZE
+            toMiddleCellCoord(this.definition.spawn[1]),
+            toMiddleCellCoord(this.definition.spawn[0])
         );
 
         this.exit = new Exit(
             this,
-            (this.definition.exit[1] + 0.5) * CELL_SIZE,
-            (this.definition.exit[0] + 0.5) * CELL_SIZE
+            toMiddleCellCoord(this.definition.exit[1]),
+            toMiddleCellCoord(this.definition.exit[0])
         );
         this.cyclables.push(this.exit);
         this.renderables.push(this.exit);
 
-        this.definition.cameras.forEach(([row, col, fromAngle, toAngle, pauseDuration, rotationDuration]) => {
-            const camera = new Camera(
-                this,
-                (col + 0.5) * CELL_SIZE,
-                (row + 0.5) * CELL_SIZE,
-                fromAngle,
-                toAngle,
-                pauseDuration,
-                rotationDuration
-            );
+        this.definition.cameras.forEach(cameraDefinition => {
+            const camera = new Camera(this, cameraDefinition);
             this.cyclables.push(camera);
             this.renderables.push(camera);
+        });
+
+        this.definition.guards.forEach(guardDefinition => {
+            const guard = new Guard(this, guardDefinition);
+            this.cyclables.push(guard);
+            this.renderables.push(guard);
         });
 
         // Show a menu

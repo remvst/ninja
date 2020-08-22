@@ -4,16 +4,18 @@ LEVELS = [{
         'exit': [5, 17],
         'message': 'Press [SPACE] to jump',
         'cameras': [
-            [2, 2, new CameraCycle(PI / 4)
+            new CameraCycle(2, 2, PI / 4)
                 .wait(1)
                 .rotateTo(1, PI / 2)
                 .wait(1)
-                .rotateTo(1, PI / 4)]
+                .rotateTo(1, PI / 4)
         ],
         'guards': [
-            [
-                [2, 2, PI / 2, PI / 4, 1, 2]
-            ]
+            new GuardCycle(4, 2)
+                .wait(1)
+                .walkTo(4)
+                .wait(1)
+                .walkTo(2)
         ]
     },
     {

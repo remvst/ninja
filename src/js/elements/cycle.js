@@ -24,14 +24,17 @@ class Cycle {
         const progressWithinItem = progressInCycle - startTime;
         const progressRatio = progressWithinItem / duration;
 
+        this.constants(element);
         update(element, progressRatio);
     }
 }
 
 class CameraCycle extends Cycle {
-    constructor(angle) {
+    constructor(row, col, angle) {
         super();
         this.lastAngle = angle;
+        this.x = toMiddleCellCoord(col);
+        this.y = toMiddleCellCoord(row);
     }
 
     wait(duration) {
@@ -47,5 +50,48 @@ class CameraCycle extends Cycle {
         return this.add(duration, (camera, ratio) => {
             camera.angle = ratio * (toAngle - lastAngle) + lastAngle;
         });
+    }
+
+    constants(camera) {
+        camera.x = this.x;
+        camera.y = this.y;
+    }
+}
+
+class GuardCycle extends Cycle {
+    constructor(row, col) {
+        super();
+        this.lastFacing = 1;
+        this.lastX = toMiddleCellCoord(col);
+        this.y = toMiddleCellCoord(row);
+    }
+
+    wait(duration) {
+        const { lastFacing, lastX } = this;
+        console.log(lastFacing);
+        return this.add(duration, guard => {
+            // guard.facing = lastFacing;
+            guard.walking = false;
+            guard.x = lastX;
+        });
+    }
+
+    walkTo(col) {
+        const { lastX } = this;
+        const x = toMiddleCellCoord(col);
+        const duration = abs(this.lastX - x) / GUARD_WALKING_SPEED;
+        const facing = sign(x - lastX);
+        this.lastX = x;
+        this.lastFacing = facing;
+        console.log(this.lastFacing);
+        return this.add(duration, (guard, ratio) => {
+            guard.facing = facing;
+            guard.walking = true;
+            guard.x = ratio * (x - lastX) + lastX;
+        });
+    }
+
+    constants(guard) {
+        guard.y = this.y;
     }
 }

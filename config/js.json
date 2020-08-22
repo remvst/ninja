@@ -20,6 +20,7 @@
 
     "src/js/elements/player.js",
     "src/js/elements/exit.js",
+    "src/js/elements/player-spotter.js",
     "src/js/elements/camera.js",
     "src/js/elements/guard.js",
     "src/js/elements/cycle.js",

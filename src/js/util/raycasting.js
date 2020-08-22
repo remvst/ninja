@@ -95,3 +95,4 @@ isOut = (x, y) => {
 }
 
 toCellUnit = x => ~~(x / CELL_SIZE);
+toMiddleCellCoord = rowOrCol => (rowOrCol + 0.5) * CELL_SIZE;

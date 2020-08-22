@@ -1,49 +1,21 @@
-class Camera {
-    constructor(
-        level,
-        x,
-        y,
-        cycleDefinition
-    ) {
-        this.level = level;
-        this.x = x;
-        this.y = y;
+class Camera extends PlayerSpotter {
+    constructor(level, cycleDefinition) {
+        super(level);
         this.cycleDefinition = cycleDefinition;
+        this.maxDistance = CAMERA_MAX_DISTANCE;
+        this.halfFov = CAMERA_HALF_FOV;
     }
 
     cycle(e) {
         if (!this.foundPlayer) {
             this.cycleDefinition.update(this, this.level.clock);
-
-            this.foundPlayer = this.seesPlayer;
-            if (this.foundPlayer) {
-                this.level.wasFound();
-            }
         }
-    }
 
-    get seesPlayer() {
-        // Check if the player is close enough, and within the FOV first
-        const angleToPlayer = angleBetween(this, this.level.player);
-        const distToPlayer = dist(this, this.level.player)
-
-        if (abs(normalize(this.angle - angleToPlayer)) > CAMERA_HALF_FOV || distToPlayer > CAMERA_MAX_DISTANCE) {
-            return false;
-        } else {
-            const impact = castRay(this.x, this.y, angleToPlayer, CAMERA_MAX_DISTANCE);
-            return dist(this, impact) >= distToPlayer;
-        }
+        super.cycle(e);
     }
 
     render() {
-        renderVision(
-            this.x,
-            this.y,
-            this.angle - CAMERA_HALF_FOV,
-            this.angle + CAMERA_HALF_FOV,
-            CAMERA_MAX_DISTANCE,
-            this.foundPlayer ? '#f00': '#ff0'
-        );
+        super.render();
 
         wrap(() => {
             translate(this.x, this.y);
