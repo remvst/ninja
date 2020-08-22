@@ -95,9 +95,7 @@ class Level {
         //     fr(k * CELL_SIZE, 0, 1, LEVEL_ROWS * CELL_SIZE);
         // }
 
-        // Renderables
-        this.renderables.forEach(x => wrap(() => x.render()));
-
+        // Message
         R.textAlign = 'center';
         R.textBaseline = 'middle';
         R.fillStyle = 'rgba(255,255,255,0.5)';
@@ -105,7 +103,10 @@ class Level {
 
         const levelWidth = LEVEL_COLS * CELL_SIZE;
         const levelHeight = LEVEL_ROWS * CELL_SIZE;
-        fillText(this.definition.message || '', levelWidth / 2, levelHeight / 2);
+        fillText(this.definition.message || '', levelWidth / 2, levelHeight / 5);
+
+        // Renderables
+        this.renderables.forEach(x => wrap(() => x.render()));
 
         // Matrix
         R.fillStyle = '#010640';

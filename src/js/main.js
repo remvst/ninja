@@ -22,7 +22,7 @@ onload = () => {
     let lastFrame = Date.now();
     let frame = () => {
         let n = Date.now(),
-            e = (n - lastFrame) / 1000;
+            e = min((n - lastFrame) / 1000, 1000 / 10);
 
         if(DEBUG){
             G.fps = ~~(1 / e);
