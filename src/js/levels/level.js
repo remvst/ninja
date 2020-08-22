@@ -3,8 +3,6 @@ class Level {
         this.index = index;
         this.definition = definition;
 
-        this.background = createLevelBackground(this.definition.matrix);
-
         this.windowsAlpha = 0;
 
         this.stop();
@@ -87,13 +85,14 @@ class Level {
         R.fillStyle = LEVEL_BACKGROUND;
         fr(0, 0, LEVEL_ROWS * CELL_SIZE, LEVEL_COLS * CELL_SIZE);
 
+        this.background = this.background || createLevelBackground(this);
         drawImage(this.background, 0, 0);
 
         R.fillStyle = 'rgba(0,0,0,0.2)';
-        // for (let k = 0 ; k < LEVEL_ROWS ; k++) {
-        //     fr(0, k * CELL_SIZE, LEVEL_COLS * CELL_SIZE, 1);
-        //     fr(k * CELL_SIZE, 0, 1, LEVEL_ROWS * CELL_SIZE);
-        // }
+        for (let k = 0 ; k < LEVEL_ROWS ; k++) {
+            fr(0, k * CELL_SIZE, LEVEL_COLS * CELL_SIZE, 1);
+            fr(k * CELL_SIZE, 0, 1, LEVEL_ROWS * CELL_SIZE);
+        }
 
         // Message
         R.textAlign = 'center';

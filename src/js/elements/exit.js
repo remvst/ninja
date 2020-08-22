@@ -24,13 +24,13 @@ class Exit {
             });
         });
 
-        const height = COMPUTER.height + DESK.height;
+        const height = COMPUTER.height + UNPADDED_DESK.height;
         // translate(this.x, this.y);
 
         const row = toCellUnit(this.y);
         translate(this.x, (row + 1) * CELL_SIZE - height);
 
         drawImage(COMPUTER, -COMPUTER.width / 2, 0);
-        drawImage(DESK, -DESK.width / 2, COMPUTER.height);
+        drawImage(UNPADDED_DESK, -UNPADDED_DESK.width / 2, COMPUTER.height);
     }
 }
