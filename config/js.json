@@ -17,6 +17,7 @@
     "src/js/graphics/particle.js",
     "src/js/graphics/menu.js",
     "src/js/graphics/render-vision.js",
+    "src/js/graphics/create-character-body.js",
 
     "src/js/elements/player.js",
     "src/js/elements/exit.js",

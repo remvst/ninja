@@ -20,10 +20,10 @@ class PlayerSpotter {
         const angleToPlayer = angleBetween(this, this.level.player);
         const distToPlayer = dist(this, this.level.player)
 
-        if (abs(normalize(this.angle - angleToPlayer)) > this.halfFov || distToPlayer > CAMERA_MAX_DISTANCE) {
+        if (abs(normalize(this.angle - angleToPlayer)) > this.halfFov || distToPlayer > this.maxDistance) {
             return false;
         } else {
-            const impact = castRay(this.x, this.y, angleToPlayer, CAMERA_MAX_DISTANCE);
+            const impact = castRay(this.x, this.y, angleToPlayer, this.maxDistance);
             return dist(this, impact) >= distToPlayer;
         }
     }

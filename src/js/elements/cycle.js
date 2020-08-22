@@ -63,14 +63,12 @@ class GuardCycle extends Cycle {
         super();
         this.lastFacing = 1;
         this.lastX = toMiddleCellCoord(col);
-        this.y = toMiddleCellCoord(row);
+        this.y = toMiddleCellCoord(row) + evaluate(CELL_SIZE / 2 - PLAYER_RADIUS);
     }
 
     wait(duration) {
         const { lastFacing, lastX } = this;
-        console.log(lastFacing);
         return this.add(duration, guard => {
-            // guard.facing = lastFacing;
             guard.walking = false;
             guard.x = lastX;
         });
@@ -83,7 +81,6 @@ class GuardCycle extends Cycle {
         const facing = sign(x - lastX);
         this.lastX = x;
         this.lastFacing = facing;
-        console.log(this.lastFacing);
         return this.add(duration, (guard, ratio) => {
             guard.facing = facing;
             guard.walking = true;

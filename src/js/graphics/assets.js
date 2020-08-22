@@ -161,7 +161,7 @@ createLevelBackground = (level) => createCanvas(CELL_SIZE * LEVEL_COLS, CELL_SIZ
     // No detail on the spawn
     taken[level.definition.exit[0]][level.definition.exit[1]] = true;
 
-    const possibleDetails = [];
+    const allDetails = [];
 
     for (let row = 1 ; row < LEVEL_ROWS - 1 ; row++) {
         for (let col = 1 ; col < LEVEL_ROWS - 1 ; col++) {
@@ -170,30 +170,33 @@ createLevelBackground = (level) => createCanvas(CELL_SIZE * LEVEL_COLS, CELL_SIZ
             }
 
             const maybeAdd = (image) => {
-                return () => {
-                    // Make sure the spot is free
-                    for (let takenRow = 0 ; takenRow < image.height / CELL_SIZE ; takenRow++) {
-                        for (let takenCol = 0 ; takenCol < image.width / CELL_SIZE ; takenCol++) {
-                            if (taken[row + takenRow][col + takenCol]) {
-                                return;
-                            }
+                if (rng.floating() > 0.15) {
+                    return;
+                }
+
+                // return () => {
+                // Make sure the spot is free
+                for (let takenRow = 0 ; takenRow < image.height / CELL_SIZE ; takenRow++) {
+                    for (let takenCol = 0 ; takenCol < image.width / CELL_SIZE ; takenCol++) {
+                        if (taken[row + takenRow][col + takenCol]) {
+                            return;
                         }
                     }
+                }
 
-                    // Mark them as taken
-                    for (let takenRow = 0 ; takenRow < image.height / CELL_SIZE ; takenRow++) {
-                        for (let takenCol = 0 ; takenCol < image.width / CELL_SIZE ; takenCol++) {
-                            taken[row + takenRow][col + takenCol] = true;
-                        }
+                // Mark them as taken
+                for (let takenRow = 0 ; takenRow < image.height / CELL_SIZE ; takenRow++) {
+                    for (let takenCol = 0 ; takenCol < image.width / CELL_SIZE ; takenCol++) {
+                        taken[row + takenRow][col + takenCol] = true;
                     }
+                }
 
-                    // Render the detail
-                    c.drawImage(
-                        image,
-                        col * CELL_SIZE,
-                        row * CELL_SIZE
-                    );
-                };
+                // Render the detail
+                c.drawImage(
+                    image,
+                    col * CELL_SIZE,
+                    row * CELL_SIZE
+                );
             }
 
             const x = col * CELL_SIZE;
@@ -206,12 +209,10 @@ createLevelBackground = (level) => createCanvas(CELL_SIZE * LEVEL_COLS, CELL_SIZ
             const belowBelow = taken[row + 2] && taken[row + 2][col];
             const belowRight = taken[row + 1][col + 1];
 
-            const cellDetails = [];
-
             // Trash and outlets just need floor
             if (!current && below) {
-                cellDetails.push(maybeAdd(TRASH));
-                cellDetails.push(maybeAdd(OUTLET));
+                maybeAdd(TRASH);
+                maybeAdd(OUTLET);
             }
 
             // Lights need a ceiling to hang onto
@@ -226,31 +227,20 @@ createLevelBackground = (level) => createCanvas(CELL_SIZE * LEVEL_COLS, CELL_SIZ
 
             // Frames and windows need two rows
             if (!below && belowBelow) {
-                cellDetails.push(maybeAdd(FRAME));
-                cellDetails.push(maybeAdd(WINDOW));
+                maybeAdd(FRAME);
+                maybeAdd(WINDOW);
             }
 
             // Desks need one row but two columns
             if (below && !right && belowRight) {
-                cellDetails.push(maybeAdd(DESK));
-            }
-
-            if (cellDetails.length) {
-                possibleDetails.push(cellDetails);
+                maybeAdd(DESK);
             }
         }
     }
 
-    const allDetails = possibleDetails.flat();
     allDetails.forEach(detail => {
         if (rng.floating() < 0.15) {
             detail();
         }
     });
-
-    // possibleDetails.forEach((details) => {
-    //     if (rng.floating() < 0.5) {
-    //         rng.pick(details)();
-    //     }
-    // });
 });
