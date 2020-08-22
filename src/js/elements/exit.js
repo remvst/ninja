@@ -6,7 +6,9 @@ class Exit {
     }
 
     cycle(e) {
-        // TODO check distance
+        if (this.level.player && dist(this, this.level.player) < CELL_SIZE / 2) {
+            this.level.foundExit();
+        }
     }
 
     render() {

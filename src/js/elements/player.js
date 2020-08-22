@@ -17,13 +17,13 @@ class Player {
         this.jumpPeakTime = 0;
         this.wallJump = 0;
 
+        this.controllable = false;
+
         this.wasStickingToWallX = 0;
 
         this.clock = 0;
 
         this.bandanaTrail = [];
-
-        this.spawn();
     }
 
     get landed() {
@@ -77,8 +77,8 @@ class Player {
 
         this.clock += e;
 
-        const holdingJump = down[KEYBOARD_SPACE];
-        this.jumpReleased = this.jumpReleased || !down[KEYBOARD_SPACE];
+        const holdingJump = down[KEYBOARD_SPACE] && this.controllable;
+        this.jumpReleased = this.jumpReleased || !holdingJump;
 
         if (holdingJump) {
             this.jumpHoldTime += e;
@@ -117,13 +117,15 @@ class Player {
 
         // Left/right
         let dX = 0, targetVX = 0;
-        if (down[KEYBOARD_LEFT]) {
-            dX = -1;
-            targetVX = -PLAYER_HORIZONTAL_SPEED;
-        }
-        if (down[KEYBOARD_RIGHT]) {
-            dX = 1;
-            targetVX = PLAYER_HORIZONTAL_SPEED;
+        if (this.controllable) {
+            if (down[KEYBOARD_LEFT]) {
+                dX = -1;
+                targetVX = -PLAYER_HORIZONTAL_SPEED;
+            }
+            if (down[KEYBOARD_RIGHT]) {
+                dX = 1;
+                targetVX = PLAYER_HORIZONTAL_SPEED;
+            }
         }
 
         if (this.landed && dX) {

@@ -4,11 +4,10 @@ class Game {
         G = this;
         G.clock = 0;
 
-        this.level = LEVELS[0];
-        this.level.start();
-
         this.altitude = 0;
-        this.centerLevel(this.level);
+
+        this.level = LEVELS[0];
+        this.startLevel(this.level);
     }
 
     cycle(e) {
@@ -18,6 +17,20 @@ class Game {
         INTERPOLATIONS.slice().forEach(i => i.cycle(e));
 
         this.render();
+    }
+
+    nextLevel() {
+        // Stop the previous level
+        this.level.stop();
+
+        // Start the new one
+        this.startLevel(LEVELS[this.level.index + 1]);
+    }
+
+    startLevel(level) {
+        this.level = level;
+        this.centerLevel(this.level);
+        this.level.start();
     }
 
     centerLevel(level) {
@@ -90,6 +103,10 @@ class Game {
                 });
             }
         });
+
+        if (this.menu) {
+            wrap(() => this.menu.render());
+        }
 
 
         if (DEBUG) {

@@ -1,5 +1,7 @@
 linear = t => t;
 easeOutQuad = t => t*(2-t);
+easeOutQuint = t => 1+(--t)*t*t*t*t;
+easeInQuint = t => t*t*t*t*t;
 
 interp = (o, p, a, b, d, l, f, e) => {
     const i = {

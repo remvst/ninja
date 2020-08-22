@@ -11,6 +11,28 @@ class Level {
         this.stop();
     }
 
+    foundExit() {
+        // Avoid finding the exit twice
+        remove(this.cyclables, this.exit);
+
+        // Prevent the player from moving
+        this.player.controllable = false;
+
+        G.menu = new Menu(
+            'SEARCHING FOR EVIL PLANS...',
+            'NOT FOUND'
+        );
+        G.menu.animateIn();
+
+        setTimeout(() => {
+            G.menu.animateOut();
+        }, 2000);
+
+        setTimeout(() => {
+            G.nextLevel();
+        }, 2500);
+    }
+
     start() {
         this.active = true;
 
@@ -23,16 +45,30 @@ class Level {
             (this.definition.spawn[0] + 0.5) * CELL_SIZE
         );
 
-        this.cyclables.push(this.player);
-        this.renderables.push(this.player);
 
-        const exit = new Exit(
+        this.exit = new Exit(
             this,
             (this.definition.exit[1] + 0.5) * CELL_SIZE,
             (this.definition.exit[0] + 0.5) * CELL_SIZE
         );
-        this.cyclables.push(exit);
-        this.renderables.push(exit);
+        this.cyclables.push(this.exit);
+        this.renderables.push(this.exit);
+
+        // Show a menu
+        G.menu = new Menu(
+            'Floor ' + (this.index + 1),
+            ''
+        );
+        G.menu.animateIn();
+
+        setTimeout(() => {
+            G.menu.animateOut();
+
+            this.player.controllable = true;
+            this.player.spawn();
+            this.cyclables.push(this.player);
+            this.renderables.push(this.player);
+        }, 2000);
     }
 
     stop() {
@@ -70,10 +106,10 @@ class Level {
             }
         }
 
-        if (!this.active) {
-            R.fillStyle = WINDOW_PATTERN;
-            fr(0, 0, LEVEL_ROWS * CELL_SIZE, LEVEL_COLS * CELL_SIZE);
-        }
+        // if (!this.active) {
+        //     R.fillStyle = WINDOW_PATTERN;
+        //     fr(0, 0, LEVEL_ROWS * CELL_SIZE, LEVEL_COLS * CELL_SIZE);
+        // }
     }
 
     particle(properties) {
