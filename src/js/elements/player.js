@@ -19,6 +19,8 @@ class Player {
         this.wasStickingToWallX = 0;
 
         this.clock = 0;
+
+        this.bandanaTrail = [];
     }
 
     get landed() {
@@ -129,6 +131,13 @@ class Player {
         this.x += this.vX * e;
 
         this.readjust();
+
+        this.bandanaTrail.unshift({'x': this.x - this.facing * 5, 'y': this.y - 10});
+        while (this.bandanaTrail.length > 30) {
+            this.bandanaTrail.pop();
+        }
+
+        this.bandanaTrail.forEach(position => position.y += e * 100);
     }
 
     goToClosestAdjustment(reference, adjustments) {
@@ -231,6 +240,31 @@ class Player {
     }
 
     render() {
+        // Render bandana
+        R.lineWidth = 8;
+        R.strokeStyle = '#000';
+        beginPath();
+        moveTo(this.bandanaTrail[0].x, this.bandanaTrail[0].y);
+
+        let remainingLength = 40;
+
+        for (let i = 1 ; i < this.bandanaTrail.length && remainingLength > 0 ; i++) {
+            const current = this.bandanaTrail[i];
+            const previous = this.bandanaTrail[i - 1];
+
+            const actualDistance = dist(current, previous);
+            const renderedDist = min(actualDistance, remainingLength);
+            remainingLength -= renderedDist;
+            const ratio = renderedDist / actualDistance;
+
+            // beginPath();
+            lineTo(
+                previous.x + ratio * (current.x - previous.x),
+                previous.y + ratio * (current.y - previous.y)
+            );
+        }
+        stroke();
+
         wrap(() => {
             translate(this.x, this.y);
             scale(this.facing * this.facingScale, 1);
@@ -241,7 +275,7 @@ class Player {
             const bodyHeight = visualRadius * 2 - legLength;
 
             // Hitbox
-            R.fillStyle = 'rgba(255,0,0,0.5)';
+            // R.fillStyle = 'rgba(255,0,0,0.5)';
             // fr(
             //     -PLAYER_RADIUS,
             //     -PLAYER_RADIUS,
@@ -290,6 +324,10 @@ class Player {
                 R.fillStyle = '#000';
                 fr(bodyWidth / 2 - 1, -visualRadius + 7, -2, 2);
                 fr(bodyWidth / 2 - 5, -visualRadius + 7, -2, 2);
+
+                // Belt
+                R.fillStyle = '#222';
+                fr(-bodyWidth / 2, 4, bodyWidth, 2);
             });
 
             // Render legs
