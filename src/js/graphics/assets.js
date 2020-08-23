@@ -66,15 +66,21 @@ WINDOW_PATTERN2 = createCanvasPattern(CELL_SIZE * 2, CELL_SIZE * 4, (c, can) => 
 createBuildingsBackground = (color, patternHeight) => createCanvasPattern(400, patternHeight, (c, can) => {
     c.fillStyle = color;
 
-    for (let x = 0 ; x < can.width ; x += 100) {
-        c.fr(x, random() * can.height * 0.8, 100, patternHeight);
+    let x = 0;
+    while (x < can.width) {
+        const buildingWidth = ~~rnd(80, 120);
+        c.fr(x, random() * 200, buildingWidth, patternHeight);
+        x += buildingWidth;
     }
+    // for (let x = 0 ; x < can.width ; x += rnd(100, 110)) {
+    //     c.fr(x, random() * can.height * 0.8, 100, patternHeight);
+    // }
 });
 
 BUILDINGS_BACKGROUND = [
-    createBuildingsBackground('#000', 800),
-    createBuildingsBackground('#111', 600),
-    createBuildingsBackground('#222', 400)
+    createBuildingsBackground('#000', 600),
+    createBuildingsBackground('#111', 500),
+    createBuildingsBackground('#222', 300)
 ];
 
 FRAME = padCanvas(1, 1, 0.5, createCanvas(CELL_SIZE * 0.6, CELL_SIZE * 0.8, (c, can) => {
