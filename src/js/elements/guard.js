@@ -16,6 +16,7 @@ class Guard extends PlayerSpotter {
             this.cycleDefinition.update(this, this.level.clock);
         } else {
             this.facing = sign(this.level.player.x - this.x);
+            this.walking = false;
         }
 
         // If the guard is facing back, add a quick 180 degrees
