@@ -11,8 +11,35 @@ LEVEL_BACKGROUND_PATTERN = createCanvasPattern(CELL_SIZE * 4, CELL_SIZE * 6, (c,
     c.fr(CELL_SIZE * 2, CELL_SIZE * 3, 2, CELL_SIZE * 10);
 });
 
+LEVEL_COLORS = [
+    '#29c2fd',
+    '#c0a4ff',
+    '#5ce5b8',
+    '#ffbbb9',
+    '#ffc4ec'
+];
+
+darken = (color, amount = 0.5) => {
+    const num = parseInt(color.slice(1), 16);
+    let r = (num >> 16);
+    let g = (num >> 8) & 0xff;
+    let b = num & 0xff;
+
+    return '#' + (amount * r << 16 | amount * g << 8 | amount * b).toString(16).padStart(6, '0');
+};
+
+// document.body.appendChild(createCanvas(LEVEL_COLORS.length * 100, 200, (c) => {
+//     LEVEL_COLORS.forEach((color, i) => {
+//         c.fillStyle = color;
+//         c.fillRect(i * 100, 0, 100, 100);
+//
+//         c.fillStyle = darken(color);
+//         c.fillRect(i * 100, 100, 100, 100);
+//     });
+// }));
+
 createLevelBackground = (level) => createCanvas(CELL_SIZE * LEVEL_COLS, CELL_SIZE * LEVEL_ROWS, (c, can) => {
-    c.fillStyle = '#29c2fd';
+    c.fillStyle = level.backgroundColor;
     c.fr(0, 0, LEVEL_ROWS * CELL_SIZE, LEVEL_COLS * CELL_SIZE);
 
     c.fillStyle = LEVEL_BACKGROUND_PATTERN;

@@ -224,7 +224,7 @@ class Game {
 
         // Render the levels
         wrap(() => {
-            translate(LEVEL_X, this.bottomScreenAltitude + LEVEL_HEIGHT + TOWER_BASE_HEIGHT);
+            translate(LEVEL_X, ~~this.bottomScreenAltitude + LEVEL_HEIGHT + TOWER_BASE_HEIGHT);
 
             const currentLevelIndex = LEVELS.indexOf(this.level);
             for (let i = max(0, currentLevelIndex - 1) ; i < min(LEVELS.length, currentLevelIndex + 2) ; i++) {

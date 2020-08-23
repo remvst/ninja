@@ -3,6 +3,9 @@ class Level {
         this.index = index;
         this.definition = definition;
 
+        this.backgroundColor = LEVEL_COLORS[index % LEVEL_COLORS.length];
+        this.obstacleColor = darken(this.backgroundColor, 0.15);
+
         this.stop();
     }
 
@@ -147,7 +150,7 @@ class Level {
         this.renderables.forEach(x => wrap(() => x.render()));
 
         // Matrix
-        R.fillStyle = '#111';
+        R.fillStyle = this.obstacleColor;
         for (let row = 0 ; row < LEVEL_ROWS ; row++) {
             for (let col = 0 ; col < LEVEL_ROWS ; col++) {
                 if (this.definition.matrix[row][col]) {
