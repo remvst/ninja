@@ -140,10 +140,20 @@ class Game {
         R.fillStyle = SKY_BACKGROUND;
         fr(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT); // TODO maybe split into two?
 
-        R.fillStyle = '#fff';
-        beginPath();
-        arc(CANVAS_WIDTH - 200, 100, 50, 0, PI * 2, true);
-        fill();
+        // Moon
+        wrap(() => {
+            translate(CANVAS_WIDTH - 200, 100);
+
+            R.globalAlpha = 0.2;
+            drawImage(HALO, -HALO.width / 2, -HALO.height / 2);
+
+            // Moon shape
+            R.globalAlpha = 1;
+            R.fillStyle = '#fff';
+            beginPath();
+            arc(0, 0, 50, 0, PI * 2, true);
+            fill();
+        })
 
         // Thunder
         if (G.clock % 3 < 0.3 && G.clock % 0.1 < 0.05) {
