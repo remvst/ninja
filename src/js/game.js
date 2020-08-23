@@ -12,20 +12,29 @@ class Game {
 
         this.level = LEVELS[0];
 
-        this.bottomScreenAltitude = MAX_LEVEL_ALTITUDE + LEVEL_HEIGHT - 200;
+        this.bottomScreenAltitude = MAX_LEVEL_ALTITUDE + LEVEL_HEIGHT - CANVAS_HEIGHT / 2 + 100;
         this.windowsAlpha = 1;
+        this.titleAlpha = 1;
 
-        this.startAnimation();
+        // this.startAnimation();
     }
 
     startAnimation() {
+        interp(
+            this,
+            'titleAlpha',
+            1,
+            0,
+            0.5
+        );
+
         interp(
             this,
             'bottomScreenAltitude',
             this.bottomScreenAltitude,
             -TOWER_BASE_HEIGHT,
             5,
-            1,
+            0.5,
             easeInOutCubic,
             () => {
                 interp(
@@ -146,13 +155,58 @@ class Game {
 
             // Render the windows in front
             R.globalAlpha = this.windowsAlpha;
-            R.fillStyle = WINDOW_PATTERN;
-            fr(0, 0, LEVEL_WIDTH, -MAX_LEVEL_ALTITUDE - LEVEL_HEIGHT);
+            R.fillStyle = BUILDING_PATTERN;
+            wrap(() => {
+                // translate(-CELL_SIZE / 2, 0);
+                fr(0, 0, LEVEL_WIDTH, -MAX_LEVEL_ALTITUDE - LEVEL_HEIGHT);
+            });
+
+            // Render the top of the tower
+            translate(0, -MAX_LEVEL_ALTITUDE - LEVEL_HEIGHT);
+
+            // Sign holder
+            wrap(() => {
+                translate(LEVEL_WIDTH / 2 - CELL_SIZE * 6, 0);
+                fs(SIGN_HOLDER_PATTERN);
+                fr(0, 0, CELL_SIZE * 12, -CELL_SIZE * 2);
+            });
+
+            // Sign
+            R.textAlign = nomangle('center');
+            R.textBaseline = nomangle('alphabetic');
+            R.fillStyle = '#900';
+            R.strokeStyle = '#f00';
+            R.lineWidth = 5;
+            R.font = nomangle('italic 96pt Impact');
+            fillText(nomangle('EVILCORP'), LEVEL_WIDTH / 2, -15);
+            strokeText(nomangle('EVILCORP'), LEVEL_WIDTH / 2, -15);
+
+            // Light in front of the sign
+
         });
 
         if (this.menu) {
             wrap(() => this.menu.render());
         }
+
+        wrap(() => {
+            R.globalAlpha = this.titleAlpha;
+
+            R.textAlign = nomangle('center');
+            R.textBaseline = nomangle('alphabetic');
+            R.fillStyle = '#fff';
+            R.strokeStyle = '#000';
+            R.lineWidth = 5;
+
+            R.font = nomangle('italic 120pt Impact');
+            fillText(nomangle('NINJA'), CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 60);
+            strokeText(nomangle('NINJA'), CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 60);
+
+            R.font = nomangle('24pt Impact');
+            R.lineWidth = 2;
+            fillText(nomangle('VS'), CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 100);
+            strokeText(nomangle('VS'), CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 100);
+        });
 
 
         if (DEBUG) {
