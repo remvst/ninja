@@ -147,17 +147,15 @@ class Player {
 
         // Trail
         if (!this.landed && !this.sticksToWall && this.level.clock) {
-            const {x,y} = this;
-            const trail = createCanvas(CELL_SIZE * 2, CELL_SIZE * 2, (r) => {
-                r.translate(CELL_SIZE, CELL_SIZE);
-                this.renderCharacter(r);
-            })
+            const { renderCharacterParams, x, y } = this;
+
             const renderable = {
                 'render': () => {
                     R.globalAlpha = renderable.alpha;
-                    drawImage(trail, x - trail.width / 2, y - trail.height / 2);
+                    translate(x, y);
+                    renderCharacter.apply(null, renderCharacterParams);
                 }
-            }
+            };
 
             this.level.renderables.push(renderable);
             interp(renderable, 'alpha', 0.1, 0, 0.5, 0.2, null, () => {
@@ -297,16 +295,16 @@ class Player {
 
     }
 
-    renderCharacter(context) {
-        renderCharacter(
-            context,
+    get renderCharacterParams() {
+        return [
+            R,
             this.level.clock,
             PLAYER_BODY,
             this.landed,
             this.facing * this.facingScale,
             this.walking,
             limit(0, (this.clock - this.jumpStartTime) / this.jumpPeakTime, 1)
-        );
+        ];
     }
 
     render() {
@@ -339,7 +337,9 @@ class Player {
         // Then render the actual character
         wrap(() => {
             translate(this.x, this.y);
-            this.renderCharacter(R);
+
+            renderCharacter.apply(null, this.renderCharacterParams);
+            // this.renderCharacter(R);
         });
     }
 }
