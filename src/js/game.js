@@ -208,6 +208,18 @@ class Game {
                     fr(0, 0, CELL_SIZE * 12, -CELL_SIZE * 2);
                 });
 
+                // Halo behind the sign
+                [
+                    30,
+                    90,
+                    150,
+                    210
+                ].forEach(x => wrap(() => {
+                    R.globalAlpha = (sin(G.clock * PI * 2 / 2) * 0.5 + 0.5) * 0.1 + 0.2;
+                    drawImage(RED_HALO, LEVEL_WIDTH / 2 + x - RED_HALO.width / 2, -200);
+                    drawImage(RED_HALO, LEVEL_WIDTH / 2 - x - RED_HALO.width / 2, -200);
+                }));
+
                 // Sign
                 R.textAlign = nomangle('center');
                 R.textBaseline = nomangle('alphabetic');
@@ -218,21 +230,9 @@ class Game {
                 fillText(nomangle('EVILCORP'), LEVEL_WIDTH / 2, -30);
                 strokeText(nomangle('EVILCORP'), LEVEL_WIDTH / 2, -30);
 
-                // Light in front of the sign
-                [
-                    30,
-                    90,
-                    150,
-                    210
-                ].forEach(x => wrap(() => {
-                    R.globalAlpha = 0.5;
-                    drawImage(GOD_RAY, LEVEL_WIDTH / 2 + x - GOD_RAY.width / 2, -GOD_RAY.height / 2);
-                    drawImage(GOD_RAY, LEVEL_WIDTH / 2 - x - GOD_RAY.width / 2, -GOD_RAY.height / 2);
-
-                    R.globalAlpha = (sin(G.clock * PI * 2 / 2) * 0.5 + 0.5) * 0.1 + 0.2;
-                    drawImage(RED_HALO, LEVEL_WIDTH / 2 + x - RED_HALO.width / 2, -200);
-                    drawImage(RED_HALO, LEVEL_WIDTH / 2 - x - RED_HALO.width / 2, -200);
-                }));
+                // Lights on the edges of the tower
+                drawImage(GOD_RAY, 10, -GOD_RAY.height / 2);
+                drawImage(GOD_RAY, LEVEL_WIDTH - 10 - GOD_RAY.width, -GOD_RAY.height / 2);
             });
 
             // Render the windows in front
