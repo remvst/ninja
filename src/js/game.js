@@ -11,6 +11,9 @@ class Game {
         G.clock = 0;
 
         this.level = LEVELS[0];
+        if (DEBUG) {
+            this.level = LEVELS[getDebugValue('level', 0)];
+        }
 
         this.bottomScreenAltitude = MAX_LEVEL_ALTITUDE + LEVEL_HEIGHT - CANVAS_HEIGHT / 2 + 100;
         this.windowsAlpha = 1;
@@ -82,6 +85,15 @@ class Game {
     }
 
     cycle(e) {
+        if (DEBUG) {
+            if (w.down[KEYBOARD_F]) {
+                e *= 4;
+            }
+            if (w.down[KEYBOARD_G]) {
+                e *= 0.25;
+            }
+        }
+
         this.clock += e;
 
         if (down[KEYBOARD_SPACE]) {

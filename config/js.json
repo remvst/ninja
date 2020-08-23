@@ -37,5 +37,6 @@
 
     "src/js/keyboard.js",
     "src/js/game.js",
-    "src/js/main.js"
+    "src/js/main.js",
+    "src/js/debug.js"
 ]

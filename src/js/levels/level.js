@@ -113,22 +113,24 @@ class Level {
         this.background = this.background || createLevelBackground(this);
         drawImage(this.background, 0, 0);
 
-        R.fillStyle = 'rgba(0,0,0,0.2)';
-        for (let k = 0 ; k < LEVEL_ROWS ; k++) {
-            fr(0, k * CELL_SIZE, LEVEL_COLS * CELL_SIZE, 1);
-            fr(k * CELL_SIZE, 0, 1, LEVEL_ROWS * CELL_SIZE);
-        }
+        if (DEBUG && getDebugValue('grid')) {
+            R.fillStyle = 'rgba(0,0,0,0.2)';
+            for (let k = 0 ; k < LEVEL_ROWS ; k++) {
+                fr(0, k * CELL_SIZE, LEVEL_COLS * CELL_SIZE, 1);
+                fr(k * CELL_SIZE, 0, 1, LEVEL_ROWS * CELL_SIZE);
+            }
 
-        R.fillStyle = '#fff';
-        R.textAlign = 'center';
-        R.textBaseline = 'middle';
-        for (let row = 0 ; row < LEVEL_ROWS ; row++) {
-            for (let col = 0 ; col < LEVEL_ROWS ; col++) {
-                fillText(
-                    `${row}-${col}`,
-                    toMiddleCellCoord(col),
-                    toMiddleCellCoord(row)
-                );
+            R.fillStyle = '#fff';
+            R.textAlign = 'center';
+            R.textBaseline = 'middle';
+            for (let row = 0 ; row < LEVEL_ROWS ; row++) {
+                for (let col = 0 ; col < LEVEL_ROWS ; col++) {
+                    fillText(
+                        `${row}-${col}`,
+                        toMiddleCellCoord(col),
+                        toMiddleCellCoord(row)
+                    );
+                }
             }
         }
 
