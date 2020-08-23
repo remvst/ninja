@@ -579,3 +579,5 @@ LEVELS = [
 if (DEBUG) {
     LEVELS = LEVELS.slice(0, getDebugValue('levelCount', 0) || LEVELS.length);
 }
+
+MAX_LEVEL_ALTITUDE = LEVELS.length * LEVEL_HEIGHT + TOWER_BASE_HEIGHT;
