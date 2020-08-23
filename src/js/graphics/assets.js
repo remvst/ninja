@@ -1,4 +1,4 @@
-SKY_BACKGROUND = createCanvasPattern(200, CANVAS_HEIGHT, (c) => {
+SKY_BACKGROUND = createCanvasPattern(1, CANVAS_HEIGHT, (c) => {
     const g = c.createLinearGradient(0, 0, 0, CANVAS_HEIGHT);
     g.addColorStop(0, '#00032c');
     g.addColorStop(0.7, '#14106f');
@@ -60,15 +60,15 @@ COMPUTER = createCanvas(CELL_SIZE * 0.6, CELL_SIZE * 0.6, (c, can) => {
 });
 
 WINDOW_PATTERN = createCanvasPattern(CELL_SIZE * 2, CELL_SIZE * 2, (c, can) => {
-    c.fillStyle = '#8c9bee';
+    c.fillStyle = '#637ab5';
     c.fillRect(0, 0, 999, 999);
 
-    c.fillStyle = '#f29afb';
+    c.fillStyle = '#2c3556';
     c.fillRect(can.width / 10, can.height / 4, can.width * 8 / 10, can.height / 2);
 });
 
 BUILDING_PATTERN = createCanvasPattern(CELL_SIZE * LEVEL_COLS, CELL_SIZE * 8, (c, can) => {
-    c.fillStyle = '#adbbff';
+    c.fillStyle = '#485473';
     c.fillRect(0, 0, can.width, 999);
 
     // c.translate(CELL_SIZE / 4, CELL_SIZE / 4);
