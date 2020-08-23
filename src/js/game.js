@@ -209,16 +209,19 @@ class Game {
                 strokeText(nomangle('EVILCORP'), LEVEL_WIDTH / 2, -30);
 
                 // Light in front of the sign
-                R.globalAlpha = 0.5;
                 [
                     30,
                     90,
                     150,
                     210
                 ].forEach(x => wrap(() => {
-                    scale(1, -1);
+                    R.globalAlpha = 0.5;
                     drawImage(GOD_RAY, LEVEL_WIDTH / 2 + x - GOD_RAY.width / 2, -GOD_RAY.height / 2);
                     drawImage(GOD_RAY, LEVEL_WIDTH / 2 - x - GOD_RAY.width / 2, -GOD_RAY.height / 2);
+
+                    R.globalAlpha = (sin(G.clock * PI * 2 / 2) * 0.5 + 0.5) * 0.1 + 0.2;
+                    drawImage(RED_HALO, LEVEL_WIDTH / 2 + x - RED_HALO.width / 2, -200);
+                    drawImage(RED_HALO, LEVEL_WIDTH / 2 - x - RED_HALO.width / 2, -200);
                 }));
             });
 
@@ -261,7 +264,7 @@ class Game {
         });
 
 
-        if (DEBUG) {
+        if (DEBUG && false) {
             wrap(() => {
                 R.font = '24pt Arial';
                 R.textAlign = 'left';

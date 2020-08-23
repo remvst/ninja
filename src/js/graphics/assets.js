@@ -27,6 +27,18 @@ HALO = createCanvas(CELL_SIZE * 4, CELL_SIZE * 4, (c, can) => {
     c.fillRect(0, 0, 999, 999);
 });
 
+RED_HALO = createCanvas(CELL_SIZE * 6, CELL_SIZE * 6, (c, can) => {
+    const g = c.createRadialGradient(
+        can.width / 2, can.height / 2, 0,
+        can.width / 2, can.height / 2, can.width / 2
+    );
+    g.addColorStop(0.5, 'rgba(255,0,0, 0.5)');
+    g.addColorStop(1, 'rgba(255,0,0, 0)');
+
+    c.fillStyle = g;
+    c.fillRect(0, 0, 999, 999);
+});
+
 COMPUTER = createCanvas(CELL_SIZE * 0.6, CELL_SIZE * 0.6, (c, can) => {
     c.fillStyle = '#000';
     c.fr(0, 0, 99, 99);
@@ -108,15 +120,25 @@ FRAME = padCanvas(1, 1, 0.5, createCanvas(CELL_SIZE * 0.6, CELL_SIZE * 0.8, (c, 
     c.fillRect(can.width / 2 - 5, can.height / 2 - 5, 10, 10);
 }));
 
-WINDOW = padCanvas(2, 1, 0.5, createCanvas(CELL_SIZE * 0.8, CELL_SIZE * 1.2, (c, can) => {
-    c.fillStyle = '#494742';
-    c.fillRect(0, 0, 99, 99);
-    c.fillStyle = '#b8c8fa';
-    c.fillRect(2, 2, can.width - 4, can.height - 4);
+UNPADDED_WINDOW = createCanvas(CELL_SIZE * 0.8, CELL_SIZE * 1.2, (c, can) => {
+    // Window
+    const g = c.createLinearGradient(0, 0, can.width, can.height);
+    g.addColorStop(0, 'rgba(255,255,255,0)');
+    g.addColorStop(0.5, 'rgba(255,255,255,0.2)');
+    g.addColorStop(1, 'rgba(255,255,255,0)');
+    c.fillStyle = g;
+    c.fillRect(0, 0, can.width, can.height);
 
-    c.fillStyle = '#494742';
+    // Frame
+    c.fillStyle = '#888';
+    c.fillRect(0, 0, can.width, 2);
+    c.fillRect(0, can.height, can.width, -2);
+    c.fillRect(0, 0, 2, can.height);
+    c.fillRect(can.width, 0, -2, can.height);
     c.fillRect(0, can.height * 0.7, can.width, 4);
-}));
+});
+
+WINDOW = padCanvas(2, 1, 0.5, UNPADDED_WINDOW);
 
 UNPADDED_DESK = createCanvas(CELL_SIZE * 1.1, CELL_SIZE * 0.5, (c, can) => {
     // Legs
@@ -178,6 +200,9 @@ LEVEL_BACKGROUND = createCanvasPattern(CELL_SIZE * 4, CELL_SIZE * 6, (c, can) =>
 });
 
 createLevelBackground = (level) => createCanvas(CELL_SIZE * LEVEL_COLS, CELL_SIZE * LEVEL_ROWS, (c, can) => {
+    c.fillStyle = '#29c2fd';
+    c.fr(0, 0, LEVEL_ROWS * CELL_SIZE, LEVEL_COLS * CELL_SIZE);
+
     c.fillStyle = LEVEL_BACKGROUND;
     c.fr(0, 0, can.width, can.height);
 
@@ -189,9 +214,7 @@ createLevelBackground = (level) => createCanvas(CELL_SIZE * LEVEL_COLS, CELL_SIZ
     const taken = matrix.map((arr) => arr.slice());
 
     // No detail on the spawn
-    taken[level.definition.exit[0]][level.definition.exit[1]] = true;
-
-    const allDetails = [];
+    // taken[level.definition.exit[0]][level.definition.exit[1]] = true;
 
     for (let row = 1 ; row < LEVEL_ROWS - 1 ; row++) {
         for (let col = 1 ; col < LEVEL_ROWS - 1 ; col++) {
@@ -199,8 +222,8 @@ createLevelBackground = (level) => createCanvas(CELL_SIZE * LEVEL_COLS, CELL_SIZ
                 continue;
             }
 
-            const maybeAdd = (image) => {
-                if (rng.floating() > 0.15) {
+            const maybeAdd = (image, prerender) => {
+                if (rng.floating() > 0.2) {
                     return;
                 }
 
@@ -221,16 +244,22 @@ createLevelBackground = (level) => createCanvas(CELL_SIZE * LEVEL_COLS, CELL_SIZ
                     }
                 }
 
+                //
+                const x = toCellCoord(col);
+                const y = toCellCoord(row);
+
+                // Maybe do some prerendering
+                if (prerender) {
+                    prerender(x, y);
+                }
+
                 // Render the detail
                 c.drawImage(
                     image,
-                    col * CELL_SIZE,
-                    row * CELL_SIZE
+                    x,
+                    y
                 );
             }
-
-            const x = col * CELL_SIZE;
-            const y = row * CELL_SIZE;
 
             const current = taken[row][col];
             const right = taken[row][col + 1];
@@ -258,7 +287,16 @@ createLevelBackground = (level) => createCanvas(CELL_SIZE * LEVEL_COLS, CELL_SIZ
             // Frames and windows need two rows
             if (!below && belowBelow) {
                 maybeAdd(FRAME);
-                maybeAdd(WINDOW);
+                maybeAdd(WINDOW, (x, y) => {
+                    c.wrap(() => {
+                        c.clearRect(
+                            x + (CELL_SIZE - UNPADDED_WINDOW.width) / 2,
+                            y + (CELL_SIZE * 2 - UNPADDED_WINDOW.height) / 2,
+                            UNPADDED_WINDOW.width,
+                            UNPADDED_WINDOW.height
+                        );
+                    });
+                });
             }
 
             // Desks need one row but two columns
@@ -267,10 +305,4 @@ createLevelBackground = (level) => createCanvas(CELL_SIZE * LEVEL_COLS, CELL_SIZ
             }
         }
     }
-
-    allDetails.forEach(detail => {
-        if (rng.floating() < 0.15) {
-            detail();
-        }
-    });
 });
