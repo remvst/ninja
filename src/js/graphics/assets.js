@@ -55,16 +55,27 @@ WINDOW_PATTERN = createCanvasPattern(CELL_SIZE * 2, CELL_SIZE * 2, (c, can) => {
     c.fillRect(can.width / 4, can.height / 4, can.width / 2, can.width / 2);
 });
 
-BUILDINGS_BACKGROUND = createCanvasPattern(800, 400, (c, can) => {
-    c.fillStyle = WINDOW_PATTERN;
+WINDOW_PATTERN2 = createCanvasPattern(CELL_SIZE * 2, CELL_SIZE * 4, (c, can) => {
+    c.fillStyle = '#000';
+    c.fillRect(0, 0, 999, 999);
 
-    c.fillRect(
-        0,
-        0,
-        can.width,
-        can.height
-    );
+    c.fillStyle = '#ff0';
+    c.fillRect(can.width / 4, can.height / 4, can.width / 2, can.height / 2);
 });
+
+createBuildingsBackground = (color, patternHeight) => createCanvasPattern(400, patternHeight, (c, can) => {
+    c.fillStyle = color;
+
+    for (let x = 0 ; x < can.width ; x += 100) {
+        c.fr(x, random() * can.height * 0.8, 100, patternHeight);
+    }
+});
+
+BUILDINGS_BACKGROUND = [
+    createBuildingsBackground('#000', 800),
+    createBuildingsBackground('#111', 600),
+    createBuildingsBackground('#222', 400)
+];
 
 FRAME = padCanvas(1, 1, 0.5, createCanvas(CELL_SIZE * 0.6, CELL_SIZE * 0.8, (c, can) => {
     c.fillStyle = '#925e2a';

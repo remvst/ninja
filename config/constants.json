@@ -30,6 +30,8 @@
     "MAX_JUMP_VY": 800,
     "MAX_JUMP_HOLD_TIME": 0.15,
 
+    "RAIN_DROP_LENGTH": 20,
+
     "KEYBOARD_TAB": 9,
     "KEYBOARD_ENTER": 13,
     "KEYBOARD_ESC": 27,

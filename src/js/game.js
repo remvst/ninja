@@ -1,10 +1,15 @@
+const LEVEL_WIDTH = LEVEL_COLS * CELL_SIZE;
+const LEVEL_HEIGHT = LEVEL_ROWS * CELL_SIZE;
+const TOWER_BASE_HEIGHT = (CANVAS_HEIGHT - LEVEL_HEIGHT) / 2;
+const LEVEL_X = (CANVAS_WIDTH - LEVEL_COLS * CELL_SIZE) / 2;
+
 class Game {
 
     constructor() {
         G = this;
         G.clock = 0;
 
-        this.altitude = 0;
+        this.bottomScreenAltitude = TOWER_BASE_HEIGHT;
 
         this.level = LEVELS[0];
         this.startLevel(this.level);
@@ -38,19 +43,17 @@ class Game {
     }
 
     centerLevel(level) {
-        const levelHeight = LEVEL_ROWS * CELL_SIZE;
-        const towerBaseHeight = (CANVAS_HEIGHT - levelHeight) / 2;
-        // this.altitude = this.levelY(level) - towerBaseHeight;
-
-        interp(this, 'altitude', this.altitude, this.levelY(level) - towerBaseHeight, 0.5)
+        interp(
+            this,
+            'bottomScreenAltitude',
+            this.bottomScreenAltitude,
+            this.levelBottomAltitude(level) + TOWER_BASE_HEIGHT,
+            0.5
+        );
     }
 
-    levelY(level) {
-        const levelHeight = LEVEL_ROWS * CELL_SIZE;
-        const towerBaseHeight = (CANVAS_HEIGHT - levelHeight) / 2;
-        const levelBottomY = CANVAS_HEIGHT - level.index * levelHeight - towerBaseHeight;
-
-        return levelBottomY - levelHeight;
+    levelBottomAltitude(level) {
+        return level.index * LEVEL_HEIGHT;
     }
 
     // renderOneBuilding(x, altitude) {
@@ -63,10 +66,6 @@ class Game {
     // }
 
     render() {
-        const levelWidth = LEVEL_COLS * CELL_SIZE;
-        const levelHeight = LEVEL_ROWS * CELL_SIZE;
-        const levelX = (CANVAS_WIDTH - LEVEL_COLS * CELL_SIZE) / 2;
-
         // Sky
         R.fillStyle = SKY_BACKGROUND;
         fr(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT); // TODO maybe split into two?
@@ -76,37 +75,50 @@ class Game {
         arc(CANVAS_WIDTH - 200, 100, 50, 0, PI * 2, true);
         fill();
 
-        // Buildings
-        // const xRatio = this.level.player.x / (CELL_SIZE * LEVEL_COLS);
-        // const xRatioFromCenter = xRatio - 0.5;
-        // const perspective = xRatioFromCenter * 80;
-        //
-        // R.fillStyle = WINDOW_PATTERN;
-        // wrap(() => {
-        //     translate(levelX, 0);
-        //     scale(xRatioFromCenter, 1);
-        //     fr(0, 0, 120, CANVAS_HEIGHT);
-        // });
-        // wrap(() => {
-        //     translate(levelX + CELL_SIZE * LEVEL_COLS, 0);
-        //     scale(-xRatioFromCenter, 1);
-        //     fr(0, 0, -120, CANVAS_HEIGHT);
-        // });
+        // Thunder
+        if (G.clock % 3 < 0.3 && G.clock % 0.1 < 0.05) {
+            R.fillStyle = 'rgba(255, 255, 255, 0.2)';
+            fr(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        }
 
+        // Buildings in the background
+        BUILDINGS_BACKGROUND.forEach((layer, i) => wrap (() => {
+            const layerRatio = i / (BUILDINGS_BACKGROUND.length);
+            const maxAltitude = LEVELS.length * LEVEL_HEIGHT;
+
+            const altitudeRatio = this.bottomScreenAltitude / maxAltitude;
+
+            R.fillStyle = layer;
+            translate(0, ~~(CANVAS_HEIGHT - layer.height + altitudeRatio * layerRatio * 800));
+
+            fr(0, 0, CANVAS_WIDTH, layer.height);
+        }));
+
+        // Render the levels
         wrap(() => {
-            translate(0, -this.altitude);
-
-            R.fillStyle = '#000';
-            fr(levelX, 0, levelWidth, CANVAS_HEIGHT);
+            translate(0, this.bottomScreenAltitude + LEVEL_HEIGHT + TOWER_BASE_HEIGHT);
 
             const currentLevelIndex = LEVELS.indexOf(this.level);
             for (let i = max(0, currentLevelIndex - 1) ; i < min(LEVELS.length, currentLevelIndex + 2) ; i++) {
                 wrap(() => {
-                    translate(levelX, this.levelY(LEVELS[i]));
+                    translate(LEVEL_X, -this.levelBottomAltitude(LEVELS[i]) - LEVEL_HEIGHT);
                     LEVELS[i].render();
                 });
             }
         });
+
+        // Rain
+        R.fillStyle = '#fff';
+        const rng = createNumberGenerator(1);
+        for (let i = 0 ; i < 100 ; i++) {
+            const x = rng.floating() * LEVEL_X;
+            const startY = rng.floating() * CANVAS_HEIGHT;
+            const speed = rng.between(800, 1600);
+            const y = (startY + G.clock * speed) % evaluate(CANVAS_HEIGHT + RAIN_DROP_LENGTH);
+
+            fr(x, y, 1, -RAIN_DROP_LENGTH);
+            fr(CANVAS_WIDTH - x, y, 1, -RAIN_DROP_LENGTH);
+        }
 
         if (this.menu) {
             wrap(() => this.menu.render());
