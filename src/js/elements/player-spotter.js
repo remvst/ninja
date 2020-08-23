@@ -4,6 +4,7 @@ class PlayerSpotter {
         this.angle = 0;
         this.halfFov = 0;
         this.maxDistance = 100;
+        this.radius = 0;
     }
 
     cycle() {
@@ -20,7 +21,7 @@ class PlayerSpotter {
         const angleToPlayer = angleBetween(this, this.level.player);
         const distToPlayer = dist(this, this.level.player)
 
-        if (distToPlayer < PLAYER_RADIUS * 2) {
+        if (distToPlayer < PLAYER_RADIUS + this.radius) {
             return true;
         }
 

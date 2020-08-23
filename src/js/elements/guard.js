@@ -6,6 +6,7 @@ class Guard extends PlayerSpotter {
         this.halfFov = GUARD_HALF_FOV;
         this.facing = 1;
         this.facingScale = 1;
+        this.radius = PLAYER_RADIUS;
     }
 
     cycle(e) {
