@@ -10,6 +10,10 @@ class Level {
         if (!this.ended) {
             this.ended = true;
             this.player.controllable = false;
+
+            // Prevent the level from moving any further
+            this.cyclables = [];
+
             f();
         }
     }
