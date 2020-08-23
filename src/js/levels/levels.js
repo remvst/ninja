@@ -199,16 +199,16 @@ LEVELS = [
             [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
         ]),
-        'spawn': [16, 2],
+        'spawn': [18, 2],
         'exit': [18, 8],
         'cameras': [
             new CameraCycle(13, 8, PI / 2).rotateTo(1, PI).wait(3).rotateTo(1, PI / 2).wait(3),
             new CameraCycle(13, 11, 0).rotateTo(1, PI / 2).wait(3).rotateTo(1, 0).wait(3),
         ],
         'guards': [
-            new GuardCycle(7, 3).patrol(2, 7, 2),
+            new GuardCycle(7, 7).patrol(2, 3, 2),
             new GuardCycle(7, 12).patrol(2, 14, 2),
-            new GuardCycle(18, 18).patrol(0, 6, 0)
+            new GuardCycle(18, 6).patrol(0, 18, 0)
         ]
     },
 

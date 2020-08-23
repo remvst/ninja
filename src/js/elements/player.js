@@ -106,7 +106,7 @@ class Player {
             this.y = easeOutQuad(jumpRatio) * (this.jumpEndY - this.jumpStartY) + this.jumpStartY;
         } else {
             // Fall down
-            const gravity = this.sticksToWall && this.vY > 0 ? 1000 : GRAVITY_ACCELERATION;
+            const gravity = this.sticksToWall && this.vY > 0 ? WALL_GRAVITY_ACCELERATION : GRAVITY_ACCELERATION;
             this.vY = max(0, this.vY + gravity * e);
             this.y += this.vY * e;
         }
