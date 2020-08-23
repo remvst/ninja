@@ -127,7 +127,7 @@ class Level {
         this.renderables.forEach(x => wrap(() => x.render()));
 
         // Matrix
-        R.fillStyle = '#010640';
+        R.fillStyle = '#111';
         for (let row = 0 ; row < LEVEL_ROWS ; row++) {
             for (let col = 0 ; col < LEVEL_ROWS ; col++) {
                 if (this.definition.matrix[row][col]) {
