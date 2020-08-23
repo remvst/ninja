@@ -15,11 +15,15 @@ class Game {
         this.bottomScreenAltitude = MAX_LEVEL_ALTITUDE + LEVEL_HEIGHT - CANVAS_HEIGHT / 2 + 100;
         this.windowsAlpha = 1;
         this.titleAlpha = 1;
-
-        // this.startAnimation();
     }
 
     startAnimation() {
+        if (this.isStarted) {
+            return;
+        }
+
+        this.isStarted = true;
+
         interp(
             this,
             'titleAlpha',
@@ -53,6 +57,10 @@ class Game {
 
     cycle(e) {
         this.clock += e;
+
+        if (down[KEYBOARD_SPACE]) {
+            this.startAnimation();
+        }
 
         this.level.cycle(e);
         INTERPOLATIONS.slice().forEach(i => i.cycle(e));
