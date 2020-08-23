@@ -9,6 +9,7 @@
     "src/js/util/array-utils.js",
     "src/js/util/point-renderable.js",
     "src/js/util/rng.js",
+    "src/js/util/format-time.js",
 
     "src/js/graphics/create-canvas.js",
     "src/js/graphics/create-pattern.js",

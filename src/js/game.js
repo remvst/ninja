@@ -10,6 +10,9 @@ class Game {
         G = this;
         G.clock = 0;
 
+        this.timer = 0;
+        this.timerActive = false;
+
         this.level = LEVELS[0];
         if (DEBUG) {
             this.level = LEVELS[getDebugValue('level', 0)];
@@ -29,6 +32,7 @@ class Game {
         }
 
         this.isStarted = true;
+        this.timerActive = true;
 
         interp(
             this,
@@ -61,9 +65,20 @@ class Game {
         );
     }
 
+    get bestTime() {
+        try {
+            return parseFloat(localStorage[location.pathName]) || 0;
+        } catch(e) {
+            return 0;
+        }
+    }
+
     endAnimation() {
         // Allow the player to start the game again
         this.isStarted = false;
+        this.timerActive = false;
+
+        localStorage[location.pathName] = min(this.bestTime || 999999, this.timer);
 
         interp(
             this,
@@ -95,6 +110,9 @@ class Game {
         }
 
         this.clock += e;
+        if (this.timerActive) {
+            this.timer += e;
+        }
 
         if (down[KEYBOARD_SPACE]) {
             this.startAnimation();
@@ -285,29 +303,30 @@ class Game {
             }
         });
 
-
-        if (DEBUG && false) {
-            wrap(() => {
-                R.font = '24pt Arial';
-                R.textAlign = 'left';
-                fs('#fff');
-
-                const fpsGauge = [];
-                for (let i = 0 ; i < (G.fps / 60) * 20 ; i++) {
-                    fpsGauge.push('-');
-                }
-
-                const info = [
-                    'fps: ' + G.fps,
-                    fpsGauge.join(''),
-                ];
-                let y = 40;
-                info.forEach(info => {
-                    fillText(info, 40, y);
-                    y += 40;
-                });
-            });
+        // HUD
+        const hudItems = [];
+        if (this.timer) {
+            hudItems.push([nomangle('LEVEL:'), this.level.index + 1]);
+            hudItems.push([nomangle('TIME:'), formatTime(this.timer)]);
+            hudItems.push([nomangle('BEST:'), formatTime(this.bestTime)]);
         }
+
+        if (DEBUG) hudItems.push(['FPS', ~~G.fps]);
+
+        hudItems.forEach(([label, value], i) => wrap(() => {
+            R.textAlign = nomangle('left');
+            R.textBaseline = nomangle('middle');
+            R.fillStyle = '#fff';
+            R.fillStyle = '#fff';
+
+            // Label
+            R.font = nomangle('bold italic 18pt Impact');
+            fillText(label, 20, 30 + i * 90);
+
+            // Value
+            R.font = nomangle('36pt Impact');
+            fillText(value, 20, 30 + 40 + i * 90);
+        }));
     }
 
 }
