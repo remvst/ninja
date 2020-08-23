@@ -117,7 +117,7 @@ class Game {
             this.menu.cycle(e);
         }
 
-        this.render();
+        wrap(() => this.render());
     }
 
     centerLevel(level, duration, callback) {
@@ -126,7 +126,7 @@ class Game {
             this,
             'bottomScreenAltitude',
             this.bottomScreenAltitude,
-            this.levelBottomAltitude(this.level) - TOWER_BASE_HEIGHT,
+            this.levelBottomAltitude(this.level.index) - TOWER_BASE_HEIGHT,
             duration,
             0,
             easeInOutCubic,
@@ -146,23 +146,28 @@ class Game {
         this.centerLevel(this.level, 0.5, () => this.level.start());
     }
 
-    levelBottomAltitude(level) {
-        return level.index * LEVEL_HEIGHT;
+    levelBottomAltitude(levelIndex) {
+        return levelIndex;
     }
 
-    // renderOneBuilding(x, altitude) {
-    //     wrap(() => {
-    //         translate(x, altitude);
-    //         R.fillStyle = WINDOW_PATTERN;
-    //
-    //         fs(0, 0);
-    //     });
-    // }
-
     render() {
+        let lastTime = performance.now();
+        const perfLogs = [];
+        const logPerf = label => {
+            if (!getDebugValue('perf')) {
+                return;
+            }
+
+            const now = performance.now();
+            perfLogs.push([label, now - lastTime]);
+            lastTime = now;
+        };
+
         // Sky
         R.fillStyle = SKY_BACKGROUND;
         fr(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT); // TODO maybe split into two?
+
+        if (DEBUG) logPerf('sky');
 
         // Moon
         wrap(() => {
@@ -179,11 +184,15 @@ class Game {
             fill();
         })
 
+        if (DEBUG) logPerf('moon');
+
         // Thunder
         if (G.clock % 3 < 0.3 && G.clock % 0.1 < 0.05) {
             R.fillStyle = 'rgba(255, 255, 255, 0.2)';
             fr(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         }
+
+        if (DEBUG) logPerf('thunder');
 
         // Buildings in the background
         BUILDINGS_BACKGROUND.forEach((layer, i) => wrap (() => {
@@ -197,6 +206,8 @@ class Game {
             fr(0, 0, CANVAS_WIDTH, layer.height);
         }));
 
+        if (DEBUG) logPerf('builds bg');
+
         // Rain
         R.fillStyle = 'rgba(255,255,255,0.4)';
         const rng = createNumberGenerator(1);
@@ -209,6 +220,8 @@ class Game {
             fr(x, y, 1, -RAIN_DROP_LENGTH);
         }
 
+        if (DEBUG) logPerf('rain');
+
         // Render the levels
         wrap(() => {
             translate(LEVEL_X, this.bottomScreenAltitude + LEVEL_HEIGHT + TOWER_BASE_HEIGHT);
@@ -216,10 +229,12 @@ class Game {
             const currentLevelIndex = LEVELS.indexOf(this.level);
             for (let i = max(0, currentLevelIndex - 1) ; i < min(LEVELS.length, currentLevelIndex + 2) ; i++) {
                 wrap(() => {
-                    translate(0, -this.levelBottomAltitude(LEVELS[i]) - LEVEL_HEIGHT);
+                    translate(0, -this.levelBottomAltitude(i) - LEVEL_HEIGHT);
                     LEVELS[i].render();
                 });
             }
+
+            if (DEBUG) logPerf('levels');
 
             // Render the top of the tower
             wrap(() => {
@@ -259,6 +274,8 @@ class Game {
                 drawImage(GOD_RAY, LEVEL_WIDTH - 10 - GOD_RAY.width, -GOD_RAY.height / 2);
             });
 
+            if (DEBUG) logPerf('roof');
+
             // Render the windows in front
             R.globalAlpha = this.windowsAlpha;
             R.fillStyle = BUILDING_PATTERN;
@@ -267,6 +284,7 @@ class Game {
                 fr(0, 0, LEVEL_WIDTH, -MAX_LEVEL_ALTITUDE - LEVEL_HEIGHT);
             });
 
+            if (DEBUG) logPerf('windows');
         });
 
         if (this.menu) {
@@ -297,6 +315,8 @@ class Game {
             }
         });
 
+        if (DEBUG) logPerf('instructions');
+
         // HUD
         const hudItems = [];
         if (this.timer) {
@@ -305,7 +325,12 @@ class Game {
             hudItems.push([nomangle('BEST:'), formatTime(this.bestTime)]);
         }
 
-        if (DEBUG) hudItems.push(['FPS', ~~G.fps]);
+        if (DEBUG) {
+            hudItems.push(['FPS', ~~G.fps]);
+            perfLogs.forEach(log => {
+                hudItems.push(log);
+            });
+        }
 
         hudItems.forEach(([label, value], i) => wrap(() => {
             R.textAlign = nomangle('left');
