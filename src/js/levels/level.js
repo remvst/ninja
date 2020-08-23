@@ -113,7 +113,8 @@ class Level {
             G.menu.animateOut();
 
             this.prepare();
-            this.start(); // TODO maybe a quick delay
+
+            setTimeout(() => this.start(), 1000);
         }
     }
 
