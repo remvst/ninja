@@ -35,8 +35,9 @@ class Guard extends PlayerSpotter {
         wrap(() => {
             translate(this.x, this.y);
 
-            renderPlayer(
+            renderCharacter(
                 R,
+                this.level.clock,
                 GUARD_BODY,
                 true,
                 this.facing * this.facingScale,

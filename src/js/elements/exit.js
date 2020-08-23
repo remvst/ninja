@@ -6,7 +6,7 @@ class Exit {
     }
 
     cycle(e) {
-        if (this.level.player && this.level.player.controllable && dist(this, this.level.player) < CELL_SIZE / 2) {
+        if (this.level.player && dist(this, this.level.player) < CELL_SIZE / 2) {
             this.level.foundExit();
         }
     }

@@ -16,8 +16,6 @@ class Player {
         this.jumpEndY = 0;
         this.jumpPeakTime = 0;
 
-        this.controllable = false;
-
         this.clock = 0;
 
         this.bandanaTrail = [];
@@ -70,7 +68,7 @@ class Player {
 
         this.clock += e;
 
-        const holdingJump = down[KEYBOARD_SPACE] && this.controllable;
+        const holdingJump = down[KEYBOARD_SPACE];
         this.jumpReleased = this.jumpReleased || !holdingJump;
 
         if (holdingJump) {
@@ -113,15 +111,13 @@ class Player {
 
         // Left/right
         let dX = 0, targetVX = 0;
-        if (this.controllable) {
-            if (down[KEYBOARD_LEFT]) {
-                dX = -1;
-                targetVX = -PLAYER_HORIZONTAL_SPEED;
-            }
-            if (down[KEYBOARD_RIGHT]) {
-                dX = 1;
-                targetVX = PLAYER_HORIZONTAL_SPEED;
-            }
+        if (down[KEYBOARD_LEFT]) {
+            dX = -1;
+            targetVX = -PLAYER_HORIZONTAL_SPEED;
+        }
+        if (down[KEYBOARD_RIGHT]) {
+            dX = 1;
+            targetVX = PLAYER_HORIZONTAL_SPEED;
         }
 
         if (this.landed && dX) {
@@ -150,7 +146,7 @@ class Player {
         this.bandanaTrail.forEach(position => position.y += e * 100);
 
         // Trail
-        if (!this.landed && !this.sticksToWall) {
+        if (!this.landed && !this.sticksToWall && this.level.clock) {
             const {x,y} = this;
             const trail = createCanvas(CELL_SIZE * 2, CELL_SIZE * 2, (r) => {
                 r.translate(CELL_SIZE, CELL_SIZE);
@@ -302,8 +298,9 @@ class Player {
     }
 
     renderCharacter(context) {
-        renderPlayer(
+        renderCharacter(
             context,
+            this.level.clock,
             PLAYER_BODY,
             this.landed,
             this.facing * this.facingScale,

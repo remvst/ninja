@@ -9,11 +9,6 @@ class Level {
     endWith(f) {
         if (!this.ended) {
             this.ended = true;
-            this.player.controllable = false;
-
-            // Prevent the level from moving any further
-            this.cyclables = [];
-
             f();
         }
     }
@@ -53,8 +48,9 @@ class Level {
         setTimeout(() => this.waitingForRetry = true, 1000);
     }
 
-    start() {
+    prepare() {
         this.ended = false;
+        this.started = false;
 
         this.clock = 0;
 
@@ -66,6 +62,7 @@ class Level {
             toMiddleCellCoord(this.definition.spawn[1]),
             toMiddleCellCoord(this.definition.spawn[0])
         );
+        this.cyclables.push(this.player);
 
         const exit = new Exit(
             this,
@@ -87,12 +84,17 @@ class Level {
             this.renderables.push(guard);
         });
 
-        setTimeout(() => {
-            this.player.controllable = true;
-            this.player.spawn();
-            this.cyclables.push(this.player);
-            this.renderables.push(this.player);
-        }, 1000);
+        // Give cyclables a cycle so they're in place
+        this.cyclables.forEach((cyclable) => {
+            cyclable.cycle(0);
+        });
+    }
+
+    start() {
+        this.started = true;
+
+        this.player.spawn();
+        this.renderables.push(this.player);
     }
 
     stop() {
@@ -101,15 +103,17 @@ class Level {
     }
 
     cycle(e) {
-        this.clock += e;
-
-        this.cyclables.forEach(x => x.cycle(e));
+        if (this.started && !this.ended) {
+            this.clock += e;
+            this.cyclables.forEach(x => x.cycle(e));
+        }
 
         if (down[KEYBOARD_SPACE] && this.waitingForRetry) {
             this.waitingForRetry = false;
             G.menu.animateOut();
 
-            setTimeout(() => this.start(), 1000);
+            this.prepare();
+            this.start(); // TODO maybe a quick delay
         }
     }
 

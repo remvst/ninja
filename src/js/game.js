@@ -17,6 +17,7 @@ class Game {
         if (DEBUG) {
             this.level = LEVELS[getDebugValue('level', 0)];
         }
+        this.level.prepare();
 
         this.bottomScreenAltitude = MAX_LEVEL_ALTITUDE + LEVEL_HEIGHT - CANVAS_HEIGHT / 2 + 100;
         this.windowsAlpha = 1;
@@ -34,6 +35,12 @@ class Game {
         this.isStarted = true;
         this.timerActive = true;
 
+        this.level = LEVELS[0];
+        if (DEBUG) {
+            this.level = LEVELS[getDebugValue('level', 0)];
+        }
+        this.level.prepare();
+
         interp(
             this,
             'titleAlpha',
@@ -49,20 +56,11 @@ class Game {
             -TOWER_BASE_HEIGHT,
             5,
             0.5,
-            easeInOutCubic,
-            () => {
-                interp(
-                    this,
-                    'windowsAlpha',
-                    1,
-                    0,
-                    1,
-                    1,
-                    null
-                );
-                this.startLevel(this.level);
-            }
+            easeInOutCubic
         );
+
+        // Hide the windows, then start the level
+        interp(this, 'windowsAlpha', 1, 0, 1, 5.5, null, () => this.level.start());
     }
 
     get bestTime() {
@@ -80,6 +78,7 @@ class Game {
 
         localStorage[location.pathName] = min(this.bestTime || 999999, this.timer);
 
+        // Go to the top of the tower
         interp(
             this,
             'bottomScreenAltitude',
@@ -132,23 +131,20 @@ class Game {
         // Stop the previous level
         this.level.stop();
 
-        // Start the new one
-        this.startLevel(LEVELS[this.level.index + 1]);
-    }
+        // Prepare the new one
+        this.level = LEVELS[this.level.index + 1];
+        this.level.prepare();
 
-    startLevel(level) {
-        this.level = level;
-        this.centerLevel(this.level);
-        this.level.start();
-    }
-
-    centerLevel(level) {
+        // Move the camera to the new level, and only then start it
         interp(
             this,
             'bottomScreenAltitude',
             this.bottomScreenAltitude,
-            this.levelBottomAltitude(level) - TOWER_BASE_HEIGHT,
-            0.5
+            this.levelBottomAltitude(this.level) - TOWER_BASE_HEIGHT,
+            0.5,
+            0,
+            easeInOutCubic,
+            () => this.level.start()
         );
     }
 

@@ -143,9 +143,9 @@ LEVELS = [
             .rotateBy(5, -PI * 2),
 
             new CameraCycle(5, 15, PI * 7 / 8)
-            .wait(1)
+            .wait(2)
             .rotateTo(1, PI / 2)
-            .wait(1)
+            .wait(2)
             .rotateTo(1, PI * 7 / 8),
         ],
         'guards': []
