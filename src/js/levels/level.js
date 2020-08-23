@@ -16,9 +16,10 @@ class Level {
 
     foundExit() {
         this.endWith(() => {
+            const hasNextLevel = LEVELS[this.index + 1];
             G.menu = new Menu(
                 'SEARCHING FOR EVIL PLANS...',
-                '404 NOT FOUND'
+                hasNextLevel ? '404 NOT FOUND' : '200 FOUND!'
             );
             G.menu.animateIn();
 
@@ -27,7 +28,11 @@ class Level {
             }, 2000);
 
             setTimeout(() => {
-                G.nextLevel();
+                if (hasNextLevel) {
+                    G.nextLevel();
+                } else {    
+                    G.endAnimation();
+                }
             }, 2500);
         });
     }

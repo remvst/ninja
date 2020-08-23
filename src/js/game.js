@@ -15,6 +15,9 @@ class Game {
         this.bottomScreenAltitude = MAX_LEVEL_ALTITUDE + LEVEL_HEIGHT - CANVAS_HEIGHT / 2 + 100;
         this.windowsAlpha = 1;
         this.titleAlpha = 1;
+
+        this.title = nomangle('NINJA');
+        this.interTitle = nomangle('VS');
     }
 
     startAnimation() {
@@ -53,6 +56,29 @@ class Game {
                 this.startLevel(this.level);
             }
         );
+    }
+
+    endAnimation() {
+        // Allow the player to start the game again
+        this.isStarted = false;
+
+        interp(
+            this,
+            'bottomScreenAltitude',
+            this.bottomScreenAltitude,
+            MAX_LEVEL_ALTITUDE + LEVEL_HEIGHT - CANVAS_HEIGHT / 2 + 100,
+            2,
+            0.5,
+            easeInOutCubic
+        );
+
+        // Show the windows so the tower can be rendered again
+        interp(this, 'windowsAlpha', 0, 1, 1, 1);
+
+        // Replace the title and fade it in
+        this.title = 'YOU BEAT';
+        this.interTitle = '';
+        interp(this, 'titleAlpha', 0, 1, 1, 3);
     }
 
     cycle(e) {
@@ -219,13 +245,13 @@ class Game {
             R.lineWidth = 5;
 
             R.font = nomangle('italic 120pt Impact');
-            fillText(nomangle('NINJA'), CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 45);
-            strokeText(nomangle('NINJA'), CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 45);
+            fillText(this.title, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 45);
+            strokeText(this.title, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 45);
 
             R.font = nomangle('24pt Impact');
             R.lineWidth = 2;
-            fillText(nomangle('VS'), CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 85);
-            strokeText(nomangle('VS'), CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 85);
+            fillText(this.interTitle, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 85);
+            strokeText(this.interTitle, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 85);
 
             if (G.clock % 2 < 1.5 && this.titleAlpha == 1) {
                 fillText(nomangle('PRESS [SPACE] TO START'), CANVAS_WIDTH / 2, CANVAS_HEIGHT * 4 / 5);
