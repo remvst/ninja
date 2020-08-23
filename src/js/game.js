@@ -33,7 +33,9 @@ class Game {
         }
 
         this.isStarted = true;
+
         this.timerActive = true;
+        this.timer = 0;
 
         this.level = LEVELS[0];
         if (DEBUG) {
