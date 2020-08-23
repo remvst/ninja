@@ -3,8 +3,6 @@ class Level {
         this.index = index;
         this.definition = definition;
 
-        this.windowsAlpha = 0;
-
         this.stop();
     }
 
@@ -30,8 +28,6 @@ class Level {
 
             setTimeout(() => {
                 G.nextLevel();
-
-                interp(this, 'windowsAlpha', 0, 1, 0.2);
             }, 2500);
         });
     }
@@ -39,17 +35,17 @@ class Level {
     wasFound() {
         this.endWith(() => {
             G.menu = new Menu(
-                'YOU WERE FOUND!',
-                'PRESS [R] TO TRY AGAIN'
+                nomangle('YOU WERE FOUND!'),
+                nomangle('PRESS [SPACE] TO TRY AGAIN')
             );
             G.menu.animateIn();
         });
+
+        setTimeout(() => this.waitingForRetry = true, 1000);
     }
 
     start() {
         this.ended = false;
-
-        interp(this, 'windowsAlpha', 1, 0, 0.2);
 
         this.clock = 0;
 
@@ -108,6 +104,13 @@ class Level {
         this.clock += e;
 
         this.cyclables.forEach(x => x.cycle(e));
+
+        if (down[KEYBOARD_SPACE] && this.waitingForRetry) {
+            this.waitingForRetry = false;
+            G.menu.animateOut();
+
+            setTimeout(() => this.start(), 1000);
+        }
     }
 
     render() {
@@ -149,10 +152,6 @@ class Level {
                 }
             }
         }
-
-        R.globalAlpha = this.windowsAlpha;
-        R.fillStyle = WINDOW_PATTERN;
-        // fr(0, 0, LEVEL_ROWS * CELL_SIZE, LEVEL_COLS * CELL_SIZE);
     }
 
     particle(properties) {
