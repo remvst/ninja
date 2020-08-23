@@ -18,8 +18,8 @@ class Level {
         this.endWith(() => {
             const hasNextLevel = LEVELS[this.index + 1];
             G.menu = new Menu(
-                'SEARCHING FOR EVIL PLANS...',
-                hasNextLevel ? '404 NOT FOUND' : '200 FOUND!'
+                nomangle('SEARCHING FOR EVIL PLANS...'),
+                hasNextLevel ? nomangle('404 NOT FOUND') : nomangle('200 FOUND!')
             );
             G.menu.animateIn();
 
@@ -30,7 +30,7 @@ class Level {
             setTimeout(() => {
                 if (hasNextLevel) {
                     G.nextLevel();
-                } else {    
+                } else {
                     G.endAnimation();
                 }
             }, 2500);
@@ -83,16 +83,7 @@ class Level {
             this.renderables.push(guard);
         });
 
-        // Show a menu
-        // const menu = G.menu = new Menu(
-        //     'Floor ' + (this.index + 1),
-        //     ''
-        // );
-        // menu.animateIn();
-
         setTimeout(() => {
-        //     menu.animateOut();
-
             this.player.controllable = true;
             this.player.spawn();
             this.cyclables.push(this.player);
@@ -135,16 +126,6 @@ class Level {
         //     fr(k * CELL_SIZE, 0, 1, LEVEL_ROWS * CELL_SIZE);
         // }
 
-        // Message
-        R.textAlign = 'center';
-        R.textBaseline = 'middle';
-        R.fillStyle = 'rgba(255,255,255,0.5)';
-        R.font = 'italic 24pt Impact';
-
-        const levelWidth = LEVEL_COLS * CELL_SIZE;
-        const levelHeight = LEVEL_ROWS * CELL_SIZE;
-        fillText(this.definition.message || '', levelWidth / 2, levelHeight / 5);
-
         // Renderables
         this.renderables.forEach(x => wrap(() => x.render()));
 
@@ -157,6 +138,13 @@ class Level {
                 }
             }
         }
+
+        // Message
+        R.textAlign = 'center';
+        R.textBaseline = 'middle';
+        R.fillStyle = 'rgba(255,255,255,0.5)';
+        R.font = '30pt Impact';
+        fillText(this.definition.message || '', LEVEL_WIDTH / 2, 100);
     }
 
     particle(properties) {

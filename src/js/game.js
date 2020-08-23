@@ -215,10 +215,11 @@ class Game {
                     90,
                     150,
                     210
-                ].forEach(x => {
+                ].forEach(x => wrap(() => {
+                    scale(1, -1);
                     drawImage(GOD_RAY, LEVEL_WIDTH / 2 + x - GOD_RAY.width / 2, -GOD_RAY.height / 2);
                     drawImage(GOD_RAY, LEVEL_WIDTH / 2 - x - GOD_RAY.width / 2, -GOD_RAY.height / 2);
-                });
+                }));
             });
 
             // Render the windows in front
