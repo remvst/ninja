@@ -44,9 +44,9 @@ class Game {
                     0,
                     1,
                     1,
-                    null,
-                    () => this.startLevel(this.level)
+                    null
                 );
+                this.startLevel(this.level);
             }
         );
     }
@@ -153,6 +153,40 @@ class Game {
                 });
             }
 
+            // Render the top of the tower
+            wrap(() => {
+                translate(0, -MAX_LEVEL_ALTITUDE - LEVEL_HEIGHT);
+
+                // Sign holder
+                wrap(() => {
+                    translate(LEVEL_WIDTH / 2 - CELL_SIZE * 6, 0);
+                    fs(SIGN_HOLDER_PATTERN);
+                    fr(0, 0, CELL_SIZE * 12, -CELL_SIZE * 2);
+                });
+
+                // Sign
+                R.textAlign = nomangle('center');
+                R.textBaseline = nomangle('alphabetic');
+                R.fillStyle = '#900';
+                R.strokeStyle = '#f00';
+                R.lineWidth = 5;
+                R.font = nomangle('italic 96pt Impact');
+                fillText(nomangle('EVILCORP'), LEVEL_WIDTH / 2, -30);
+                strokeText(nomangle('EVILCORP'), LEVEL_WIDTH / 2, -30);
+
+                // Light in front of the sign
+                R.globalAlpha = 0.5;
+                [
+                    30,
+                    90,
+                    150,
+                    210
+                ].forEach(x => {
+                    drawImage(GOD_RAY, LEVEL_WIDTH / 2 + x - GOD_RAY.width / 2, -GOD_RAY.height / 2);
+                    drawImage(GOD_RAY, LEVEL_WIDTH / 2 - x - GOD_RAY.width / 2, -GOD_RAY.height / 2);
+                });
+            });
+
             // Render the windows in front
             R.globalAlpha = this.windowsAlpha;
             R.fillStyle = BUILDING_PATTERN;
@@ -160,28 +194,6 @@ class Game {
                 // translate(-CELL_SIZE / 2, 0);
                 fr(0, 0, LEVEL_WIDTH, -MAX_LEVEL_ALTITUDE - LEVEL_HEIGHT);
             });
-
-            // Render the top of the tower
-            translate(0, -MAX_LEVEL_ALTITUDE - LEVEL_HEIGHT);
-
-            // Sign holder
-            wrap(() => {
-                translate(LEVEL_WIDTH / 2 - CELL_SIZE * 6, 0);
-                fs(SIGN_HOLDER_PATTERN);
-                fr(0, 0, CELL_SIZE * 12, -CELL_SIZE * 2);
-            });
-
-            // Sign
-            R.textAlign = nomangle('center');
-            R.textBaseline = nomangle('alphabetic');
-            R.fillStyle = '#900';
-            R.strokeStyle = '#f00';
-            R.lineWidth = 5;
-            R.font = nomangle('italic 96pt Impact');
-            fillText(nomangle('EVILCORP'), LEVEL_WIDTH / 2, -15);
-            strokeText(nomangle('EVILCORP'), LEVEL_WIDTH / 2, -15);
-
-            // Light in front of the sign
 
         });
 
@@ -199,13 +211,18 @@ class Game {
             R.lineWidth = 5;
 
             R.font = nomangle('italic 120pt Impact');
-            fillText(nomangle('NINJA'), CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 60);
-            strokeText(nomangle('NINJA'), CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 60);
+            fillText(nomangle('NINJA'), CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 45);
+            strokeText(nomangle('NINJA'), CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 45);
 
             R.font = nomangle('24pt Impact');
             R.lineWidth = 2;
-            fillText(nomangle('VS'), CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 100);
-            strokeText(nomangle('VS'), CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 100);
+            fillText(nomangle('VS'), CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 85);
+            strokeText(nomangle('VS'), CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 85);
+
+            if (G.clock % 2 < 1.5 && this.titleAlpha == 1) {
+                fillText(nomangle('PRESS [SPACE] TO START'), CANVAS_WIDTH / 2, CANVAS_HEIGHT * 4 / 5);
+                strokeText(nomangle('PRESS [SPACE] TO START'), CANVAS_WIDTH / 2, CANVAS_HEIGHT * 4 / 5);
+            }
         });
 
 

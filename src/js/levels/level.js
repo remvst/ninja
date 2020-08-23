@@ -96,7 +96,7 @@ class Level {
             this.player.spawn();
             this.cyclables.push(this.player);
             this.renderables.push(this.player);
-        }, 500);
+        }, 1000);
     }
 
     stop() {
