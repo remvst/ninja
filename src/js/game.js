@@ -49,18 +49,15 @@ class Game {
             0.5
         );
 
-        interp(
-            this,
-            'bottomScreenAltitude',
-            this.bottomScreenAltitude,
-            -TOWER_BASE_HEIGHT,
+        // Center the level, hide the windows, then start it
+        this.centerLevel(
+            this.level,
             5,
-            0.5,
-            easeInOutCubic
-        );
-
-        // Hide the windows, then start the level
-        interp(this, 'windowsAlpha', 1, 0, 1, 5.5, null, () => this.level.start());
+            () => {
+                // Hide the windows, then start the level
+                interp(this, 'windowsAlpha', 1, 0, 1, 0, null, () => this.level.start());
+            }
+        )
     }
 
     get bestTime() {
@@ -127,6 +124,20 @@ class Game {
         this.render();
     }
 
+    centerLevel(level, duration, callback) {
+        // Move the camera to the new level, and only then start it
+        interp(
+            this,
+            'bottomScreenAltitude',
+            this.bottomScreenAltitude,
+            this.levelBottomAltitude(this.level) - TOWER_BASE_HEIGHT,
+            duration,
+            0,
+            easeInOutCubic,
+            callback
+        );
+    }
+
     nextLevel() {
         // Stop the previous level
         this.level.stop();
@@ -136,16 +147,7 @@ class Game {
         this.level.prepare();
 
         // Move the camera to the new level, and only then start it
-        interp(
-            this,
-            'bottomScreenAltitude',
-            this.bottomScreenAltitude,
-            this.levelBottomAltitude(this.level) - TOWER_BASE_HEIGHT,
-            0.5,
-            0,
-            easeInOutCubic,
-            () => this.level.start()
-        );
+        this.centerLevel(this.level, 0.5, () => this.level.start());
     }
 
     levelBottomAltitude(level) {
