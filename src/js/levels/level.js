@@ -67,13 +67,13 @@ class Level {
             toMiddleCellCoord(this.definition.spawn[0])
         );
 
-        this.exit = new Exit(
+        const exit = new Exit(
             this,
             toMiddleCellCoord(this.definition.exit[1]),
             toMiddleCellCoord(this.definition.exit[0])
         );
-        this.cyclables.push(this.exit);
-        this.renderables.push(this.exit);
+        this.cyclables.push(exit);
+        this.renderables.push(exit);
 
         this.definition.cameras.forEach(cameraDefinition => {
             const camera = new Camera(this, cameraDefinition);
