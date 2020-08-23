@@ -83,7 +83,9 @@ class Player {
             this.jumpStartY = this.y;
             this.jumpStartTime = this.clock;
 
-            this.vX = this.sticksToWall * 800;
+            if (this.sticksToWall) {
+                this.vX = this.sticksToWall * 800;
+            }
 
             // Fixes a walljump issue: vY would keep accumulating even though a new jump was
             // started, causing bad physics once the jump reaches its peak.
