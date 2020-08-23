@@ -565,3 +565,7 @@ LEVELS = [
     }
 
 ].map((definition, i) => new Level(i, definition));
+
+if (DEBUG) {
+    LEVELS = LEVELS.slice(0, getDebugValue('levelCount', LEVELS.length));
+}

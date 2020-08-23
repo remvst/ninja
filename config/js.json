@@ -1,4 +1,5 @@
 [
+    "src/js/debug.js",
     "src/js/globals.js",
     "src/js/math.js",
     "src/js/canvas-additions.js",
@@ -38,6 +39,5 @@
 
     "src/js/keyboard.js",
     "src/js/game.js",
-    "src/js/main.js",
-    "src/js/debug.js"
+    "src/js/main.js"
 ]

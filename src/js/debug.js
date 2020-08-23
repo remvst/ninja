@@ -1,12 +1,12 @@
 if (DEBUG) {
     getDebugValue = (key, defaultValue) => {
-        if (!(key in localStorage)) {
+        if (!(key in sessionStorage)) {
             return defaultValue;
         }
-        return JSON.parse(localStorage[key]);
+        return JSON.parse(sessionStorage[key]);
     }
 
     setDebugValue = (key, x) => {
-        localStorage[key] = JSON.stringify(x);
+        sessionStorage[key] = JSON.stringify(x);
     }
 }
