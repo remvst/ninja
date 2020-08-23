@@ -1,7 +1,7 @@
 BUILDINGS_BACKGROUND = [
     ['#000', 600],
-    ['#111', 500],
-    ['#222', 300]
+    ['#222', 500],
+    ['#333', 300]
 ].map(([color, patternHeight]) => createCanvasPattern(400, patternHeight, (c, can) => {
     c.fillStyle = color;
 
