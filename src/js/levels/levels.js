@@ -111,15 +111,15 @@ LEVELS = [
         'cameras': [
             new CameraCycle(12.5, 5.5, PI / 2)
             .wait(3)
-            .rotateBy(4, -PI * 2)
+            .rotateBy(5, -PI * 2)
             .withPhase(-1),
             new CameraCycle(12.5, 9.5, PI / 2)
             .wait(3)
-            .rotateBy(4, -PI * 2)
+            .rotateBy(5, -PI * 2)
             .withPhase(-0.5),
             new CameraCycle(12.5, 13.5, PI / 2)
             .wait(3)
-            .rotateBy(4, -PI * 2),
+            .rotateBy(5, -PI * 2),
 
             new CameraCycle(5, 15, PI * 7 / 8)
             .wait(1)
