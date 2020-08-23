@@ -47,7 +47,7 @@ class Game {
 
         // Center the level, hide the windows, then start it
         this.centerLevel(
-            this.level,
+            this.level.index,
             5,
             () => {
                 // Hide the windows, then start the level
@@ -120,13 +120,13 @@ class Game {
         wrap(() => this.render());
     }
 
-    centerLevel(level, duration, callback) {
+    centerLevel(levelIndex, duration, callback) {
         // Move the camera to the new level, and only then start it
         interp(
             this,
             'bottomScreenAltitude',
             this.bottomScreenAltitude,
-            this.levelBottomAltitude(this.level.index) - TOWER_BASE_HEIGHT,
+            this.levelBottomAltitude(levelIndex) - TOWER_BASE_HEIGHT,
             duration,
             0,
             easeInOutCubic,
@@ -143,7 +143,7 @@ class Game {
         this.level.prepare();
 
         // Move the camera to the new level, and only then start it
-        this.centerLevel(this.level, 0.5, () => this.level.start());
+        this.centerLevel(this.level.index, 0.5, () => this.level.start());
     }
 
     levelBottomAltitude(levelIndex) {
