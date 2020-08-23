@@ -147,7 +147,7 @@ class Game {
     }
 
     levelBottomAltitude(levelIndex) {
-        return levelIndex;
+        return levelIndex * LEVEL_HEIGHT;
     }
 
     render() {
