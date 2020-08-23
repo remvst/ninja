@@ -46,6 +46,11 @@ module.exports = {
             }
         }
 
+        // console.log(
+        //     'Optimized size:',
+        //     Math.round(100 * JSON.stringify(lines).length / JSON.stringify(matrix).length) + '%'
+        // );
+
         return `${rows}, ${cols}, ${JSON.stringify(lines)}`;
     },
     'revert': function(rows, cols, lines) {
