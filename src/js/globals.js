@@ -1,7 +1,10 @@
 let R, // canvas context
     G, // Game instance
-    W, // World instance
-    P, // Player instance
     w = window,
-    onMenu = true,
-    CANVAS = nomangle(g);
+    CANVAS = nomangle(g),
+
+    LEVEL_WIDTH = evaluate(LEVEL_COLS * CELL_SIZE),
+    LEVEL_HEIGHT = evaluate(LEVEL_ROWS * CELL_SIZE),
+    TOWER_BASE_HEIGHT = ((CANVAS_HEIGHT - LEVEL_HEIGHT) / 2),
+    LEVEL_X = ((CANVAS_WIDTH - LEVEL_COLS * CELL_SIZE) / 2),
+    MAX_LEVEL_ALTITUDE = LEVELS.length * LEVEL_HEIGHT + TOWER_BASE_HEIGHT;
