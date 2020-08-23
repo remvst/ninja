@@ -106,5 +106,6 @@ class GuardCycle extends Cycle {
 
     constants(guard) {
         guard.y = this.y;
+        guard.x = this.lastX;
     }
 }
