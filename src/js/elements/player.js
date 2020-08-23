@@ -18,8 +18,6 @@ class Player {
 
         this.controllable = false;
 
-        this.wasStickingToWallX = 0;
-
         this.clock = 0;
 
         this.bandanaTrail = [];
@@ -38,18 +36,14 @@ class Player {
             return 0;
         }
 
-        const keepSticking = this.wasStickingToWallX == this.x;
-
         const leftX = this.x - PLAYER_RADIUS - 1;
         const rightX = this.x + PLAYER_RADIUS + 1;
 
-        if (hasBlock(leftX, this.y) && (w.down[KEYBOARD_LEFT] || this.wasStickingToWallX)) {
-            this.wasStickingToWallX = this.x;
+        if (hasBlock(leftX, this.y)) {
             return 1;
         }
 
-        if (hasBlock(rightX, this.y) && (w.down[KEYBOARD_RIGHT] || this.wasStickingToWallX)) {
-            this.wasStickingToWallX = this.x;
+        if (hasBlock(rightX, this.y)) {
             return -1;
         }
 
