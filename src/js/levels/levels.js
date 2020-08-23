@@ -173,9 +173,9 @@ LEVELS = [
             // new CameraCycle(7, 1, 0).wait(2).rotateBy(1, PI / 2).wait(2).rotateBy(1, -PI / 2),
         ],
         'guards': [
-            new GuardCycle(15, 13).patrol(1, 15, 3),
-            new GuardCycle(12, 12).patrol(1, 10, 3),
-            new GuardCycle(9, 13).patrol(1, 15, 3)
+            new GuardCycle(15, 13).patrol(1, 15, 2.5),
+            new GuardCycle(12, 12).patrol(1, 10, 2.5),
+            new GuardCycle(9, 13).patrol(1, 15, 2.5)
         ]
     },
     {
