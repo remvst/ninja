@@ -110,10 +110,6 @@ class Level {
     }
 
     render() {
-        // Background
-        R.fillStyle = LEVEL_BACKGROUND;
-        fr(0, 0, LEVEL_ROWS * CELL_SIZE, LEVEL_COLS * CELL_SIZE);
-
         this.background = this.background || createLevelBackground(this);
         drawImage(this.background, 0, 0);
 
