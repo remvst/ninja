@@ -11,6 +11,12 @@ class Cycle {
     }
 
     update(element, clock) {
+        this.constants(element);
+
+        if (!this.items.length) {
+            return;
+        }
+
         const progressInCycle = clock % this.totalDuration;
 
         // Find which item is currently relevant
@@ -24,7 +30,6 @@ class Cycle {
         const progressWithinItem = progressInCycle - startTime;
         const progressRatio = progressWithinItem / duration;
 
-        this.constants(element);
         update(element, progressRatio);
     }
 }
@@ -55,6 +60,7 @@ class CameraCycle extends Cycle {
     constants(camera) {
         camera.x = this.x;
         camera.y = this.y;
+        camera.angle = this.lastAngle;
     }
 }
 
