@@ -146,6 +146,18 @@ class Level {
             }
         }
 
+        // Message
+        const [row, message] = this.definition.message || [0, ''];
+        R.textAlign = 'center';
+        R.textBaseline = 'middle';
+        R.fillStyle = 'rgba(255,255,255,0.7)';
+        R.font = '30pt Impact';
+        fillText(
+            message,
+            LEVEL_WIDTH / 2,
+            toMiddleCellCoord(row)
+        );
+
         // Renderables
         this.renderables.forEach(x => wrap(() => x.render()));
 
@@ -158,13 +170,6 @@ class Level {
                 }
             }
         }
-
-        // Message
-        R.textAlign = 'center';
-        R.textBaseline = 'middle';
-        R.fillStyle = 'rgba(255,255,255,0.5)';
-        R.font = '30pt Impact';
-        fillText(this.definition.message || '', LEVEL_WIDTH / 2, 100);
     }
 
     particle(properties) {

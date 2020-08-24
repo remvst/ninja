@@ -52,12 +52,14 @@ createLevelBackground = (level) => createCanvas(CELL_SIZE * LEVEL_COLS, CELL_SIZ
     // Map of spots that are already taken by a detail
     const taken = matrix.map((arr) => arr.slice());
 
+    const [messageRow] = level.definition.message || [0]
+
     // No detail on the spawn
     // taken[level.definition.exit[0]][level.definition.exit[1]] = true;
 
     for (let row = 1 ; row < LEVEL_ROWS - 1 ; row++) {
         for (let col = 1 ; col < LEVEL_ROWS - 1 ; col++) {
-            if (taken[row][col]) {
+            if (taken[row][col] || row == ~~messageRow) {
                 continue;
             }
 
