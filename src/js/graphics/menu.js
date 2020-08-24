@@ -6,6 +6,7 @@ class Menu {
 
         this.titlePosition = this.subtitlePosition = 9999;
         this.dimAlpha = 0;
+        this.dim = true;
     }
 
     animateIn() {
@@ -23,7 +24,7 @@ class Menu {
     }
 
     cycle(e) {
-        
+
     }
 
     render() {
@@ -40,12 +41,14 @@ class Menu {
         clip();
 
         // Dim
-        R.fillStyle = 'rgba(0,0,0,' + this.dimAlpha * 0.8 + ')';
+        R.fillStyle = 'rgba(0,0,0,' + this.dim * this.dimAlpha * 0.8 + ')';
         fr(0, 0, levelWidth, levelHeight);
 
         R.textAlign = 'center';
         R.textBaseline = 'middle';
         R.fillStyle = '#fff';
+        R.shadowColor = '#000';
+        R.shadowOffsetY = 5;
 
         R.font = 'italic 24pt Impact';
         fillText(this.title, this.titlePosition, levelHeight / 2 - 25);

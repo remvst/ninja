@@ -49,11 +49,25 @@ class Game {
         this.centerLevel(
             this.level.index,
             5,
+            0.5,
             () => {
                 // Hide the windows, then start the level
                 interp(this, 'windowsAlpha', 1, 0, 1, 0, null, () => this.level.start());
             }
         )
+
+        setTimeout(() => {
+            G.menu = new Menu(
+                nomangle('INFILTRATE THE TOWER'),
+                nomangle('FIND THE EVIL PLANS')
+            );
+            G.menu.dim = false;
+            G.menu.animateIn();
+
+            setTimeout(() => {
+                G.menu.animateOut();
+            }, 3000);
+        }, 1000);
     }
 
     get bestTime() {
@@ -120,7 +134,7 @@ class Game {
         wrap(() => this.render());
     }
 
-    centerLevel(levelIndex, duration, callback) {
+    centerLevel(levelIndex, duration, delay, callback) {
         // Move the camera to the new level, and only then start it
         interp(
             this,
@@ -128,7 +142,7 @@ class Game {
             this.bottomScreenAltitude,
             this.levelBottomAltitude(levelIndex) - TOWER_BASE_HEIGHT,
             duration,
-            0,
+            delay,
             easeInOutCubic,
             callback
         );
@@ -143,7 +157,7 @@ class Game {
         this.level.prepare();
 
         // Move the camera to the new level, and only then start it
-        this.centerLevel(this.level.index, 0.5, () => this.level.start());
+        this.centerLevel(this.level.index, 0.5, 0, () => this.level.start());
     }
 
     levelBottomAltitude(levelIndex) {
