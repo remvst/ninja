@@ -22,6 +22,7 @@ if (DEBUG) {
 
             if (row >= 0 && row < LEVEL_ROWS && col >= 0 && col < LEVEL_COLS) {
                 G.level.definition.matrix[row][col] = !G.level.definition.matrix[row][col];
+                G.level.background = null;
             }
         }
     };
