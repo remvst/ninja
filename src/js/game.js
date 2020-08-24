@@ -30,6 +30,7 @@ class Game {
 
         this.timerActive = true;
         this.timer = 0;
+        this.hasEverEnabledEasyMode = this.easyMode;
 
         this.level = LEVELS[0];
         if (DEBUG) {
@@ -115,10 +116,10 @@ class Game {
             }
         }
 
-        this.clock += e;
         if (this.timerActive) {
             this.timer += e;
         }
+        this.clock += e;
 
         if (down[KEYBOARD_SPACE]) {
             this.startAnimation();
@@ -176,6 +177,8 @@ class Game {
             perfLogs.push([label, now - lastTime]);
             lastTime = now;
         };
+
+        const difficultyString = G.easyMode ? nomangle('EASY') : nomangle('NORMAL');
 
         // Sky
         R.fillStyle = SKY_BACKGROUND;
@@ -241,7 +244,7 @@ class Game {
             // Render the rooftop (sign, lights)
             wrap(() => {
                 translate(0, -MAX_LEVEL_ALTITUDE - LEVEL_HEIGHT);
-                
+
                 wrap(() => {
                     R.globalAlpha = 0.5;
 
@@ -364,7 +367,12 @@ class Game {
             outlinedText(this.interTitle, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 85);
 
             if (G.clock % 2 < 1.5 && this.titleAlpha == 1) {
-                outlinedText(nomangle('PRESS [SPACE] TO START'), CANVAS_WIDTH / 2, CANVAS_HEIGHT * 4 / 5);
+                [
+                    nomangle('PRESS [SPACE] TO START'),
+                    nomangle('PRESS [D] TO CHANGE DIFFICULTY'),
+                ].forEach((s, i) => {
+                    outlinedText(s, CANVAS_WIDTH / 2, CANVAS_HEIGHT * 4 / 5 + i * 50);
+                })
             }
         });
 
@@ -402,9 +410,11 @@ class Game {
 
         // HUD
         const hudItems = [];
+        hudItems.push([nomangle('DIFFICULTY [D]:'), difficultyString]);
+
         if (this.timer) {
             hudItems.push([nomangle('LEVEL:'), (this.level.index + 1) + '/' + LEVELS.length]);
-            hudItems.push([nomangle('TIME:'), formatTime(this.timer)]);
+            hudItems.push([nomangle('TIME:'), this.hasEverEnabledEasyMode ? 'N/A' : formatTime(this.timer)]);
             hudItems.push([nomangle('BEST:'), formatTime(this.bestTime)]);
         }
 

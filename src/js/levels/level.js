@@ -106,6 +106,10 @@ class Level {
     }
 
     cycle(e) {
+        if (G.easyMode) {
+            e *= 0.8;
+        }
+
         if (this.started && !this.ended) {
             this.clock += e;
             this.cyclables.forEach(x => x.cycle(e));
