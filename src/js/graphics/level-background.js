@@ -38,11 +38,18 @@ darken = (color, amount = 0.5) => {
 //     });
 // }));
 
-createLevelBackground = (level) => createCanvas(CELL_SIZE * LEVEL_COLS, CELL_SIZE * LEVEL_ROWS, (c, can) => {
+createLevelBackground = (level) => createCanvas(LEVEL_WIDTH, LEVEL_WIDTH, (c, can) => {
     c.fillStyle = level.backgroundColor;
-    c.fr(0, 0, LEVEL_ROWS * CELL_SIZE, LEVEL_COLS * CELL_SIZE);
+    c.fr(0, 0, LEVEL_WIDTH, LEVEL_HEIGHT);
 
     c.fillStyle = LEVEL_BACKGROUND_PATTERN;
+    c.fr(0, 0, LEVEL_WIDTH, LEVEL_HEIGHT);
+
+    // Add a gradient from the top left to make the background less flat
+    const grad = c.createRadialGradient(0, 0, 0, 0, 0, LEVEL_WIDTH);
+    grad.addColorStop(0, 'rgba(255,255,255,0.5)');
+    grad.addColorStop(1, 'rgba(255,255,255,0)');
+    c.fillStyle = grad;
     c.fr(0, 0, can.width, can.height);
 
     const rng = createNumberGenerator(1);
