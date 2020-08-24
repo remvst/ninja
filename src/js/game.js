@@ -179,9 +179,7 @@ class Game {
             // Moon shape
             R.globalAlpha = 1;
             R.fillStyle = '#fff';
-            beginPath();
-            arc(0, 0, 50, 0, PI * 2, true);
-            fill();
+            fillCircle(0, 0, 50);
         })
 
         if (DEBUG) logPerf('moon');
@@ -338,10 +336,11 @@ class Game {
 
         wrap(() => {
             R.globalAlpha = 0.5 + 0.5 * !!down[KEYBOARD_SPACE];
-            translate(CANVAS_WIDTH * 7 / 8, CANVAS_HEIGHT + MOBILE_CONTROLS_HEIGHT / 2);
-            beginPath();
-            arc(0, 0, MOBILE_BUTTON_SIZE / 2, 0, PI * 2, true);
-            fill();
+            fillCircle(
+                evaluate(CANVAS_WIDTH * 3 / 4),
+                evaluate(CANVAS_HEIGHT + MOBILE_CONTROLS_HEIGHT / 2),
+                evaluate(MOBILE_BUTTON_SIZE / 2)
+            );
         });
 
         if (DEBUG) logPerf('mobile');

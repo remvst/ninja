@@ -16,9 +16,7 @@ class Particle {
     render() {
         R.globalAlpha = this.alpha;
         fs(this.color);
-        beginPath();
-        arc(this.x, this.y, this.size / 2, 0, TWO_PI);
-        fill();
+        fillCircle(this.x, this.y, this.size / 2);
         // fr(this.x - this.size / 2, this.y - this.size / 2, this.size, this.size);
     }
 }

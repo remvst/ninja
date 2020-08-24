@@ -21,3 +21,9 @@ canvasProto.roundedRectangle = function(x, y, width, height, rounded) {
     this.arc(x + width - rounded, y + height - rounded, rounded, quarterRadians, 0, true)
     this.arc(x + width - rounded, y + rounded, rounded, 0, -quarterRadians, true)
 }
+
+canvasProto.fillCircle = function(x, y, radius) {
+    beginPath();
+    arc(x, y, radius, 0, PI * 2, true);
+    fill();
+};
