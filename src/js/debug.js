@@ -13,8 +13,8 @@ if (DEBUG) {
     // In game level editor
     onclick = event => {
         const canvasCoords = CANVAS.getBoundingClientRect();
-        const x = CANVAS_WIDTH * (event.pageX - canvasCoords.left) / canvasCoords.width;
-        const y = CANVAS_HEIGHT * (event.pageY - canvasCoords.top) / canvasCoords.height;
+        const x = CANVAS.width * (event.pageX - canvasCoords.left) / canvasCoords.width;
+        const y = CANVAS.height * (event.pageY - canvasCoords.top) / canvasCoords.height;
 
         if (getDebugValue('editor')) {
             const row = toCellUnit(y - TOWER_BASE_HEIGHT);
