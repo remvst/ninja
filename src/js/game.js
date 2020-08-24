@@ -414,8 +414,8 @@ class Game {
 
         if (this.timer) {
             hudItems.push([nomangle('LEVEL:'), (this.level.index + 1) + '/' + LEVELS.length]);
-            hudItems.push([nomangle('TIME:'), this.hasEverEnabledEasyMode ? 'N/A' : formatTime(this.timer)]);
-            hudItems.push([nomangle('BEST:'), formatTime(this.bestTime)]);
+            hudItems.push([nomangle('TIME:'), formatTime(this.timer)]);
+            hudItems.push([nomangle('BEST:'), this.hasEverEnabledEasyMode ? 'N/A' : formatTime(this.bestTime)]);
         }
 
         if (DEBUG) {
