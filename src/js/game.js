@@ -30,7 +30,7 @@ class Game {
 
         this.timerActive = true;
         this.timer = 0;
-        this.hasEverEnabledEasyMode = this.easyMode;
+        this.isRunValid = this.easyMode;
 
         this.level = LEVELS[0];
         if (DEBUG) {
@@ -84,7 +84,9 @@ class Game {
         this.isStarted = false;
         this.timerActive = false;
 
-        localStorage[location.pathname] = min(this.bestTime || 999999, this.timer);
+        if (this.isRunValid) {
+            localStorage[location.pathname] = min(this.bestTime || 999999, this.timer);
+        }
 
         // Go to the top of the tower
         interp(
@@ -104,6 +106,12 @@ class Game {
         this.title = 'YOU BEAT';
         this.interTitle = '';
         interp(this, 'titleAlpha', 0, 1, 1, 3);
+
+        // Trophy for OS13K
+        if (this.isRunValid) {
+            localStorage[nomangle('OS13kTrophy,GG,' + document.title + ',Beat the game - normal')] = nomangle('Beat the game in normal difficulty');
+        }
+        localStorage[nomangle('OS13kTrophy,GG,' + document.title + ',Beat the game - any difficulty')] = nomangle('Beat the game in any difficulty');
     }
 
     cycle(e) {
@@ -415,7 +423,7 @@ class Game {
         if (this.timer) {
             hudItems.push([nomangle('LEVEL:'), (this.level.index + 1) + '/' + LEVELS.length]);
             hudItems.push([nomangle('TIME:'), formatTime(this.timer)]);
-            hudItems.push([nomangle('BEST:'), this.hasEverEnabledEasyMode ? 'N/A' : formatTime(this.bestTime)]);
+            hudItems.push([nomangle('BEST:'), this.isRunValid ? 'N/A' : formatTime(this.bestTime)]);
         }
 
         if (DEBUG) {
