@@ -140,12 +140,14 @@ class Player {
 
         this.readjust();
 
-        // Bandana
-        this.bandanaTrail.unshift({'x': this.x - this.facing * 5, 'y': this.y - 10 + rnd(-1, 1)});
-        while (this.bandanaTrail.length > 30) {
-            this.bandanaTrail.pop();
-        }
+        // Bandana gravity
         this.bandanaTrail.forEach(position => position.y += e * 100);
+
+        // Bandana
+        const newTrail = this.bandanaTrail.length > 100 ? this.bandanaTrail.pop() : {};
+        newTrail.x = this.x - this.facing * 5;
+        newTrail.y = this.y - 10 + rnd(-3, 3) * sign(this.vX);
+        this.bandanaTrail.unshift(newTrail);
 
         // Trail
         if (!this.landed && !this.sticksToWall && this.level.clock) {
@@ -319,16 +321,15 @@ class Player {
 
         let remainingLength = MAX_BANDANA_LENGTH;
 
-        for (let i = 1 ; i < this.bandanaTrail.length && remainingLength > 0 ; i++) {
+        for (let i = 0 ; i < this.bandanaTrail.length && remainingLength > 0 ; i++) {
             const current = this.bandanaTrail[i];
-            const previous = this.bandanaTrail[i - 1];
+            const previous = this.bandanaTrail[i - 1] || this;
 
             const actualDistance = dist(current, previous);
             const renderedDist = min(actualDistance, remainingLength);
             remainingLength -= renderedDist;
             const ratio = renderedDist / actualDistance;
 
-            // beginPath();
             lineTo(
                 previous.x + ratio * (current.x - previous.x),
                 previous.y + ratio * (current.y - previous.y)
