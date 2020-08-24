@@ -83,7 +83,7 @@ OUTLET = padCanvas(1, 1, 0.75, createCanvas(CELL_SIZE * 0.2, CELL_SIZE * 0.2, (c
 
 LIGHT = padCanvas(3, 10, 0, createCanvas(CELL_SIZE * 5, CELL_SIZE * 3, (c, can) => {
     const g = c.createRadialGradient(can.width / 2, 0, 0, can.width / 2, 0, can.height);
-    g.addColorStop(0, 'rgba(255,255,255,0.5)');
+    g.addColorStop(0, 'rgba(255,255,255,0.2)');
     g.addColorStop(1, 'rgba(255,255,255,0)');
     // g.addColorStop(0, 'red');
     // g.addColorStop(1, 'blue');
