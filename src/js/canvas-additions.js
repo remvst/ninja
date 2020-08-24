@@ -27,3 +27,8 @@ canvasProto.fillCircle = function(x, y, radius) {
     arc(x, y, radius, 0, PI * 2, true);
     fill();
 };
+
+canvasProto.outlinedText = function(s, x, y) {
+    fillText(s, x, y);
+    strokeText(s, x, y);
+};

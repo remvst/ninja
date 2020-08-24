@@ -264,8 +264,7 @@ class Game {
                 R.strokeStyle = '#f00';
                 R.lineWidth = 5;
                 R.font = nomangle('italic 96pt Impact');
-                fillText(nomangle('EVILCORP'), LEVEL_WIDTH / 2, -30);
-                strokeText(nomangle('EVILCORP'), LEVEL_WIDTH / 2, -30);
+                outlinedText(nomangle('EVILCORP'), LEVEL_WIDTH / 2, -30);
 
                 // Lights on the edges of the tower
                 drawImage(GOD_RAY, 10, -GOD_RAY.height / 2);
@@ -296,20 +295,17 @@ class Game {
             R.textBaseline = nomangle('alphabetic');
             R.fillStyle = '#fff';
             R.strokeStyle = '#000';
-            R.lineWidth = 5;
 
+            R.lineWidth = 5;
             R.font = nomangle('italic 120pt Impact');
-            fillText(this.title, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 45);
-            strokeText(this.title, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 45);
+            outlinedText(this.title, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 45);
 
             R.font = nomangle('24pt Impact');
             R.lineWidth = 2;
-            fillText(this.interTitle, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 85);
-            strokeText(this.interTitle, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 85);
+            outlinedText(this.interTitle, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 85);
 
             if (G.clock % 2 < 1.5 && this.titleAlpha == 1) {
-                fillText(nomangle('PRESS [SPACE] TO START'), CANVAS_WIDTH / 2, CANVAS_HEIGHT * 4 / 5);
-                strokeText(nomangle('PRESS [SPACE] TO START'), CANVAS_WIDTH / 2, CANVAS_HEIGHT * 4 / 5);
+                outlinedText(nomangle('PRESS [SPACE] TO START'), CANVAS_WIDTH / 2, CANVAS_HEIGHT * 4 / 5);
             }
         });
 
