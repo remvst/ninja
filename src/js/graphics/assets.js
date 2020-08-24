@@ -37,7 +37,7 @@ WINDOW_PATTERN = createCanvasPattern(CELL_SIZE * 2, CELL_SIZE * 2, (c, can) => {
     c.fillRect(can.width / 10, can.height / 4, can.width * 8 / 10, can.height / 2);
 });
 
-BUILDING_PATTERN = createCanvasPattern(CELL_SIZE * LEVEL_COLS, CELL_SIZE * 8, (c, can) => {
+BUILDING_PATTERN = createCanvasPattern(CELL_SIZE * LEVEL_COLS, CELL_SIZE * 10, (c, can) => {
     c.fillStyle = '#485473';
     c.fillRect(0, 0, can.width, 999);
 
