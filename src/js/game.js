@@ -323,26 +323,17 @@ class Game {
 
         R.fillStyle = '#fff';
 
-        const renderArrow = () => {
-            R.fillStyle = '#fff';
-            beginPath();
-            moveTo(MOBILE_BUTTON_SIZE / 2, 0);
-            lineTo(-MOBILE_BUTTON_SIZE / 2, MOBILE_BUTTON_SIZE / 2);
-            lineTo(-MOBILE_BUTTON_SIZE / 2, -MOBILE_BUTTON_SIZE / 2);
-            fill();
-        };
-
         wrap(() => {
             R.globalAlpha = 0.5 + 0.5 * !!down[KEYBOARD_LEFT];
             translate(CANVAS_WIDTH / 8, CANVAS_HEIGHT + MOBILE_CONTROLS_HEIGHT / 2);
             scale(-1, 1);
-            renderArrow();
+            renderMobileArrow();
         });
 
         wrap(() => {
             R.globalAlpha = 0.5 + 0.5 * !!down[KEYBOARD_RIGHT];
             translate(CANVAS_WIDTH * 3 / 8, CANVAS_HEIGHT + MOBILE_CONTROLS_HEIGHT / 2);
-            renderArrow();
+            renderMobileArrow();
         });
 
         wrap(() => {

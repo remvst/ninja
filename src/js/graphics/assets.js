@@ -60,3 +60,11 @@ SIGN_HOLDER_PATTERN = createCanvasPattern(CELL_SIZE * 2, CELL_SIZE * 2, (c, can)
     c.lineTo(0, can.height);
     c.stroke();
 });
+
+renderMobileArrow = () => {
+    beginPath();
+    moveTo(MOBILE_BUTTON_SIZE / 2, 0);
+    lineTo(-MOBILE_BUTTON_SIZE / 2, MOBILE_BUTTON_SIZE / 2);
+    lineTo(-MOBILE_BUTTON_SIZE / 2, -MOBILE_BUTTON_SIZE / 2);
+    fill();
+};
