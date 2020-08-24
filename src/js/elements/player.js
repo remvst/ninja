@@ -312,30 +312,7 @@ class Player {
     }
 
     render() {
-        // Render bandana
-        R.lineWidth = 8;
-        R.strokeStyle = '#000';
-        R.lineJoin = 'round';
-        beginPath();
-        moveTo(this.bandanaTrail[0].x, this.bandanaTrail[0].y);
-
-        let remainingLength = MAX_BANDANA_LENGTH;
-
-        for (let i = 0 ; i < this.bandanaTrail.length && remainingLength > 0 ; i++) {
-            const current = this.bandanaTrail[i];
-            const previous = this.bandanaTrail[i - 1] || this;
-
-            const actualDistance = dist(current, previous);
-            const renderedDist = min(actualDistance, remainingLength);
-            remainingLength -= renderedDist;
-            const ratio = renderedDist / actualDistance;
-
-            lineTo(
-                previous.x + ratio * (current.x - previous.x),
-                previous.y + ratio * (current.y - previous.y)
-            );
-        }
-        stroke();
+        renderBandana(R, this, this.bandanaTrail);
 
         // Then render the actual character
         wrap(() => {
