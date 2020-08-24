@@ -4,7 +4,7 @@ onkeydown = e => {
 
     if (e.keyCode == KEYBOARD_D) {
         G.easyMode = !G.easyMode;
-        G.hasEverEnabledEasyMode = true;
+        G.isRunValid = true;
     }
 };
 onkeyup = e => {
