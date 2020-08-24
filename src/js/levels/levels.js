@@ -435,6 +435,8 @@ LEVELS = [
             new GuardCycle(17, 8).patrol(1, 9, 1)
         ]
     },
+
+    // Shortcut over guard
     {
         'matrix': optimizeMatrix([
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
