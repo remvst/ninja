@@ -1,8 +1,12 @@
 onload = () => {
-    onresize(); // trigger initial sizing pass
-
     CANVAS.width = CANVAS_WIDTH;
     CANVAS.height = CANVAS_HEIGHT;
+
+    if (navigator.userAgent.match(nomangle(/andro|ipho|ipa|ipo/i))) {
+        CANVAS.height += MOBILE_CONTROLS_HEIGHT;
+    }
+
+    onresize(); // trigger initial sizing pass
 
     R = CANVAS.getContext('2d');
 

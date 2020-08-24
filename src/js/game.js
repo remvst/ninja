@@ -317,6 +317,44 @@ class Game {
 
         if (DEBUG) logPerf('instructions');
 
+        // Mobile controls
+        R.fillStyle = '#000';
+        fillRect(0, CANVAS_HEIGHT, CANVAS_WIDTH, MOBILE_CONTROLS_HEIGHT);
+
+        R.fillStyle = '#fff';
+
+        const renderArrow = () => {
+            R.fillStyle = '#fff';
+            beginPath();
+            moveTo(MOBILE_BUTTON_SIZE / 2, 0);
+            lineTo(-MOBILE_BUTTON_SIZE / 2, MOBILE_BUTTON_SIZE / 2);
+            lineTo(-MOBILE_BUTTON_SIZE / 2, -MOBILE_BUTTON_SIZE / 2);
+            fill();
+        };
+
+        wrap(() => {
+            R.globalAlpha = 0.5 + 0.5 * !!down[KEYBOARD_LEFT];
+            translate(CANVAS_WIDTH / 8, CANVAS_HEIGHT + MOBILE_CONTROLS_HEIGHT / 2);
+            scale(-1, 1);
+            renderArrow();
+        });
+
+        wrap(() => {
+            R.globalAlpha = 0.5 + 0.5 * !!down[KEYBOARD_RIGHT];
+            translate(CANVAS_WIDTH * 3 / 8, CANVAS_HEIGHT + MOBILE_CONTROLS_HEIGHT / 2);
+            renderArrow();
+        });
+
+        wrap(() => {
+            R.globalAlpha = 0.5 + 0.5 * !!down[KEYBOARD_SPACE];
+            translate(CANVAS_WIDTH * 7 / 8, CANVAS_HEIGHT + MOBILE_CONTROLS_HEIGHT / 2);
+            beginPath();
+            arc(0, 0, MOBILE_BUTTON_SIZE / 2, 0, PI * 2, true);
+            fill();
+        });
+
+        if (DEBUG) logPerf('mobile');
+
         // HUD
         const hudItems = [];
         if (this.timer) {
