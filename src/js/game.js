@@ -345,7 +345,7 @@ class Game {
         // HUD
         const hudItems = [];
         if (this.timer) {
-            hudItems.push([nomangle('LEVEL:'), this.level.index + 1]);
+            hudItems.push([nomangle('LEVEL:'), (this.level.index + 1) + '/' + LEVELS.length]);
             hudItems.push([nomangle('TIME:'), formatTime(this.timer)]);
             hudItems.push([nomangle('BEST:'), formatTime(this.bestTime)]);
         }
