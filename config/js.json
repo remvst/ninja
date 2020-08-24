@@ -38,6 +38,7 @@
     "src/js/sound/sounds.js",
 
     "src/js/keyboard.js",
+    "src/js/touch.js",
     "src/js/game.js",
     "src/js/main.js"
 ]
