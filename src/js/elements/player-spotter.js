@@ -7,6 +7,10 @@ class PlayerSpotter {
         this.radius = 0;
     }
 
+    get appliedMaxDistance() {
+        return (G.easyMode ? 0.7 : 1) * this.maxDistance;
+    }
+
     cycle() {
         if (!this.foundPlayer) {
             this.foundPlayer = this.seesPlayer;
@@ -33,7 +37,7 @@ class PlayerSpotter {
             return false;
         }
 
-        const impact = castRay(this.x, this.y, angleToPlayer, this.maxDistance);
+        const impact = castRay(this.x, this.y, angleToPlayer, this.appliedMaxDistance);
         return dist(this, impact) >= distToPlayer;
     }
 
@@ -43,7 +47,7 @@ class PlayerSpotter {
             this.y,
             this.angle - this.halfFov,
             this.angle + this.halfFov,
-            this.maxDistance,
+            this.appliedMaxDistance,
             this.foundPlayer ? '#f00': '#ff0'
         );
     }
