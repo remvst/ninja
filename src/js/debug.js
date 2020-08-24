@@ -31,8 +31,12 @@ if (DEBUG) {
         if (getDebugValue('editor') && e.keyCode == KEYBOARD_S) {
             prompt(
                 'Level matrix',
-                JSON.stringify(G.level.definition.matrix.map(row => row.map(x => x ? x : 0)))
+                JSON.stringify(G.level.definition.matrix.map(row => row.map(x => !!x + 0)))
             );
+        }
+
+        if (e.keyCode == KEYBOARD_G) {
+            setDebugValue('grid', !getDebugValue('grid', 0));
         }
     }, false);
 }
