@@ -90,6 +90,8 @@ class Player {
             // Fixes a walljump issue: vY would keep accumulating even though a new jump was
             // started, causing bad physics once the jump reaches its peak.
             this.vY = 0;
+
+            jumpSound();
         }
 
         if (holdingJump && !this.jumpReleased) {
@@ -171,7 +173,7 @@ class Player {
             for (let i = 0 ; i < 10 ; i++)
             this.level.particle({
                 'size': [6],
-                'color': '#888',
+                'color': '#fff',
                 'duration': rnd(0.4, 0.8),
                 'x': [this.x - this.sticksToWall * PLAYER_RADIUS, rnd(-20, 20)],
                 'y': [this.y + rnd(-PLAYER_RADIUS, PLAYER_RADIUS), rnd(-20, 20)]
@@ -248,13 +250,16 @@ class Player {
     dust(y) {
         for (let i = 0 ; i < 10 ; i++) {
             this.level.particle({
-                'size': [4],
-                'color': '#888',
+                'size': [8],
+                'color': '#fff',
                 'duration': rnd(0.4, 0.8),
-                'x': [this.x + rnd(-PLAYER_RADIUS, PLAYER_RADIUS), rnd(-10, 10)],
-                'y': [y, sign(this.y - y) * rnd(10, 5)]
+                'x': [this.x + rnd(-PLAYER_RADIUS, PLAYER_RADIUS), rnd(-20, 20)],
+                'y': [y, sign(this.y - y) * rnd(15, 10)]
             });
         }
+
+        // This function is only called when landing or tapping, we can safely play the sound
+        landSound();
     }
 
     spawn() {

@@ -497,5 +497,5 @@ var jsfxr = function(settings) {
 
     var audio = new Audio();
     audio.src = output;
-    return audio;
+    return () => audio.play();
 };

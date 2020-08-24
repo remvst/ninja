@@ -69,6 +69,8 @@ class Game {
                 G.menu.animateOut();
             }, 3000);
         }, 1000);
+
+        beepSound();
     }
 
     get bestTime() {
@@ -167,6 +169,8 @@ class Game {
 
         // Move the camera to the new level, and only then start it
         this.centerLevel(this.level.index, 0.5, 0, () => this.level.start());
+
+        nextLevelSound();
     }
 
     levelBottomAltitude(levelIndex) {

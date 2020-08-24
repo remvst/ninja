@@ -18,12 +18,18 @@ class Level {
 
     foundExit() {
         this.endWith(() => {
+            exitSound();
+
             const hasNextLevel = LEVELS[this.index + 1];
             G.menu = new Menu(
                 nomangle('SEARCHING FOR EVIL PLANS...'),
                 hasNextLevel ? nomangle('404 NOT FOUND') : nomangle('200 FOUND!')
             );
             G.menu.animateIn();
+
+            setTimeout(() => {
+                (hasNextLevel ? notFoundSound : finishSound)();
+            }, 1000);
 
             setTimeout(() => {
                 G.menu.animateOut();
@@ -46,6 +52,8 @@ class Level {
                 nomangle('PRESS [SPACE] TO TRY AGAIN')
             );
             G.menu.animateIn();
+
+            failSound();
         });
 
         setTimeout(() => this.waitingForRetry = true, 1000);
