@@ -72,6 +72,11 @@ class CameraCycle extends Cycle {
         camera.y = this.y;
         camera.angle = this.lastAngle;
     }
+
+    patrol(rotationDuration, toAngle, pause) {
+        const { lastAngle } = this;
+        return this.wait(pause).rotateTo(rotationDuration, toAngle).wait(pause).rotateTo(rotationDuration, lastAngle);
+    }
 }
 
 class GuardCycle extends Cycle {
