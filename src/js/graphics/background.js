@@ -5,10 +5,12 @@ BUILDINGS_BACKGROUND = [
 ].map(([color, patternHeight]) => createCanvasPattern(400, patternHeight, (c, can) => {
     c.fillStyle = color;
 
+    const rng = createNumberGenerator(patternHeight * 5);
+
     let x = 0;
     while (x < can.width) {
-        const buildingWidth = ~~rnd(80, 120);
-        c.fr(x, random() * 200, buildingWidth, patternHeight);
+        const buildingWidth = ~~rng.between(80, 120);
+        c.fr(x, rng.floating() * 200, buildingWidth, patternHeight);
         x += buildingWidth;
     }
 }));
