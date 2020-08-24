@@ -220,21 +220,11 @@ class Game {
 
         if (DEBUG) logPerf('rain');
 
-        // Render the levels
+        // Render the tower
         wrap(() => {
             translate(LEVEL_X, ~~this.bottomScreenAltitude + LEVEL_HEIGHT + TOWER_BASE_HEIGHT);
 
-            const currentLevelIndex = LEVELS.indexOf(this.level);
-            for (let i = max(0, currentLevelIndex - 1) ; i < min(LEVELS.length, currentLevelIndex + 2) ; i++) {
-                wrap(() => {
-                    translate(0, -this.levelBottomAltitude(i) - LEVEL_HEIGHT);
-                    LEVELS[i].render();
-                });
-            }
-
-            if (DEBUG) logPerf('levels');
-
-            // Render the top of the tower
+            // Render the rooftop (sign, lights)
             wrap(() => {
                 translate(0, -MAX_LEVEL_ALTITUDE - LEVEL_HEIGHT);
 
@@ -272,6 +262,17 @@ class Game {
             });
 
             if (DEBUG) logPerf('roof');
+
+            // Render the levels
+            const currentLevelIndex = LEVELS.indexOf(this.level);
+            for (let i = max(0, currentLevelIndex - 1) ; i < min(LEVELS.length, currentLevelIndex + 2) ; i++) {
+                wrap(() => {
+                    translate(0, -this.levelBottomAltitude(i) - LEVEL_HEIGHT);
+                    LEVELS[i].render();
+                });
+            }
+
+            if (DEBUG) logPerf('levels');
 
             // Render the windows in front
             R.globalAlpha = this.windowsAlpha;
