@@ -47,14 +47,12 @@ class Menu {
         R.textAlign = 'center';
         R.textBaseline = 'middle';
         R.fillStyle = '#fff';
-        R.shadowColor = '#000';
-        R.shadowOffsetY = 5;
 
         R.font = 'italic 24pt Impact';
-        fillText(this.title, this.titlePosition, levelHeight / 2 - 25);
+        shadowedText(this.title, this.titlePosition, levelHeight / 2 - 25);
 
         R.font = 'italic 48pt Impact';
-        fillText(this.subtitle, this.subtitlePosition, levelHeight / 2 + 25);
+        shadowedText(this.subtitle, this.subtitlePosition, levelHeight / 2 + 25);
     }
 
 }

@@ -32,3 +32,11 @@ canvasProto.outlinedText = function(s, x, y) {
     fillText(s, x, y);
     strokeText(s, x, y);
 };
+
+canvasProto.shadowedText = function(s, x, y) {
+    this.wrap(() => {
+        this.fillStyle = '#000';
+        fillText(s, x, y + 5);
+    })
+    fillText(s, x, y);
+};
