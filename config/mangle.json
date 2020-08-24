@@ -7,7 +7,8 @@
         "movementX",
         "movementY",
         "imageSmoothingEnabled",
-        "cursor"
+        "cursor",
+        "flatMap"
     ],
     "force": [
         "key",
@@ -80,9 +81,7 @@
         "listener",
         "label",
         "action",
-        "currentTarget",
         "normalize",
-        "sign",
         "name",
         "duration",
         "ratio",
