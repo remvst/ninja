@@ -198,14 +198,6 @@ class Game {
 
         if (DEBUG) logPerf('moon');
 
-        // Thunder
-        if (G.clock % 3 < 0.3 && G.clock % 0.1 < 0.05) {
-            R.fillStyle = 'rgba(255, 255, 255, 0.2)';
-            fr(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-        }
-
-        if (DEBUG) logPerf('thunder');
-
         // Buildings in the background
         BUILDINGS_BACKGROUND.forEach((layer, i) => wrap (() => {
             const layerRatio = 0.2 + 0.8 * i / (BUILDINGS_BACKGROUND.length - 1);
@@ -219,6 +211,14 @@ class Game {
         }));
 
         if (DEBUG) logPerf('builds bg');
+
+        // Thunder
+        if (G.clock % 3 < 0.3 && G.clock % 0.1 < 0.05) {
+            R.fillStyle = 'rgba(255, 255, 255, 0.2)';
+            fr(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        }
+
+        if (DEBUG) logPerf('thunder');
 
         // Rain
         R.fillStyle = 'rgba(255,255,255,0.4)';
@@ -241,6 +241,21 @@ class Game {
             // Render the rooftop (sign, lights)
             wrap(() => {
                 translate(0, -MAX_LEVEL_ALTITUDE - LEVEL_HEIGHT);
+                
+                wrap(() => {
+                    R.globalAlpha = 0.5;
+
+                    drawImage(
+                        GOD_RAY,
+                        0, 0,
+                        GOD_RAY.width,
+                        GOD_RAY.height / 2,
+                        0,
+                        -100,
+                        LEVEL_WIDTH,
+                        100
+                    );
+                });
 
                 // Sign holder
                 wrap(() => {
@@ -270,9 +285,38 @@ class Game {
                 R.font = nomangle('italic 96pt Impact');
                 outlinedText(nomangle('EVILCORP'), LEVEL_WIDTH / 2, -30);
 
-                // Lights on the edges of the tower
-                drawImage(GOD_RAY, 10, -GOD_RAY.height / 2);
-                drawImage(GOD_RAY, LEVEL_WIDTH - 10 - GOD_RAY.width, -GOD_RAY.height / 2);
+
+                wrap(() => {
+                    const ninjaScale = 1.5;
+                    const ninjaPosition = {
+                        'x': LEVEL_WIDTH / 2 + 30,
+                        'y': -PLAYER_RADIUS
+                    }
+
+                    scale(1.5, 1.5);
+                    renderBandana(
+                        R,
+                        ninjaPosition,
+                        Array(10).fill(0).map((x, i) => {
+                            return {
+                                'x': ninjaPosition.x + i * 10,
+                                'y': ninjaPosition.y - PLAYER_RADIUS + 10 + rnd(-7, 7) - i * 5
+                            };
+                        })
+                    );
+
+                    translate(ninjaPosition.x, ninjaPosition.y);
+
+                    renderCharacter(
+                        R,
+                        this.clock,
+                        PLAYER_BODY,
+                        true,
+                        -1,
+                        0,
+                        0
+                    );
+                });
             });
 
             if (DEBUG) logPerf('roof');
