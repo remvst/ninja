@@ -58,7 +58,7 @@ class Game {
 
     get bestTime() {
         try {
-            return parseFloat(localStorage[location.pathName]) || 0;
+            return parseFloat(localStorage[location.pathname]) || 0;
         } catch(e) {
             return 0;
         }
@@ -69,7 +69,7 @@ class Game {
         this.isStarted = false;
         this.timerActive = false;
 
-        localStorage[location.pathName] = min(this.bestTime || 999999, this.timer);
+        localStorage[location.pathname] = min(this.bestTime || 999999, this.timer);
 
         // Go to the top of the tower
         interp(
