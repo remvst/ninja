@@ -19,7 +19,11 @@ class PlayerSpotter {
     get seesPlayer() {
         // Check if the player is close enough, and within the FOV first
         const angleToPlayer = angleBetween(this, this.level.player);
-        const distToPlayer = dist(this, this.level.player)
+        const distToPlayer = dist(this, this.level.player);
+
+        if (DEBUG && getDebugValue('invisible')) {
+            return false;
+        }
 
         if (distToPlayer < PLAYER_RADIUS + this.radius) {
             return true;
