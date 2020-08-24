@@ -35,7 +35,7 @@ if (DEBUG) {
             );
         }
 
-        if (e.keyCode == KEYBOARD_G) {
+        if (e.keyCode == KEYBOARD_T) {
             setDebugValue('grid', !getDebugValue('grid', 0));
         }
     }, false);
