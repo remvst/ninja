@@ -38,5 +38,9 @@ if (DEBUG) {
         if (e.keyCode == KEYBOARD_T) {
             setDebugValue('grid', !getDebugValue('grid', 0));
         }
+
+        if (e.keyCode == KEYBOARD_N) {
+            G.nextLevel();
+        }
     }, false);
 }
