@@ -135,7 +135,7 @@ LEVELS = [
             new CameraCycle(4, 13.5, PI / 5).patrol(1, 4 * PI / 5, 1),
         ],
         'guards': [
-            new GuardCycle(6, 6).patrol(2, 8, 1),
+            new GuardCycle(6, 6).patrol(1, 8, 1),
             new GuardCycle(15, 13).patrol(1, 16, 1),
         ]
     },
