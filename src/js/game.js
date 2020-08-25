@@ -470,7 +470,7 @@ class Game {
         }
 
         hudItems.push([
-            nomangle('BEST [' + this.difficulty.label + ']:'),
+            nomangle('BEST [') + this.difficulty.label + ']:',
             this.wasDifficultyChangedDuringRun ? nomangle('N/A') : formatTime(this.bestTime)
         ]);
 
