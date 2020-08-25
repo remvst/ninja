@@ -49,10 +49,10 @@ class Menu {
         R.textBaseline = 'middle';
         R.fillStyle = '#fff';
 
-        R.font = 'italic 24pt Impact';
+        R.font = nomangle('bold italic 24pt ') + FONT;
         shadowedText(this.title, this.titlePosition, levelHeight / 2 - 25);
 
-        R.font = 'italic 48pt Impact';
+        R.font = nomangle('bold italic 48pt ') + FONT;
         shadowedText(this.subtitle, this.subtitlePosition, levelHeight / 2 + 25);
     }
 

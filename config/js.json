@@ -15,6 +15,7 @@
     "src/js/graphics/create-canvas.js",
     "src/js/graphics/create-pattern.js",
     "src/js/graphics/pad-canvas.js",
+    "src/js/graphics/font.js",
     "src/js/graphics/assets.js",
     "src/js/graphics/details.js",
     "src/js/graphics/background.js",

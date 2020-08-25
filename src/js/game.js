@@ -342,7 +342,7 @@ class Game {
                 R.fillStyle = '#900';
                 R.strokeStyle = '#f00';
                 R.lineWidth = 5;
-                R.font = nomangle('italic 96pt Impact');
+                R.font = nomangle('bold italic 96pt ') + FONT;
                 outlinedText(nomangle('EVILCORP'), LEVEL_WIDTH / 2, -30);
 
 
@@ -416,10 +416,10 @@ class Game {
             R.strokeStyle = '#000';
 
             R.lineWidth = 5;
-            R.font = nomangle('italic 120pt Impact');
+            R.font = nomangle('bold italic 120pt ') + FONT;
             outlinedText(this.title, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 45);
 
-            R.font = nomangle('24pt Impact');
+            R.font = nomangle('bold 24pt ') + FONT;
             R.lineWidth = 2;
             outlinedText(this.interTitle, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 85);
 
@@ -497,11 +497,11 @@ class Game {
             R.fillStyle = '#fff';
 
             // Label
-            R.font = nomangle('bold italic 18pt Impact');
+            R.font = nomangle('bold italic 18pt ') + FONT;
             shadowedText(label, 20, 30 + i * 90);
 
             // Value
-            R.font = nomangle('36pt Impact');
+            R.font = nomangle('bold 36pt ') + FONT;
             shadowedText(value, 20, 30 + 40 + i * 90);
         }));
     }
