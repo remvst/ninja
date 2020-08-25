@@ -8,7 +8,7 @@ class PlayerSpotter {
     }
 
     get appliedMaxDistance() {
-        return (G.easyMode ? 0.7 : 1) * this.maxDistance;
+        return DIFFICULTY.visionFactor * this.maxDistance;
     }
 
     cycle() {

@@ -30,7 +30,9 @@ class Game {
 
         this.timerActive = true;
         this.timer = 0;
-        this.isRunValid = !this.easyMode;
+
+        // A run is only valid if it's on normal difficulty
+        this.isRunValid = DIFFICULTY == NORMAL_DIFFICULTY;
 
         this.level = LEVELS[0];
         if (DEBUG) {
@@ -110,7 +112,7 @@ class Game {
         interp(this, 'titleAlpha', 0, 1, 1, 3);
 
         // Trophy for OS13K
-        if (this.isRunValid) {
+        if (DIFFICULTY == NORMAL_DIFFICULTY) {
             localStorage[nomangle('OS13kTrophy,GG,' + document.title + ',Beat the game - normal')] = nomangle('Beat the game in normal difficulty');
         }
         localStorage[nomangle('OS13kTrophy,GG,' + document.title + ',Beat the game - any difficulty')] = nomangle('Beat the game in any difficulty');
@@ -189,8 +191,6 @@ class Game {
             perfLogs.push([label, now - lastTime]);
             lastTime = now;
         };
-
-        const difficultyString = G.easyMode ? nomangle('EASY') : nomangle('NORMAL');
 
         // Sky
         R.fillStyle = SKY_BACKGROUND;
@@ -422,7 +422,7 @@ class Game {
 
         // HUD
         const hudItems = [];
-        hudItems.push([nomangle('DIFFICULTY [D]:'), difficultyString]);
+        hudItems.push([nomangle('DIFFICULTY [D]:'), DIFFICULTY.label]);
 
         if (this.timer) {
             hudItems.push([nomangle('LEVEL:'), (this.level.index + 1) + '/' + LEVELS.length]);
