@@ -8,7 +8,7 @@ onkeydown = e => {
     }
 
     if (e.keyCode == KEYBOARD_T && G.queuedTweet) {
-        tweet();
+        tweet(G.queuedTweet);
     }
 };
 onkeyup = e => {
