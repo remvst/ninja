@@ -45,6 +45,7 @@ class Game {
         this.timer = 0;
 
         this.wasDifficultyChangedDuringRun = false;
+        this.queuedTweet = null;
 
         this.level = LEVELS[0];
         if (DEBUG) {
@@ -108,6 +109,8 @@ class Game {
         if (!this.wasDifficultyChangedDuringRun) {
             localStorage[this.bestTimeKey] = min(this.bestTime || 999999, this.timer);
         }
+
+        this.queuedTweet = nomangle('I beat ') + document.title + nomangle(' in ') + formatTime(this.timer) + nomangle(' on ') + this.difficulty.label + ' ' + nomangle('difficulty!');
 
         // Go to the top of the tower
         interp(
@@ -421,10 +424,14 @@ class Game {
             outlinedText(this.interTitle, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 85);
 
             if (G.clock % 2 < 1.5 && this.titleAlpha == 1) {
-                [
+                const instructions = [
                     nomangle('PRESS [SPACE] TO START'),
                     nomangle('PRESS [D] TO CHANGE DIFFICULTY'),
-                ].forEach((s, i) => {
+                ]
+                if (this.queuedTweet) {
+                    instructions.unshift(nomangle('PRESS [T] TO TWEET YOUR TIME'));
+                }
+                instructions.forEach((s, i) => {
                     outlinedText(s, CANVAS_WIDTH / 2, CANVAS_HEIGHT * 4 / 5 + i * 50);
                 })
             }

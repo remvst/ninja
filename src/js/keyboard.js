@@ -6,6 +6,10 @@ onkeydown = e => {
         G.changeDifficulty();
         beepSound();
     }
+
+    if (e.keyCode == KEYBOARD_T && G.queuedTweet) {
+        tweet();
+    }
 };
 onkeyup = e => {
     w.down[e.keyCode] = false;
