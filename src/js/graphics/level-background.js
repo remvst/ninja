@@ -13,9 +13,9 @@ LEVEL_BACKGROUND_PATTERN = createCanvasPattern(CELL_SIZE * 4, CELL_SIZE * 6, (c,
 
 LEVEL_COLORS = [
     '#29c2fd',
+    '#ffbbb9',
     '#c0a4ff',
     '#5ce5b8',
-    '#ffbbb9',
     '#ffc4ec'
 ];
 
