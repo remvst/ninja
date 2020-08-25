@@ -1,6 +1,8 @@
 ontouchstart = ontouchmove = ontouchend = ontouchcancel = e => {
     down = {};
 
+    e.preventDefault();
+
     const canvasCoords = CANVAS.getBoundingClientRect();
     for (let i = 0 ; i < e.touches.length ; i++) {
         const x = CANVAS_WIDTH * (e.touches[i].pageX - canvasCoords.left) / canvasCoords.width;
