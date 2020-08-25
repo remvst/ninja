@@ -19,9 +19,15 @@ class Game {
         this.bottomScreenAltitude = MAX_LEVEL_ALTITUDE + LEVEL_HEIGHT - CANVAS_HEIGHT / 2 + 100;
         this.windowsAlpha = 1;
         this.titleAlpha = 1;
+        this.interTitleAlpha = 1;
+        this.introAlpha = 1;
 
         this.title = nomangle('NINJA');
         this.interTitle = nomangle('VS');
+
+        interp(this, 'introAlpha', 1, 0, 1, 3);
+        interp(this, 'titleAlpha', 0, 1, 1, 1);
+        interp(this, 'interTitleAlpha', 0, 1, 1, 2);
     }
 
     changeDifficulty() {
@@ -53,13 +59,9 @@ class Game {
         }
         this.level.prepare();
 
-        interp(
-            this,
-            'titleAlpha',
-            1,
-            0,
-            0.5
-        );
+        // Fade the title and intertitle out
+        interp(this, 'titleAlpha', 1, 0, 0.5);
+        interp(this, 'interTitleAlpha', 1, 0, 0.5);
 
         // Center the level, hide the windows, then start it
         this.centerLevel(
@@ -408,21 +410,7 @@ class Game {
         }
 
         wrap(() => {
-            R.globalAlpha = this.titleAlpha;
-
-            R.textAlign = nomangle('center');
-            R.textBaseline = nomangle('alphabetic');
-            R.fillStyle = '#fff';
-            R.strokeStyle = '#000';
-
-            R.lineWidth = 5;
-            R.font = nomangle('bold italic 120pt ') + FONT;
-            outlinedText(this.title, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 45);
-
-            R.font = nomangle('bold 24pt ') + FONT;
-            R.lineWidth = 2;
-            outlinedText(this.interTitle, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 85);
-
+            // Instructions
             if (G.clock % 2 < 1.5 && this.titleAlpha == 1) {
                 const instructions = [
                     nomangle('PRESS [SPACE] TO START'),
@@ -432,8 +420,15 @@ class Game {
                     instructions.unshift(nomangle('PRESS [T] TO TWEET YOUR TIME'));
                 }
                 instructions.forEach((s, i) => {
+                    R.textAlign = nomangle('center');
+                    R.textBaseline = nomangle('middle');
+                    R.font = nomangle('bold 24pt ') + FONT;
+                    R.fillStyle = '#fff';
+                    R.strokeStyle = '#000';
+                    R.lineWidth = 2;
+
                     outlinedText(s, CANVAS_WIDTH / 2, CANVAS_HEIGHT * 4 / 5 + i * 50);
-                })
+                });
             }
         });
 
@@ -504,6 +499,44 @@ class Game {
             R.font = nomangle('bold 36pt ') + FONT;
             shadowedText(value, 20, 30 + 40 + i * 90);
         }));
+
+        // Intro background
+        wrap(() => {
+            R.globalAlpha = this.introAlpha;
+            fs('#000');
+            fr(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        });
+
+        // Title
+        wrap(() => {
+            R.textAlign = nomangle('center');
+            R.textBaseline = nomangle('alphabetic');
+            R.fillStyle = '#fff';
+            R.strokeStyle = '#000';
+
+            // Main title
+            R.globalAlpha = this.titleAlpha;
+            R.lineWidth = 5;
+            R.font = nomangle('bold italic 120pt ') + FONT;
+            outlinedText(this.title, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 45);
+
+            // "Inter" title (between the title and EVILCORP)
+            R.globalAlpha = this.interTitleAlpha;
+            R.font = nomangle('bold 24pt ') + FONT;
+            R.lineWidth = 2;
+            outlinedText(this.interTitle, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 85);
+        });
+
+        // Gamepad info
+        R.textAlign = nomangle('right');
+        R.textBaseline = nomangle('alphabetic');
+        R.fillStyle = '#888';
+        R.font = nomangle('12pt Courier');
+        fillText(
+            nomangle('Gamepad: ') + (gamepads().length ? nomangle('yes') : nomangle('no')),
+            evaluate(CANVAS_WIDTH - 20),
+            evaluate(CANVAS_HEIGHT - 20)
+        );
     }
 
 }
