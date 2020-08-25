@@ -2,7 +2,7 @@ DIFFICULTY_SETTINGS = [
     // Label, time factor, vision factor
     NORMAL_DIFFICULTY = {'label': nomangle('NORMAL'), 'timeFactor': 1, 'visionFactor': 1},
     {'label': nomangle('EASY'), 'timeFactor': 0.8, 'visionFactor': 0.7},
-    {'label': nomangle('SUPER EASY'), 'timeFactor': 0.5, 'visionFactor': 0.5},
+    {'label': nomangle('SUPER EASY'), 'timeFactor': 0.6, 'visionFactor': 0.5},
 ];
 
 DIFFICULTY = null;
