@@ -29,7 +29,9 @@ class Game {
             this.wasDifficultyChangedDuringRun = true;
         }
 
-        this.difficulty = DIFFICULTY_SETTINGS[(DIFFICULTY_SETTINGS.indexOf(this.difficulty) + 1) % DIFFICULTY_SETTINGS.length];
+        const settings = difficultySettings();
+        const currentDifficultyIndex = settings.indexOf(this.difficulty);
+        this.difficulty = settings[(currentDifficultyIndex + 1) % settings.length];
     };
 
     startAnimation() {

@@ -8,7 +8,8 @@
         "movementY",
         "imageSmoothingEnabled",
         "cursor",
-        "flatMap"
+        "flatMap",
+        "monetization"
     ],
     "force": [
         "key",
