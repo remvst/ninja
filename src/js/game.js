@@ -30,7 +30,7 @@ class Game {
 
         this.timerActive = true;
         this.timer = 0;
-        this.isRunValid = this.easyMode;
+        this.isRunValid = !this.easyMode;
 
         this.level = LEVELS[0];
         if (DEBUG) {
@@ -427,7 +427,7 @@ class Game {
         if (this.timer) {
             hudItems.push([nomangle('LEVEL:'), (this.level.index + 1) + '/' + LEVELS.length]);
             hudItems.push([nomangle('TIME:'), formatTime(this.timer)]);
-            hudItems.push([nomangle('BEST:'), this.isRunValid ? 'N/A' : formatTime(this.bestTime)]);
+            hudItems.push([nomangle('BEST:'), this.isRunValid ? formatTime(this.bestTime) : 'N/A']);
         }
 
         if (DEBUG) {
