@@ -73,7 +73,7 @@ compiler.run((tasks) => {
         return tasks.sequence([
             tasks.block('Building main files'),
             tasks.parallel({
-                'js': buildJS(false, true),
+                'js': buildJS(true, true),
                 'css': buildCSS(true),
                 'html': buildHTML(true)
             }),
