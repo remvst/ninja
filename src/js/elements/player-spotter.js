@@ -21,6 +21,10 @@ class PlayerSpotter {
     }
 
     get seesPlayer() {
+        if (G.difficulty.noSpotters) {
+            return false;
+        }
+
         // Check if the player is close enough, and within the FOV first
         const angleToPlayer = angleBetween(this, this.level.player);
         const distToPlayer = dist(this, this.level.player);
@@ -42,13 +46,18 @@ class PlayerSpotter {
     }
 
     render() {
+        let visionColor = this.foundPlayer ? '#f00': '#ff0';
+        if (G.difficulty.noSpotters) {
+            visionColor = '#888';
+        }
+
         renderVision(
             this.x,
             this.y,
             this.angle - this.halfFov,
             this.angle + this.halfFov,
             this.appliedMaxDistance,
-            this.foundPlayer ? '#f00': '#ff0'
+            visionColor
         );
     }
 }
