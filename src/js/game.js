@@ -445,11 +445,11 @@ class Game {
 
             // Label
             R.font = nomangle('bold italic 18pt Impact');
-            fillText(label, 20, 30 + i * 90);
+            shadowedText(label, 20, 30 + i * 90);
 
             // Value
             R.font = nomangle('36pt Impact');
-            fillText(value, 20, 30 + 40 + i * 90);
+            shadowedText(value, 20, 30 + 40 + i * 90);
         }));
     }
 
