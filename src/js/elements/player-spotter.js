@@ -33,7 +33,7 @@ class PlayerSpotter {
             return true;
         }
 
-        if (abs(normalize(this.angle - angleToPlayer)) > this.halfFov || distToPlayer > this.maxDistance) {
+        if (abs(normalize(this.angle - angleToPlayer)) > this.halfFov || distToPlayer > this.appliedMaxDistance) {
             return false;
         }
 
