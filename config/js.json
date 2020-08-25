@@ -39,6 +39,8 @@
 
     "src/js/keyboard.js",
     "src/js/touch.js",
+    "src/js/gamepad.js",
+    "src/js/input.js",
     "src/js/difficulty.js",
     "src/js/game.js",
     "src/js/social.js",

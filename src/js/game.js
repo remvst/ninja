@@ -161,7 +161,7 @@ class Game {
         }
         this.clock += e;
 
-        if (down[KEYBOARD_SPACE]) {
+        if (INPUT.jump()) {
             this.startAnimation();
         }
 

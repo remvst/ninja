@@ -68,7 +68,7 @@ class Player {
 
         this.clock += e;
 
-        const holdingJump = down[KEYBOARD_SPACE];
+        const holdingJump = INPUT.jump();
         this.jumpReleased = this.jumpReleased || !holdingJump;
 
         if (holdingJump) {
@@ -115,11 +115,11 @@ class Player {
 
         // Left/right
         let dX = 0, targetVX = 0;
-        if (down[KEYBOARD_LEFT]) {
+        if (INPUT.left()) {
             dX = -1;
             targetVX = -PLAYER_HORIZONTAL_SPEED;
         }
-        if (down[KEYBOARD_RIGHT]) {
+        if (INPUT.right()) {
             dX = 1;
             targetVX = PLAYER_HORIZONTAL_SPEED;
         }
