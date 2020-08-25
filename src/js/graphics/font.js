@@ -15,5 +15,3 @@ FONT = createCanvas(1, 1, (c) => {
         return c.measureText(testText).width != reference;
     })[0] || nomangle('serif');
 });
-
-console.log(FONT);
