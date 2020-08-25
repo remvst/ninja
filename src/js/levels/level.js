@@ -121,7 +121,7 @@ class Level {
             this.cyclables.forEach(x => x.cycle(e));
         }
 
-        if (down[KEYBOARD_SPACE] && this.waitingForRetry) {
+        if (INPUT.jump() && this.waitingForRetry) {
             this.waitingForRetry = false;
             G.menu.animateOut();
 
