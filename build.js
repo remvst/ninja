@@ -9,12 +9,15 @@ const MANGLE_SETTINGS = require('./config/mangle');
 const optimizeMatrix = require('./macros/optimize-matrix');
 const rawFile = require('./macros/raw-file');
 
-function copy(obj){
+function copy(obj) {
     return JSON.parse(JSON.stringify(obj));
 }
 
 compiler.run((tasks) => {
-    function buildJS(mangle, uglify){
+    function buildJS({
+        mangle,
+        uglify
+    }) {
         // Manually injecting the DEBUG constant
         const constants = copy(CONSTANTS);
         constants.DEBUG = !uglify;
@@ -30,50 +33,53 @@ compiler.run((tasks) => {
             tasks.macro('optimizeMatrix', optimizeMatrix)
         ];
 
-        if(mangle){
+        if (mangle) {
             sequence.push(tasks.mangle(MANGLE_SETTINGS));
         }
 
-        if(uglify){
+        if (uglify) {
             sequence.push(tasks.uglifyES());
         }
 
         return tasks.sequence(sequence);
     }
 
-    function buildCSS(uglify){
+    function buildCSS(uglify) {
         const sequence = [
             tasks.label('Building CSS'),
             tasks.loadFiles([__dirname + "/src/style.css"]),
             tasks.concat()
         ];
 
-        if(uglify){
+        if (uglify) {
             sequence.push(tasks.uglifyCSS());
         }
 
         return tasks.sequence(sequence);
     }
 
-    function buildHTML(uglify){
+    function buildHTML(uglify) {
         const sequence = [
             tasks.label('Building HTML'),
             tasks.loadFiles([__dirname + "/src/index.html"]),
             tasks.concat()
         ];
 
-        if(uglify){
+        if (uglify) {
             sequence.push(tasks.uglifyHTML());
         }
 
         return tasks.sequence(sequence);
     }
 
-    function buildMain(){
+    function buildMain() {
         return tasks.sequence([
             tasks.block('Building main files'),
             tasks.parallel({
-                'js': buildJS(true, true),
+                'js': buildJS({
+                    'mangle': true,
+                    'uglify': true
+                }),
                 'css': buildCSS(true),
                 'html': buildHTML(true)
             }),
@@ -88,13 +94,19 @@ compiler.run((tasks) => {
         ]);
     }
 
-    function buildDebug(mangle, suffix){
+    function buildDebug({
+        mangle,
+        suffix
+    }) {
         return tasks.sequence([
             tasks.block('Building debug files'),
             tasks.parallel({
                 // Debug JS in a separate file
                 'debug_js': tasks.sequence([
-                    buildJS(mangle, false),
+                    buildJS({
+                        'mangle': mangle,
+                        'uglify': false
+                    }),
                     tasks.output(__dirname + '/build/debug' + suffix + '.js')
                 ]),
 
@@ -109,11 +121,17 @@ compiler.run((tasks) => {
         ]);
     }
 
-    function main(){
+    function main() {
         return tasks.sequence([
             buildMain(),
-            buildDebug(false, ''),
-            buildDebug(true, '_mangled')
+            buildDebug({
+                'mangle': false,
+                'suffix': ''
+            }),
+            buildDebug({
+                'mangle': true,
+                'suffix': '_mangled'
+            })
         ]);
     }
 
