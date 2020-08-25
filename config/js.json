@@ -41,5 +41,6 @@
     "src/js/touch.js",
     "src/js/difficulty.js",
     "src/js/game.js",
+    "src/js/social.js",
     "src/js/main.js"
 ]
