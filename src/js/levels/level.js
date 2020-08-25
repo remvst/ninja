@@ -130,6 +130,8 @@ class Level {
             this.prepare();
 
             setTimeout(() => this.start(), 1000);
+
+            beepSound();
         }
     }
 
