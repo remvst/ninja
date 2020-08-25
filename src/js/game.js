@@ -7,6 +7,9 @@ class Game {
         this.timer = 0;
         this.timerActive = false;
 
+        this.difficulty = NORMAL_DIFFICULTY;
+        this.wasDifficultyChangedDuringRun = false;
+
         this.level = LEVELS[0];
         if (DEBUG) {
             this.level = LEVELS[getDebugValue('level', 0)];
@@ -21,6 +24,14 @@ class Game {
         this.interTitle = nomangle('VS');
     }
 
+    changeDifficulty() {
+        if (this.isStarted) {
+            this.wasDifficultyChangedDuringRun = true;
+        }
+
+        this.difficulty = DIFFICULTY_SETTINGS[(DIFFICULTY_SETTINGS.indexOf(this.difficulty) + 1) % DIFFICULTY_SETTINGS.length];
+    };
+
     startAnimation() {
         if (this.isStarted) {
             return;
@@ -31,8 +42,7 @@ class Game {
         this.timerActive = true;
         this.timer = 0;
 
-        // A run is only valid if it's on normal difficulty
-        this.isRunValid = DIFFICULTY == NORMAL_DIFFICULTY;
+        this.wasDifficultyChangedDuringRun = false;
 
         this.level = LEVELS[0];
         if (DEBUG) {
@@ -77,10 +87,14 @@ class Game {
 
     get bestTime() {
         try {
-            return parseFloat(localStorage[location.pathname]) || 0;
+            return parseFloat(localStorage[this.bestTimeKey]) || 0;
         } catch(e) {
             return 0;
         }
+    }
+
+    get bestTimeKey() {
+        return location.pathname + this.difficulty.label;
     }
 
     endAnimation() {
@@ -88,8 +102,9 @@ class Game {
         this.isStarted = false;
         this.timerActive = false;
 
-        if (this.isRunValid) {
-            localStorage[location.pathname] = min(this.bestTime || 999999, this.timer);
+        // Only save the best time if the player didn't switch the difficulty during
+        if (!this.wasDifficultyChangedDuringRun) {
+            localStorage[this.bestTimeKey] = min(this.bestTime || 999999, this.timer);
         }
 
         // Go to the top of the tower
@@ -111,10 +126,18 @@ class Game {
         this.interTitle = '';
         interp(this, 'titleAlpha', 0, 1, 1, 3);
 
-        // Trophy for OS13K
-        if (DIFFICULTY == NORMAL_DIFFICULTY) {
+        // Trophies for OS13K (not checking if the player changed difficulty just so they can win trophies more easily)
+        const normalTrophy = this.difficulty == NORMAL_DIFFICULTY;
+        const hardTrophy = this.difficulty == HARD_DIFFICULTY;
+
+        if (normalTrophy) {
             localStorage[nomangle('OS13kTrophy,GG,' + document.title + ',Beat the game - normal')] = nomangle('Beat the game in normal difficulty');
         }
+
+        if (hardTrophy) {
+            localStorage[nomangle('OS13kTrophy,GG,' + document.title + ',Beat the game - hard')] = nomangle('Beat the game in hard difficulty');
+        }
+
         localStorage[nomangle('OS13kTrophy,GG,' + document.title + ',Beat the game - any difficulty')] = nomangle('Beat the game in any difficulty');
     }
 
@@ -236,16 +259,33 @@ class Game {
         if (DEBUG) logPerf('thunder');
 
         // Rain
-        R.fillStyle = 'rgba(255,255,255,0.4)';
-        const rng = createNumberGenerator(1);
-        for (let i = 0 ; i < 200 ; i++) {
-            const x = rng.floating() * CANVAS_WIDTH;
-            const startY = rng.floating() * CANVAS_HEIGHT;
-            const speed = rng.between(800, 1600);
-            const y = (startY + G.clock * speed + this.bottomScreenAltitude) % evaluate(CANVAS_HEIGHT + RAIN_DROP_LENGTH);
+        wrap(() => {
 
-            fr(x, y, 1, -RAIN_DROP_LENGTH);
-        }
+            // const rainEffectAngle = -PI / 16;
+            // const rainEffectHeight = CANVAS_HEIGHT * 1.5;
+            //
+            // rotate(rainEffectAngle);
+
+            R.fillStyle = 'rgba(255,255,255,0.5)';
+            const rng = createNumberGenerator(1);
+            for (let i = 0 ; i < 200 ; i++) {
+                const startX = rng.between(-0.2, 1);
+                const startRatio = rng.floating();
+                const speed = rng.between(1, 2);
+
+                const rainDropAngle = PI * 14 / 32 + rng.between(-1, 1) * PI / 64;
+
+                const ratio = (startRatio + G.clock * speed) % 1.2;
+                const xRatio = startX + cos(rainDropAngle) * ratio;
+                const yRatio = sin(rainDropAngle) * ratio;
+
+                wrap(() => {
+                    translate(xRatio * CANVAS_WIDTH, yRatio * CANVAS_HEIGHT);
+                    rotate(rainDropAngle);
+                    fr(0, 0, -RAIN_DROP_LENGTH, 1);
+                });
+            }
+        });
 
         if (DEBUG) logPerf('rain');
 
@@ -422,13 +462,17 @@ class Game {
 
         // HUD
         const hudItems = [];
-        hudItems.push([nomangle('DIFFICULTY [D]:'), DIFFICULTY.label]);
+        hudItems.push([nomangle('DIFFICULTY [D]:'), this.difficulty.label]);
 
         if (this.timer) {
             hudItems.push([nomangle('LEVEL:'), (this.level.index + 1) + '/' + LEVELS.length]);
             hudItems.push([nomangle('TIME:'), formatTime(this.timer)]);
-            hudItems.push([nomangle('BEST:'), this.isRunValid ? formatTime(this.bestTime) : 'N/A']);
         }
+
+        hudItems.push([
+            nomangle('BEST [' + this.difficulty.label + ']:'),
+            this.wasDifficultyChangedDuringRun ? nomangle('N/A') : formatTime(this.bestTime)
+        ]);
 
         if (DEBUG) {
             hudItems.push(['FPS', ~~G.fps]);

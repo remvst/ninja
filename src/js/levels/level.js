@@ -114,7 +114,7 @@ class Level {
     }
 
     cycle(e) {
-        e *= DIFFICULTY.timeFactor;
+        e *= G.difficulty.timeFactor;
 
         if (this.started && !this.ended) {
             this.clock += e;

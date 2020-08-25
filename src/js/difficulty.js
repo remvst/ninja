@@ -5,16 +5,3 @@ DIFFICULTY_SETTINGS = [
     {'label': nomangle('SUPER EASY'), 'timeFactor': 0.6, 'visionFactor': 0.5},
     HARD_DIFFICULTY = {'label': nomangle('HARD'), 'timeFactor': 1, 'visionFactor': 10},
 ];
-
-DIFFICULTY = null;
-
-changeDifficulty = () => {
-    DIFFICULTY = DIFFICULTY_SETTINGS[(DIFFICULTY_SETTINGS.indexOf(DIFFICULTY) + 1) % DIFFICULTY_SETTINGS.length];
-
-    // If the difficulty is changed even once, the run becomes invalid
-    if (G) {
-        G.isRunValid = false;
-    }
-};
-
-changeDifficulty();
