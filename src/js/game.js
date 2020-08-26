@@ -528,6 +528,19 @@ class Game {
             shadowedText(value, 20, 30 + 40 + i * 90);
         }));
 
+        // Gamepad info
+        if (!gamepads().length) {
+            R.textAlign = nomangle('right');
+            R.textBaseline = nomangle('alphabetic');
+            R.fillStyle = '#888';
+            R.font = nomangle('12pt Courier');
+            fillText(
+                nomangle('No gamepad detected'),
+                evaluate(CANVAS_WIDTH - 20),
+                evaluate(CANVAS_HEIGHT - 20)
+            );
+        }
+
         // Intro background
         wrap(() => {
             R.globalAlpha = this.introAlpha;
@@ -559,17 +572,6 @@ class Game {
         });
 
         this.renderables.forEach(renderable => wrap(() => renderable.render()));
-
-        // Gamepad info
-        R.textAlign = nomangle('right');
-        R.textBaseline = nomangle('alphabetic');
-        R.fillStyle = '#888';
-        R.font = nomangle('12pt Courier');
-        fillText(
-            nomangle('Gamepad: ') + (gamepads().length ? nomangle('yes') : nomangle('no')),
-            evaluate(CANVAS_WIDTH - 20),
-            evaluate(CANVAS_HEIGHT - 20)
-        );
     }
 
     particle(properties) {
