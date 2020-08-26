@@ -131,6 +131,7 @@ LEVELS = [
         ]),
         'spawn': [17, 2],
         'exit': [3, 17],
+        'message': [13, nomangle('OBSERVE PATROLS')],
         'cameras': [
             new CameraCycle(4, 13.5, PI / 5).patrol(3, 4 * PI / 5, 1),
         ],
