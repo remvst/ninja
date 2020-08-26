@@ -2,7 +2,7 @@ w.down = {};
 onkeydown = e => {
     w.down[e.keyCode] = true;
 
-    if (e.keyCode == KEYBOARD_D) {
+    if (e.keyCode == KEYBOARD_K) {
         G.changeDifficulty();
         beepSound();
     }

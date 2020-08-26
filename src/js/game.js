@@ -444,7 +444,7 @@ class Game {
             if (G.clock % 2 < 1.5 && this.titleAlpha == 1) {
                 const instructions = [
                     nomangle('PRESS [SPACE] TO START'),
-                    nomangle('PRESS [D] TO CHANGE DIFFICULTY'),
+                    nomangle('PRESS [K] TO CHANGE DIFFICULTY'),
                 ]
                 if (this.queuedTweet) {
                     instructions.unshift(nomangle('PRESS [T] TO TWEET YOUR TIME'));
@@ -496,7 +496,7 @@ class Game {
 
         // HUD
         const hudItems = [];
-        hudItems.push([nomangle('DIFFICULTY [D]:'), this.difficulty.label]);
+        hudItems.push([nomangle('DIFFICULTY [K]:'), this.difficulty.label]);
 
         if (this.timer) {
             hudItems.push([nomangle('LEVEL:'), (this.level.index + 1) + '/' + LEVELS.length]);
