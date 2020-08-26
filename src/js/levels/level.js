@@ -156,6 +156,7 @@ class Level {
             R.fillStyle = '#fff';
             R.textAlign = 'center';
             R.textBaseline = 'middle';
+            R.font = '8pt Arial';
             for (let row = 0 ; row < LEVEL_ROWS ; row++) {
                 for (let col = 0 ; col < LEVEL_ROWS ; col++) {
                     fillText(
