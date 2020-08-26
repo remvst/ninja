@@ -315,6 +315,12 @@ class Player {
             this.sticksToWall = 0;
         }
 
+        // No block on the left or right, cancel wall sticking
+        const leftX = this.x - PLAYER_RADIUS - 1;
+        const rightX = this.x + PLAYER_RADIUS + 1;
+        if (!hasBlock(leftX, this.y) && !hasBlock(rightX, this.y)) {
+            this.sticksToWall = false;
+        }
     }
 
     get renderCharacterParams() {
