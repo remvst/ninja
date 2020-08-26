@@ -18,16 +18,18 @@ class Game {
 
         this.bottomScreenAltitude = MAX_LEVEL_ALTITUDE + LEVEL_HEIGHT - CANVAS_HEIGHT / 2 + 100;
         this.windowsAlpha = 1;
-        this.titleAlpha = 1;
-        this.interTitleAlpha = 1;
+
         this.introAlpha = 1;
+        this.titleAlpha = 1;
+        this.titleYOffset = 1;
+        this.interTitleYOffset = 1;
 
         this.title = nomangle('NINJA');
         this.interTitle = nomangle('VS');
 
-        interp(this, 'introAlpha', 1, 0, 1, 3);
-        interp(this, 'titleAlpha', 0, 1, 1, 1);
-        interp(this, 'interTitleAlpha', 0, 1, 1, 2);
+        interp(this, 'introAlpha', 1, 0, 1, 2);
+        interp(this, 'titleYOffset', -CANVAS_HEIGHT , 0, 0.3, 0.5, null, () => this.shakeTitleTime = 0.1);
+        interp(this, 'interTitleYOffset', CANVAS_HEIGHT, 0, 0.3, 1, null, () => this.shakeTitleTime = 0.1);
     }
 
     changeDifficulty() {
@@ -162,6 +164,7 @@ class Game {
             this.timer += e;
         }
         this.clock += e;
+        this.shakeTitleTime -= e;
 
         if (INPUT.jump()) {
             this.startAnimation();
@@ -509,6 +512,10 @@ class Game {
 
         // Title
         wrap(() => {
+            if (this.shakeTitleTime > 0) {
+                translate(rnd(-10, 10), rnd(-10, 10));
+            }
+
             R.textAlign = nomangle('center');
             R.textBaseline = nomangle('alphabetic');
             R.fillStyle = '#fff';
@@ -518,13 +525,13 @@ class Game {
             R.globalAlpha = this.titleAlpha;
             R.lineWidth = 5;
             R.font = nomangle('bold italic 120pt ') + FONT;
-            outlinedText(this.title, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 45);
+            outlinedText(this.title, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 45 + this.titleYOffset);
 
             // "Inter" title (between the title and EVILCORP)
             R.globalAlpha = this.interTitleAlpha;
             R.font = nomangle('bold 24pt ') + FONT;
             R.lineWidth = 2;
-            outlinedText(this.interTitle, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 85);
+            outlinedText(this.interTitle, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 85 + this.interTitleYOffset);
         });
 
         // Gamepad info
