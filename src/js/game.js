@@ -1,3 +1,8 @@
+const ninjaPosition = {
+    'x': LEVEL_WIDTH / 2 + 30,
+    'y': -PLAYER_RADIUS
+};
+
 class Game {
 
     constructor() {
@@ -23,6 +28,11 @@ class Game {
         this.titleAlpha = 1;
         this.titleYOffset = 1;
         this.interTitleYOffset = 1;
+
+        this.bandanaSource = {'x': ninjaPosition.x, 'y': ninjaPosition.y - 10};
+        this.bandanaTrail = Array(MAX_BANDANA_LENGTH / 10).fill(0).map((x, i) => {
+            return { 'x': this.bandanaSource.x + PLAYER_RADIUS / 2 + i * 10 };
+        })
 
         this.title = nomangle('NINJA');
         this.interTitle = nomangle('VS');
@@ -353,25 +363,16 @@ class Game {
 
                 wrap(() => {
                     const ninjaScale = 1.5;
-                    const ninjaPosition = {
-                        'x': LEVEL_WIDTH / 2 + 30,
-                        'y': -PLAYER_RADIUS
-                    }
+
+                    this.bandanaTrail.forEach((item, i, arr) => {
+                        const amplitude = 20 * i / arr.length;
+                        item.y = this.bandanaSource.y - i * 5 + sin(i * 30 + G.clock * 35) * amplitude;
+                    });
 
                     scale(1.5, 1.5);
-                    renderBandana(
-                        R,
-                        ninjaPosition,
-                        Array(10).fill(0).map((x, i) => {
-                            return {
-                                'x': ninjaPosition.x + i * 10,
-                                'y': ninjaPosition.y - PLAYER_RADIUS + 10 + rnd(-7, 7) - i * 5
-                            };
-                        })
-                    );
+                    renderBandana(R, this.bandanaSource, this.bandanaTrail);
 
                     translate(ninjaPosition.x, ninjaPosition.y);
-
                     renderCharacter(
                         R,
                         this.clock,
@@ -516,19 +517,18 @@ class Game {
                 translate(rnd(-10, 10), rnd(-10, 10));
             }
 
+            R.globalAlpha = this.titleAlpha;
             R.textAlign = nomangle('center');
             R.textBaseline = nomangle('alphabetic');
             R.fillStyle = '#fff';
             R.strokeStyle = '#000';
 
             // Main title
-            R.globalAlpha = this.titleAlpha;
             R.lineWidth = 5;
             R.font = nomangle('bold italic 120pt ') + FONT;
             outlinedText(this.title, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 45 + this.titleYOffset);
 
             // "Inter" title (between the title and EVILCORP)
-            R.globalAlpha = this.interTitleAlpha;
             R.font = nomangle('bold 24pt ') + FONT;
             R.lineWidth = 2;
             outlinedText(this.interTitle, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 85 + this.interTitleYOffset);
