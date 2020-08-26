@@ -33,7 +33,7 @@
 
     "MIN_JUMP_VY": 200,
     "MAX_JUMP_VY": 800,
-    "MAX_JUMP_HOLD_TIME": 0.15,
+    "MAX_JUMP_HOLD_TIME": 0.2,
 
     "RAIN_DROP_LENGTH": 20,
 
