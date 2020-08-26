@@ -4,7 +4,7 @@
 
 My entry for JS13K 2020.
 
-**Ninja vs EVILCORP** is a platforming inspired by Super Meat Boy, Stealth Bastard Deluxe, and other great similar games.
+**Ninja vs EVILCORP** is a platformer inspired by Super Meat Boy, Stealth Bastard Deluxe, and other great similar games.
 The goal is to scale a tower to find the evil plans without getting spotted.
 
 Levels were designed to offer obvious routes, as well as more difficult alternate routes, and a timer to allow speed running.
