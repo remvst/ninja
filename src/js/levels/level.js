@@ -4,7 +4,7 @@ class Level {
         this.definition = definition;
 
         this.backgroundColor = LEVEL_COLORS[index % LEVEL_COLORS.length];
-        this.obstacleColor = darken(this.backgroundColor, 0.15);
+        this.obstacleColor = darken(this.backgroundColor, 0.18);
 
         this.stop();
     }
