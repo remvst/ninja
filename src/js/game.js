@@ -1,4 +1,4 @@
-const ninjaPosition = {
+const NINJA_POSITION = {
     'x': LEVEL_WIDTH / 2 + 30,
     'y': -PLAYER_RADIUS
 };
@@ -33,7 +33,7 @@ class Game {
         this.titleYOffset = 1;
         this.interTitleYOffset = 1;
 
-        this.bandanaSource = {'x': ninjaPosition.x, 'y': ninjaPosition.y - 10};
+        this.bandanaSource = {'x': NINJA_POSITION.x, 'y': NINJA_POSITION.y - 10};
         this.bandanaTrail = Array(MAX_BANDANA_LENGTH / 10).fill(0).map((x, i) => {
             return { 'x': this.bandanaSource.x + PLAYER_RADIUS / 2 + i * 10 };
         })
@@ -398,7 +398,7 @@ class Game {
                     scale(1.5, 1.5);
                     renderBandana(R, this.bandanaSource, this.bandanaTrail);
 
-                    translate(ninjaPosition.x, ninjaPosition.y);
+                    translate(NINJA_POSITION.x, NINJA_POSITION.y);
                     renderCharacter(
                         R,
                         this.clock,
