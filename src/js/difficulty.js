@@ -14,7 +14,7 @@ SUPER_EASY_DIFFICULTY = {
     'visionFactor': 0.5
 };
 HARD_DIFFICULTY = {
-    'label': nomangle('HARD'),
+    'label': nomangle('NIGHTMARE'),
     'timeFactor': 1,
     'visionFactor': 10
 };
