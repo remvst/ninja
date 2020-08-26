@@ -2,6 +2,8 @@ const ninjaPosition = {
     'x': LEVEL_WIDTH / 2 + 30,
     'y': -PLAYER_RADIUS
 };
+const TITLE_FONT = nomangle('bold italic 120pt ') + FONT;
+const INTER_TITLE_FONT = nomangle('bold italic 24pt ') + FONT;
 
 class Game {
 
@@ -21,6 +23,8 @@ class Game {
         }
         this.level.prepare();
 
+        this.renderables = [];
+
         this.bottomScreenAltitude = MAX_LEVEL_ALTITUDE + LEVEL_HEIGHT - CANVAS_HEIGHT / 2 + 100;
         this.windowsAlpha = 1;
 
@@ -38,8 +42,30 @@ class Game {
         this.interTitle = nomangle('VS');
 
         interp(this, 'introAlpha', 1, 0, 1, 2);
-        interp(this, 'titleYOffset', -CANVAS_HEIGHT , 0, 0.3, 0.5, null, () => this.shakeTitleTime = 0.1);
-        interp(this, 'interTitleYOffset', CANVAS_HEIGHT, 0, 0.3, 1, null, () => this.shakeTitleTime = 0.1);
+        interp(this, 'titleYOffset', -CANVAS_HEIGHT , 0, 0.3, 0.5, null, () => {
+            this.shakeTitleTime = 0.1;
+
+            R.font = TITLE_FONT;
+            this.dust(measureText(this.title).width / 2, TITLE_Y + 50, 100);
+        });
+        interp(this, 'interTitleYOffset', CANVAS_HEIGHT, 0, 0.3, 1, null, () => {
+            this.shakeTitleTime = 0.1;
+
+            R.font = INTER_TITLE_FONT;
+            this.dust(measureText(this.interTitle).width / 2, INTER_TITLE_Y - 20, 5);
+        });
+    }
+
+    dust(spreadRadius, y, count) {
+        for (let i = 0 ; i < count ; i++) {
+            this.particle({
+                'size': [16],
+                'color': '#fff',
+                'duration': rnd(0.4, 0.8),
+                'x': [CANVAS_WIDTH / 2 + rnd(-spreadRadius, spreadRadius), rnd(-40, 40)],
+                'y': [y + rnd(-10, 10), rnd(-15, 15)]
+            });
+        }
     }
 
     changeDifficulty() {
@@ -519,20 +545,22 @@ class Game {
 
             R.globalAlpha = this.titleAlpha;
             R.textAlign = nomangle('center');
-            R.textBaseline = nomangle('alphabetic');
+            R.textBaseline = nomangle('middle');
             R.fillStyle = '#fff';
             R.strokeStyle = '#000';
 
             // Main title
             R.lineWidth = 5;
-            R.font = nomangle('bold italic 120pt ') + FONT;
-            outlinedText(this.title, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 45 + this.titleYOffset);
+            R.font = TITLE_FONT;
+            outlinedText(this.title, CANVAS_WIDTH / 2, TITLE_Y + this.titleYOffset);
 
             // "Inter" title (between the title and EVILCORP)
-            R.font = nomangle('bold 24pt ') + FONT;
+            R.font = INTER_TITLE_FONT;
             R.lineWidth = 2;
-            outlinedText(this.interTitle, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 3 + 85 + this.interTitleYOffset);
+            outlinedText(this.interTitle, CANVAS_WIDTH / 2, INTER_TITLE_Y + this.interTitleYOffset);
         });
+
+        this.renderables.forEach(renderable => wrap(() => renderable.render()));
 
         // Gamepad info
         R.textAlign = nomangle('right');
@@ -544,6 +572,12 @@ class Game {
             evaluate(CANVAS_WIDTH - 20),
             evaluate(CANVAS_HEIGHT - 20)
         );
+    }
+
+    particle(properties) {
+        let particle;
+        properties.onFinish = () => remove(this.renderables, particle);
+        this.renderables.push(particle = new Particle(properties));
     }
 
 }
