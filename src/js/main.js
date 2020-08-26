@@ -34,7 +34,7 @@ onload = () => {
         iteration();
     };
 
-    // Run the game at 120 FPS
+    // Run the game at 200 FPS
     let didCycle = false;
     repeat(
         (e, fps) => {
@@ -45,7 +45,7 @@ onload = () => {
                 G.cycleFps = fps;
             }
         },
-        func => setTimeout(func, 1000 / 120)
+        func => setTimeout(func, 1000 / 200)
     );
 
     // Render at 60 FPS
