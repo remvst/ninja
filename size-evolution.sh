@@ -1,7 +1,7 @@
 #!/bin/bash
 
 IFS=$'\n' # make newlines the only separator
-MAX_COMMITS=200
+MAX_COMMITS=300
 
 git checkout master
 
