@@ -15,6 +15,7 @@ class Player {
         this.jumpStartY = 0;
         this.jumpEndY = 0;
         this.jumpPeakTime = 0;
+        this.lastLanded = 0;
 
         this.clock = 0;
 
@@ -48,6 +49,18 @@ class Player {
         return 0;
     }
 
+    get canJump() {
+        return this.jumpReleased && !this.isRising && (
+            this.landed ||
+            this.sticksToWall ||
+            this.level.clock - this.lastLanded < COYOTE_TIME
+        );
+    }
+
+    get isRising() {
+        return this.clock < this.jumpStartTime + this.jumpPeakTime;
+    }
+
     cycle(e) {
         let remaining = e;
         do {
@@ -77,8 +90,7 @@ class Player {
             this.jumpHoldTime = 0;
         }
 
-        const newJump = holdingJump && this.jumpReleased && (this.landed || this.sticksToWall);
-        if (newJump) {
+        if (holdingJump && this.canJump) {
             this.jumpReleased = false;
             this.jumpStartY = this.y;
             this.jumpStartTime = this.clock;
@@ -102,7 +114,7 @@ class Player {
             this.jumpEndY = this.jumpStartY - height;
         }
 
-        if (this.clock < this.jumpStartTime + this.jumpPeakTime) {
+        if (this.isRising) {
             // Rise up
             const jumpRatio = (this.clock - this.jumpStartTime) / this.jumpPeakTime;
             this.y = easeOutQuad(jumpRatio) * (this.jumpEndY - this.jumpStartY) + this.jumpStartY;
@@ -141,6 +153,10 @@ class Player {
         this.x += this.vX * e;
 
         this.readjust();
+
+        if (this.landed) {
+            this.lastLanded = this.level.clock;
+        }
 
         // Bandana gravity
         this.bandanaTrail.forEach(position => position.y += e * 100);
@@ -321,10 +337,9 @@ class Player {
 
         // Then render the actual character
         wrap(() => {
+            // R.globalAlpha = this.canJump ? 1 : 0.5;
             translate(this.x, this.y);
-
             renderCharacter.apply(null, this.renderCharacterParams);
-            // this.renderCharacter(R);
         });
     }
 }
