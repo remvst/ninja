@@ -5,7 +5,9 @@ UNPADDED_WINDOW = createCanvas(
         // Window
         const g = c.createLinearGradient(0, 0, can.width, can.height);
         g.addColorStop(0, 'rgba(255,255,255,0)');
-        g.addColorStop(0.5, 'rgba(255,255,255,0.2)');
+        g.addColorStop(0.25, 'rgba(255,255,255,0.3)');
+        g.addColorStop(0.5, 'rgba(255,255,255,0.1)');
+        g.addColorStop(0.75, 'rgba(255,255,255,0.3)');
         g.addColorStop(1, 'rgba(255,255,255,0)');
         c.fillStyle = g;
         c.fillRect(0, 0, can.width, can.height);
