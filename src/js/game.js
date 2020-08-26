@@ -213,7 +213,7 @@ class Game {
             this.menu.cycle(e);
         }
 
-        wrap(() => this.render());
+        // wrap(() => this.render());
     }
 
     centerLevel(levelIndex, duration, delay, callback) {
@@ -509,7 +509,8 @@ class Game {
         ]);
 
         if (DEBUG) {
-            hudItems.push(['FPS', ~~G.fps]);
+            hudItems.push(['Render FPS', ~~G.renderFps]);
+            hudItems.push(['Cycle FPS', ~~G.cycleFps]);
             perfLogs.forEach(log => {
                 hudItems.push(log);
             });

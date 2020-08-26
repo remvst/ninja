@@ -19,22 +19,43 @@ onload = () => {
 
     new Game();
 
-    // Start cycle()
-    let lastFrame = Date.now();
-    let frame = () => {
-        let n = Date.now(),
-            e = min((n - lastFrame) / 1000, 1000 / 10);
+    repeat = (func, nextFrameFunc) => {
+        let lastFrame = Date.now();
+        const iteration = () => {
+            let n = Date.now(),
+                e = min((n - lastFrame) / 1000, 1000 / 10);
 
-        if(DEBUG){
-            G.fps = ~~(1 / e);
-        }
+            lastFrame = n;
+            func(e, ~~(1 / e));
 
-        lastFrame = n;
+            nextFrameFunc(iteration);
+        };
 
-        G.cycle(e);
-
-        requestAnimationFrame(frame);
-        // setTimeout(frame, 1000 / 25);
+        iteration();
     };
-    frame();
+
+    // Run the game at 120 FPS
+    repeat(
+        (e, fps) => {
+            G.cycle(e);
+
+            if (DEBUG) {
+                G.cycleFps = fps;
+            }
+        },
+        func => setTimeout(func, 1000 / 120)
+    );
+
+    // Render at 60 FPS
+    repeat(
+        (e, fps) => {
+            wrap(() => G.render());
+
+            if (DEBUG) {
+                G.renderFps = fps;
+            }
+        },
+        func => requestAnimationFrame(func)
+    );
+
 };
