@@ -18,9 +18,6 @@ class Game {
         this.wasDifficultyChangedDuringRun = false;
 
         this.level = LEVELS[0];
-        if (DEBUG) {
-            this.level = LEVELS[getDebugValue('level', 0)];
-        }
         this.level.prepare();
 
         this.renderables = [];
