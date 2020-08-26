@@ -16,6 +16,7 @@ class Player {
         this.jumpEndY = 0;
         this.jumpPeakTime = 0;
         this.lastLanded = {'x':0, 'y': 0};
+        this.lastWallStick = {'x':0, 'y': 0, 'direction': 0};
 
         this.stickingToWallX = 0;
 
@@ -33,11 +34,22 @@ class Player {
     }
 
     get canJump() {
-        return this.jumpReleased && !this.isRising && (
-            this.landed ||
-            this.sticksToWall ||
-            dist(this, this.lastLanded) < COYOTE_RADIUS
-        );
+        // Don't jump until the player has release the jump key
+        if (!this.jumpReleased) {
+            return false;
+        }
+
+        // Avoid double jumping unless we're sticking to a wall
+        if (this.isRising && !this.sticksToWall) {
+            return false;
+        }
+
+        // If the user hasn't landed recently, don't let us jump
+        if (dist(this, this.lastLanded) > COYOTE_RADIUS && abs(this.x - this.lastWallStick.x) > COYOTE_RADIUS) {
+            return false;
+        }
+
+        return true;
     }
 
     get isRising() {
@@ -79,7 +91,7 @@ class Player {
             this.jumpStartTime = this.clock;
 
             if (this.sticksToWall) {
-                this.vX = this.sticksToWall * 800;
+                this.vX = this.lastWallStick.direction * 800;
             }
 
             // Fixes a walljump issue: vY would keep accumulating even though a new jump was
@@ -320,6 +332,12 @@ class Player {
         const rightX = this.x + PLAYER_RADIUS + 1;
         if (!hasBlock(leftX, this.y) && !hasBlock(rightX, this.y)) {
             this.sticksToWall = false;
+        }
+
+        if (this.sticksToWall) {
+            this.lastWallStick.x = this.x;
+            this.lastWallStick.y = this.y;
+            this.lastWallStick.direction = this.sticksToWall;
         }
     }
 
