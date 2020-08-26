@@ -340,7 +340,7 @@ class Player {
 
         // Then render the actual character
         wrap(() => {
-            R.globalAlpha = this.canJump ? 1 : 0.5;
+            // R.globalAlpha = this.canJump ? 1 : 0.5;
             translate(this.x, this.y);
             renderCharacter.apply(null, this.renderCharacterParams);
         });
