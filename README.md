@@ -1,6 +1,6 @@
 # Ninja vs EVILCORP
 
-<img src="/assets/main-menu-1600x800.png" width="200"> <img src="/assets/gameplay-1-1600x800.png" width="200">
+<img src="/assets/main-menu-1600x800.png" width="400"> <img src="/assets/gameplay-1-1600x800.png" width="400">
 
 My entry for JS13K 2020.
 
