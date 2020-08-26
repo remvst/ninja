@@ -22,8 +22,17 @@ class Level {
 
             const hasNextLevel = LEVELS[this.index + 1];
             G.menu = new Menu(
-                nomangle('SEARCHING FOR EVIL PLANS...'),
-                hasNextLevel ? nomangle('404 NOT FOUND') : nomangle('200 FOUND!')
+                pick([
+                    nomangle('SEARCHING FOR EVIL PLANS...'),
+                    nomangle('GET http://evil.corp/plans.pdf'),
+                    nomangle('GET http://localhost/evil-plans.pdf'),
+                    nomangle('BROWSING FILES...'),
+                ]),
+                hasNextLevel ? pick([
+                    nomangle('404 NOT FOUND'),
+                    nomangle('FILE NOT FOUND'),
+                    nomangle('NOTHING HERE'),
+                ]) : nomangle('200 FOUND!')
             );
             G.menu.animateIn();
 

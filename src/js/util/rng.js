@@ -13,7 +13,6 @@ createNumberGenerator = seed => {
     };
 
     return {
-        'pick': a => a[~~(generateFloat() * a.length)],
         'between': (a, b) => generateFloat() * (b - a) + a,
         'floating': generateFloat
     };
