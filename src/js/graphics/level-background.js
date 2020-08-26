@@ -66,7 +66,7 @@ createLevelBackground = (level) => createCanvas(LEVEL_WIDTH, LEVEL_WIDTH, (c, ca
 
     for (let row = 1 ; row < LEVEL_ROWS - 1 ; row++) {
         for (let col = 1 ; col < LEVEL_ROWS - 1 ; col++) {
-            if (taken[row][col] || row == ~~messageRow) {
+            if (taken[row][col] || abs(row - messageRow) < 1) {
                 continue;
             }
 
