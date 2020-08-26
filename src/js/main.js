@@ -35,9 +35,11 @@ onload = () => {
     };
 
     // Run the game at 120 FPS
+    let didCycle = false;
     repeat(
         (e, fps) => {
             G.cycle(e);
+            didCycle = true;
 
             if (DEBUG) {
                 G.cycleFps = fps;
@@ -49,6 +51,11 @@ onload = () => {
     // Render at 60 FPS
     repeat(
         (e, fps) => {
+            // Don't render if nothing was updated
+            if (!didCycle) {
+                return;
+            }
+
             wrap(() => G.render());
 
             if (DEBUG) {
