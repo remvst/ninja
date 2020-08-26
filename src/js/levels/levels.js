@@ -403,8 +403,8 @@ LEVELS = [
         ],
         'guards': [
             new GuardCycle(12, 5).patrol(1, 2, 1),
-            new GuardCycle(15, 15).patrol(1, 12, 1),
-            new GuardCycle(12, 17).patrol(1, 14, 1),
+            new GuardCycle(15, 15).patrol(2, 12, 0),
+            new GuardCycle(12, 17).patrol(2, 14, 0),
         ]
     },
 
