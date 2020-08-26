@@ -1,17 +1,17 @@
-# [SWAGSHOT]
+# Ninja vs EVILCORP
 
-![Screenshot](/assets/screenshot-400x250.png)
+<img src="/assets/main-menu-1600x800.png" width="200"> <img src="/assets/gameplay-1-1600x800.png" width="200">
 
-My entry for JS13K 2019.
+My entry for JS13K 2020.
 
-[SWAGSHOT] is intended to be a throwback at 90s first person shooters, when all that really mattered was to run and shoot countless faceless enemies.
+**Ninja vs EVILCORP** is a platforming inspired by Super Meat Boy, Stealth Bastard Deluxe, and other great similar games.
+The goal is to scale a tower to find the evil plans without getting spotted.
 
-The game features 5 different weapons:
-- Pistol
-- Rocket Launcher
-- Shotgun
-- Machine Gun
-- Rail Gun
+Levels were designed to offer obvious routes, as well as more difficult alternate routes, and a timer to allow speed running.
 
-The goal is to score as many points as possible by eliminating robots on the station with style.
-Points are awarded for performing different feats, such as killing enemies, making direct rocket hits, hitting while jumping, killing several enemies in a row.
+## Building
+
+```sh
+make update
+make build
+```
