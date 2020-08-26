@@ -15,7 +15,9 @@ class Player {
         this.jumpStartY = 0;
         this.jumpEndY = 0;
         this.jumpPeakTime = 0;
-        this.lastLanded = 0;
+        this.lastLanded = {'x':0, 'y': 0};
+
+        this.stickingToWallX = 0;
 
         this.clock = 0;
 
@@ -30,30 +32,11 @@ class Player {
         return hasBlock(leftX, bottomY) || hasBlock(rightX, bottomY);
     }
 
-    get sticksToWall() {
-        if (this.landed) {
-            return 0;
-        }
-
-        const leftX = this.x - PLAYER_RADIUS - 1;
-        const rightX = this.x + PLAYER_RADIUS + 1;
-
-        if (hasBlock(leftX, this.y)) {
-            return 1;
-        }
-
-        if (hasBlock(rightX, this.y)) {
-            return -1;
-        }
-
-        return 0;
-    }
-
     get canJump() {
         return this.jumpReleased && !this.isRising && (
             this.landed ||
             this.sticksToWall ||
-            this.level.clock - this.lastLanded < COYOTE_TIME
+            dist(this, this.lastLanded) < COYOTE_RADIUS
         );
     }
 
@@ -155,7 +138,8 @@ class Player {
         this.readjust();
 
         if (this.landed) {
-            this.lastLanded = this.level.clock;
+            this.lastLanded.x = this.x;
+            this.lastLanded.y = this.y;
         }
 
         // Bandana gravity
@@ -313,9 +297,22 @@ class Player {
             this.jumpStartTime = -1;
         }
 
-        if (this.x != x && sign(this.x - x) != this.facing) {
-            // Player hit an obstacle, reset horizontal momentum
+        const hitWall = this.x != x;
+        const adjustmentDirectionX = sign(this.x - x)
+
+        // Player hit a wall in the face, reset horizontal momentum
+        if (hitWall && adjustmentDirectionX != this.facing) {
             this.vX = 0;
+        }
+
+        // Player hit a wall and isn't on the floor, stick to the wall
+        if (hitWall && !this.landed) {
+            this.sticksToWall = adjustmentDirectionX;
+        }
+
+        // Player has landed or is moving horizontally without hitting a wall, stop sticking to a wall
+        if (this.landed || this.x != this.previous.x && !hitWall) {
+            this.sticksToWall = 0;
         }
 
     }
@@ -337,7 +334,7 @@ class Player {
 
         // Then render the actual character
         wrap(() => {
-            // R.globalAlpha = this.canJump ? 1 : 0.5;
+            R.globalAlpha = this.canJump ? 1 : 0.5;
             translate(this.x, this.y);
             renderCharacter.apply(null, this.renderCharacterParams);
         });
