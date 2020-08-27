@@ -118,6 +118,10 @@ class Player {
             // Fall down
             const gravity = this.sticksToWall && this.vY > 0 ? WALL_GRAVITY_ACCELERATION : GRAVITY_ACCELERATION;
             this.vY = max(0, this.vY + gravity * e);
+            if (this.sticksToWall) {
+                this.vY = min(this.vY, WALL_FALL_DOWN_CAP);
+            }
+
             this.y += this.vY * e;
         }
 
