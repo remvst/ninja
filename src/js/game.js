@@ -261,15 +261,8 @@ class Game {
 
         // Moon
         wrap(() => {
-            translate(CANVAS_WIDTH - 200, 100);
-
-            R.globalAlpha = 0.2;
-            drawImage(HALO, -HALO.width / 2, -HALO.height / 2);
-
-            // Moon shape
-            R.globalAlpha = 1;
             R.fillStyle = '#fff';
-            fillCircle(0, 0, 50);
+            fillCircle(CANVAS_WIDTH - 200, 100, 50);
         })
 
         if (DEBUG) logPerf('moon');
