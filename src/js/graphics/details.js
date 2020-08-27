@@ -45,7 +45,6 @@ COMPUTER = createCanvas(CELL_SIZE * 0.6, CELL_SIZE * 0.6, (c, can) => {
     c.fr(0, 0, 99, 99);
 
     c.fillStyle = '#a9a9a9';
-    // c.fr(2, 2, can.width - 4, 20);
     c.fr(2, 2, can.width - 4, can.height - 4);
 
     c.fillStyle = '#4253ff';
@@ -56,15 +55,15 @@ COMPUTER = createCanvas(CELL_SIZE * 0.6, CELL_SIZE * 0.6, (c, can) => {
 
     c.fillStyle = '#a5dc40';
     c.fr(can.width - 6, can.height - 6, 2, 2);
-
-    // document.body.appendChild(can);
 });
 
 FRAME = padCanvas(1, 1, 0.5, createCanvas(CELL_SIZE * 0.6, CELL_SIZE * 0.8, (c, can) => {
     c.fillStyle = '#925e2a';
     c.fr(0, 0, 99, 99);
+
     c.fillStyle = '#fcf3d7';
     c.fr(4, 4, can.width - 8, can.height - 8);
+
     c.fillStyle = '#ccc';
     c.fr(can.width / 2 - 5, can.height / 2 - 5, 10, 10);
 }));
@@ -74,6 +73,7 @@ DESK = padCanvas(1, 2, 1, UNPADDED_DESK);
 TRASH = padCanvas(1, 1, 1, createCanvas(CELL_SIZE * 0.3, CELL_SIZE * 0.4, (c, can) => {
     c.fillStyle = '#4c80be';
     c.fr(0, 0, 99, 99);
+
     c.fillStyle = '#78a1d6';
     c.fr(0, 0, 99, 4);
 }));
@@ -87,12 +87,8 @@ LIGHT = padCanvas(3, 10, 0, createCanvas(CELL_SIZE * 5, CELL_SIZE * 3, (c, can) 
     const g = c.createRadialGradient(can.width / 2, 0, 0, can.width / 2, 0, can.height);
     g.addColorStop(0, 'rgba(255,255,255,0.2)');
     g.addColorStop(1, 'rgba(255,255,255,0)');
-    // g.addColorStop(0, 'red');
-    // g.addColorStop(1, 'blue');
-
     c.fillStyle = g;
 
-    // c.fillStyle = '#fff';
     c.beginPath();
     c.moveTo(can.width / 2, 0);
     c.arc(can.width / 2, 0, can.height, PI / 6, PI * 5 / 6, false);
