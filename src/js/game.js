@@ -253,6 +253,10 @@ class Game {
             lastTime = now;
         };
 
+        if (DEBUG) {
+            this.castIterations = 0;
+        }
+
         // Sky
         R.fillStyle = SKY_BACKGROUND;
         fr(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT); // TODO maybe split into two?
@@ -500,8 +504,9 @@ class Game {
         ]);
 
         if (DEBUG) {
-            hudItems.push(['Render FPS', ~~G.renderFps]);
-            hudItems.push(['Cycle FPS', ~~G.cycleFps]);
+            hudItems.push(['Render FPS', ~~this.renderFps]);
+            hudItems.push(['Cycle FPS', ~~this.cycleFps]);
+            hudItems.push(['Cast iterations', ~~this.castIterations]);
             perfLogs.forEach(log => {
                 hudItems.push(log);
             });

@@ -14,52 +14,52 @@ castRay = (x, y, angle, maxDistance) => {
     }
 
     if (distP(x, y, impact.x, impact.y) > maxDistance) {
-        impact = {'x': x + cos(angle) * maxDistance, 'y': y + sin(angle) * maxDistance};
+        impact = {
+            'x': x + cos(angle) * maxDistance,
+            'y': y + sin(angle) * maxDistance
+        };
     }
 
     return impact;
 }
 
 castAgainstHorizontal = (startX, startY, angle, maxDistance) => {
-    var pointingDown = sin(angle) > 0;
+    const pointingDown = sin(angle) > 0;
 
-    var y = ~~(startY / CELL_SIZE) * CELL_SIZE + (pointingDown ? CELL_SIZE : -0.0001);
-    var x = startX + (y - startY) / tan(angle);
+    const y = ~~(startY / CELL_SIZE) * CELL_SIZE + (pointingDown ? CELL_SIZE : -0.0001);
+    const x = startX + (y - startY) / tan(angle);
 
-    var yStep = pointingDown ? CELL_SIZE : -CELL_SIZE;
-    var xStep = yStep / tan(angle);
+    const yStep = pointingDown ? CELL_SIZE : -CELL_SIZE;
+    const xStep = yStep / tan(angle);
 
-    return doCast(x, y, xStep, yStep, 1, maxDistance);
+    return doCast(x, y, xStep, yStep, maxDistance);
 }
 
 castAgainstVertical = (startX, startY, angle, maxDistance) => {
-    var pointingRight = cos(angle) > 0;
+    const pointingRight = cos(angle) > 0;
 
-    var x = ~~(startX / CELL_SIZE) * CELL_SIZE + (pointingRight ? CELL_SIZE : -0.0001);
-    var y = startY + (x - startX) * tan(angle);
+    const x = ~~(startX / CELL_SIZE) * CELL_SIZE + (pointingRight ? CELL_SIZE : -0.0001);
+    const y = startY + (x - startX) * tan(angle);
 
-    var xStep = pointingRight ? CELL_SIZE : -CELL_SIZE;
-    var yStep = xStep * tan(angle);
+    const xStep = pointingRight ? CELL_SIZE : -CELL_SIZE;
+    const yStep = xStep * tan(angle);
 
-    return doCast(x, y, xStep, yStep, 0, maxDistance);
+    return doCast(x, y, xStep, yStep, maxDistance);
 }
 
-doCast = (startX, startY, xStep, yStep, castType, maxDistance) => {
+doCast = (startX, startY, xStep, yStep, maxDistance) => {
     let x = startX,
         y = startY;
 
-    for (let i = 0 ; distP(x, y, startX, startY) < maxDistance ; i++) {
+    while (distP(x, y, startX, startY) < maxDistance) {
         if (DEBUG) {
             G.castIterations++;
         }
         if (internalHasBlock(x, y)) {
             // Got a block!
-            const blockId = ~~(x / CELL_SIZE) + ~~(y / CELL_SIZE) * G.level.definition.matrix.length;
             return {
                 'x': x,
-                'y': y,
-                'castType': castType + '-' + blockId,
-                'blockId': blockId
+                'y': y
             };
         } else if(isOut(x, y)) {
             // Out of bounds
@@ -72,8 +72,7 @@ doCast = (startX, startY, xStep, yStep, castType, maxDistance) => {
 
     return {
         'x': x,
-        'y': y,
-        'castType': ''
+        'y': y
     };
 }
 
@@ -86,12 +85,11 @@ hasBlock = (x, y, radius = 0) => {
 }
 
 internalHasBlock = (x, y) => {
-    return !isOut(x, y) && G.level.definition.matrix[~~(y / CELL_SIZE)][~~(x / CELL_SIZE)];
+    return !isOut(x, y) && G.level.definition.matrix[toCellUnit(y)][toCellUnit(x)];
 }
 
 isOut = (x, y) => {
-    return !between(0, x, G.level.definition.matrix[0].length * CELL_SIZE - 1) ||
-        !between(0, y, G.level.definition.matrix.length * CELL_SIZE - 1);
+    return !between(0, x, LEVEL_WIDTH) || !between(0, y, LEVEL_HEIGHT);
 }
 
 toCellUnit = x => ~~(x / CELL_SIZE);
