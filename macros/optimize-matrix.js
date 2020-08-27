@@ -71,11 +71,8 @@ module.exports = {
             verticalLength,
             horizontalLength
         ]) => {
-            let verticalIncr = !!verticalLength;
-            let horizontalIncr = !!horizontalLength;
-
             for (let i = 0 ; i < max(verticalLength, horizontalLength) ; i++) {
-                decoded[row + i * verticalIncr][col + i * horizontalIncr] = 1;
+                decoded[row + i * !!verticalLength][col + i * !!horizontalLength] = 1;
             }
         });
 
