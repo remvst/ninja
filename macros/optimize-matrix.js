@@ -1,6 +1,9 @@
 'use strict';
 
-const {LEVEL_COLS, LEVEL_ROWS} = require('../config/constants.json');
+const {
+    LEVEL_COLS,
+    LEVEL_ROWS
+} = require('../config/constants.json');
 
 module.exports = {
     'apply': (input) => {
@@ -10,8 +13,8 @@ module.exports = {
         const rows = matrix.length;
         const cols = matrix[0].length;
 
-        for (let row = 1 ; row < rows - 1 ; row++) {
-            for (let col = 1 ; col < cols - 1 ; col++) {
+        for (let row = 1; row < rows - 1; row++) {
+            for (let col = 1; col < cols - 1; col++) {
                 if (!matrix[row][col]) {
                     continue;
                 }
@@ -33,12 +36,12 @@ module.exports = {
                 // }
 
                 if (verticalLength >= horizontalLength) {
-                    for (let i = 0 ; i < verticalLength ; i++) {
+                    for (let i = 0; i < verticalLength; i++) {
                         matrix[row + i][col] = 0;
                     }
                     lines.push([row, col, verticalLength, 0]);
                 } else {
-                    for (let i = 0 ; i < horizontalLength ; i++) {
+                    for (let i = 0; i < horizontalLength; i++) {
                         matrix[row][col + i] = 0;
                     }
                     lines.push([row, col, 0, horizontalLength]);
@@ -57,7 +60,7 @@ module.exports = {
         const decoded = [];
         const topAndBottomRow = Array(cols).fill(1);
         decoded.push(topAndBottomRow);
-        for (let i = 0 ; i < rows - 2 ; i++) {
+        for (let i = 0; i < rows - 2; i++) {
             const row = Array(cols).fill(0);
             row[0] = 1;
             row[cols - 1] = 1;
@@ -71,7 +74,7 @@ module.exports = {
             verticalLength,
             horizontalLength
         ]) => {
-            for (let i = 0 ; i < max(verticalLength, horizontalLength) ; i++) {
+            for (let i = 0; i < max(verticalLength, horizontalLength); i++) {
                 decoded[row + i * !!verticalLength][col + i * !!horizontalLength] = 1;
             }
         });
