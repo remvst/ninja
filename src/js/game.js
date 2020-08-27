@@ -305,12 +305,6 @@ class Game {
 
         // Rain
         wrap(() => {
-
-            // const rainEffectAngle = -PI / 16;
-            // const rainEffectHeight = CANVAS_HEIGHT * 1.5;
-            //
-            // rotate(rainEffectAngle);
-
             R.fillStyle = 'rgba(255,255,255,0.5)';
             const rng = createNumberGenerator(1);
             for (let i = 0 ; i < 200 ; i++) {
