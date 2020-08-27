@@ -8,6 +8,9 @@ class Particle {
         alpha = [1, -1],
         onFinish
     }) {
+        this.color = color;
+        this.size = size;
+
         interp(this, 'x', x[0], x[0] + x[1], duration);
         interp(this, 'y', y[0], y[0] + y[1], duration);
         interp(this, 'alpha', alpha[0], alpha[0] + alpha[1], duration);
