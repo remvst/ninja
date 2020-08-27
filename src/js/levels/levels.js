@@ -198,7 +198,6 @@ LEVELS = [
         ]),
         'spawn': [16, 2],
         'exit': [3, 17],
-        // 'message': [7.5, nomangle('GUARDS ARE PREDICTABLE')],
         'cameras': [
             new CameraCycle(1, 8.5, PI / 4).patrol(2, PI * 2 / 3, 1),
         ],
