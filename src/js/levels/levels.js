@@ -393,7 +393,7 @@ LEVELS = [
         'spawn': [17, 2],
         'exit': [2, 15],
         'cameras': [
-            new CameraCycle(5, 4.5, PI / 2).wait(2).rotateBy(1, PI).wait(2).rotateBy(1, PI),
+            new CameraCycle(5, 4.5, PI / 2).patrol(1, PI * 3 / 2, 2),
             // new CameraCycle(13, 1, 0).wait(2).rotateBy(1, PI / 2).wait(2).rotateBy(1, -PI / 2),
             // new CameraCycle(10, 1, 0),
             // new CameraCycle(7, 1, 0).wait(2).rotateBy(1, PI / 2).wait(2).rotateBy(1, -PI / 2),
