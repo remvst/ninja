@@ -58,7 +58,7 @@ class Level {
         this.endWith(() => {
             G.menu = new Menu(
                 nomangle('YOU WERE FOUND!'),
-                nomangle('PRESS [SPACE] TO TRY AGAIN'),
+                nomangle('PRESS [R] TO TRY AGAIN'),
                 nomangle('PRESS [K] TO CHANGE DIFFICULTY')
             );
             G.menu.animateIn();
@@ -131,10 +131,11 @@ class Level {
             this.cyclables.forEach(x => x.cycle(e));
         }
 
-        if (INPUT.jump() && this.waitingForRetry) {
+        if (INPUT.jump() && this.waitingForRetry || down[KEYBOARD_R] && this.started) {
             this.waitingForRetry = false;
-            G.menu.animateOut();
-
+            if (G.menu) {
+                G.menu.animateOut();
+            }
             this.prepare();
 
             setTimeout(() => this.start(), 1000);
