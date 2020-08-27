@@ -274,6 +274,26 @@ class Game {
 
         if (DEBUG) logPerf('moon');
 
+        // Thunder
+        if (G.clock % THUNDER_INTERVAL < 0.3) {
+            if (G.clock % 0.1 < 0.05) {
+                R.fillStyle = 'rgba(255, 255, 255, 0.2)';
+                fr(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+            }
+
+            R.strokeStyle = '#fff';
+            R.lineWidth = 4;
+            let x = createNumberGenerator(G.clock / THUNDER_INTERVAL).floating() * CANVAS_WIDTH;
+            beginPath();
+            for (let y = 0 ; y <= CANVAS_HEIGHT ; y += 40) {
+                x += rnd(-40, 40);
+                lineTo(x, y);
+            }
+            stroke();
+        }
+
+        if (DEBUG) logPerf('thunder');
+
         // Buildings in the background
         BUILDINGS_BACKGROUND.forEach((layer, i) => wrap (() => {
             const layerRatio = 0.2 + 0.8 * i / (BUILDINGS_BACKGROUND.length - 1);
@@ -287,14 +307,6 @@ class Game {
         }));
 
         if (DEBUG) logPerf('builds bg');
-
-        // Thunder
-        if (G.clock % 3 < 0.3 && G.clock % 0.1 < 0.05) {
-            R.fillStyle = 'rgba(255, 255, 255, 0.2)';
-            fr(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-        }
-
-        if (DEBUG) logPerf('thunder');
 
         // Rain
         wrap(() => {
