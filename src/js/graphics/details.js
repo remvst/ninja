@@ -10,15 +10,15 @@ UNPADDED_WINDOW = createCanvas(
         g.addColorStop(0.75, 'rgba(255,255,255,0.3)');
         g.addColorStop(1, 'rgba(255,255,255,0)');
         c.fillStyle = g;
-        c.fillRect(0, 0, can.width, can.height);
+        c.fr(0, 0, can.width, can.height);
 
         // Frame
         c.fillStyle = '#888';
-        c.fillRect(0, 0, can.width, 2);
-        c.fillRect(0, can.height, can.width, -2);
-        c.fillRect(0, 0, 2, can.height);
-        c.fillRect(can.width, 0, -2, can.height);
-        c.fillRect(0, can.height * 0.7, can.width, 4);
+        c.fr(0, 0, can.width, 2);
+        c.fr(0, can.height, can.width, -2);
+        c.fr(0, 0, 2, can.height);
+        c.fr(can.width, 0, -2, can.height);
+        c.fr(0, can.height * 0.7, can.width, 4);
     }
 );
 
@@ -27,17 +27,17 @@ WINDOW = padCanvas(2, 1, 0.5, UNPADDED_WINDOW);
 UNPADDED_DESK = createCanvas(CELL_SIZE * 1.1, CELL_SIZE * 0.5, (c, can) => {
     // Legs
     c.fillStyle = '#000';
-    c.fillRect(2, 0, 2, can.height);
-    c.fillRect(can.width - 2, 0, -2, can.height);
+    c.fr(2, 0, 2, can.height);
+    c.fr(can.width - 2, 0, -2, can.height);
 
     // Top
     c.fillStyle = '#494742';
-    c.fillRect(0, 0, 99, 4);
+    c.fr(0, 0, 99, 4);
 
     // Drawers
     c.fillStyle = '#ccc';
-    c.fillRect(4, 4, can.width / 4, can.height / 3);
-    c.fillRect(can.width - 4, 4, -can.width / 4, can.height / 3);
+    c.fr(4, 4, can.width / 4, can.height / 3);
+    c.fr(can.width - 4, 4, -can.width / 4, can.height / 3);
 });
 
 COMPUTER = createCanvas(CELL_SIZE * 0.6, CELL_SIZE * 0.6, (c, can) => {
@@ -62,25 +62,25 @@ COMPUTER = createCanvas(CELL_SIZE * 0.6, CELL_SIZE * 0.6, (c, can) => {
 
 FRAME = padCanvas(1, 1, 0.5, createCanvas(CELL_SIZE * 0.6, CELL_SIZE * 0.8, (c, can) => {
     c.fillStyle = '#925e2a';
-    c.fillRect(0, 0, 99, 99);
+    c.fr(0, 0, 99, 99);
     c.fillStyle = '#fcf3d7';
-    c.fillRect(4, 4, can.width - 8, can.height - 8);
+    c.fr(4, 4, can.width - 8, can.height - 8);
     c.fillStyle = '#ccc';
-    c.fillRect(can.width / 2 - 5, can.height / 2 - 5, 10, 10);
+    c.fr(can.width / 2 - 5, can.height / 2 - 5, 10, 10);
 }));
 
 DESK = padCanvas(1, 2, 1, UNPADDED_DESK);
 
 TRASH = padCanvas(1, 1, 1, createCanvas(CELL_SIZE * 0.3, CELL_SIZE * 0.4, (c, can) => {
     c.fillStyle = '#4c80be';
-    c.fillRect(0, 0, 99, 99);
+    c.fr(0, 0, 99, 99);
     c.fillStyle = '#78a1d6';
-    c.fillRect(0, 0, 99, 4);
+    c.fr(0, 0, 99, 4);
 }));
 
 OUTLET = padCanvas(1, 1, 0.75, createCanvas(CELL_SIZE * 0.2, CELL_SIZE * 0.2, (c, can) => {
     c.fillStyle = '#fff';
-    c.fillRect(0, 0, 99, 99);
+    c.fr(0, 0, 99, 99);
 }));
 
 LIGHT = padCanvas(3, 10, 0, createCanvas(CELL_SIZE * 5, CELL_SIZE * 3, (c, can) => {

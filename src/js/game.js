@@ -465,7 +465,7 @@ class Game {
 
         // Mobile controls
         R.fillStyle = '#000';
-        fillRect(0, CANVAS_HEIGHT, CANVAS_WIDTH, MOBILE_CONTROLS_HEIGHT);
+        fr(0, CANVAS_HEIGHT, CANVAS_WIDTH, MOBILE_CONTROLS_HEIGHT);
 
         R.fillStyle = '#fff';
 

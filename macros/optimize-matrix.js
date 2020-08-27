@@ -66,14 +66,12 @@ module.exports = {
         }
         result.push(topAndBottomRow);
 
-        lines.forEach((line) => {
-            let [
-                row,
-                col,
-                verticalLength,
-                horizontalLength
-            ] = line;
-
+        lines.forEach(([
+            row,
+            col,
+            verticalLength,
+            horizontalLength
+        ]) => {
             let verticalIncr = !!verticalLength;
             let horizontalIncr = !!horizontalLength;
 

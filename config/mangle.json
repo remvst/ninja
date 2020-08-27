@@ -12,8 +12,8 @@
         "monetization"
     ],
     "force": [
+        "background",
         "key",
-        "resume",
         "alpha",
         "button",
         "mask",

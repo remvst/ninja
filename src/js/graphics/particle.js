@@ -17,6 +17,5 @@ class Particle {
         R.globalAlpha = this.alpha;
         fs(this.color);
         fr(this.x - this.size / 2, this.y - this.size / 2, this.size, this.size);
-        // fillCircle(this.x, this.y, this.size / 2);
     }
 }
