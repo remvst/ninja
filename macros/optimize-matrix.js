@@ -54,17 +54,17 @@ module.exports = {
         return `${rows}, ${cols}, ${JSON.stringify(lines)}`;
     },
     'revert': function(rows, cols, lines) {
-        const result = [];
+        const decoded = [];
         const topAndBottomRow = Array(cols).fill(1);
-        result.push(topAndBottomRow);
+        decoded.push(topAndBottomRow);
         for (let i = 0 ; i < rows - 2 ; i++) {
             const row = Array(cols).fill(0);
             row.length = cols;
             row[0] = 1;
             row[cols - 1] = 1;
-            result.push(row);
+            decoded.push(row);
         }
-        result.push(topAndBottomRow);
+        decoded.push(topAndBottomRow);
 
         lines.forEach(([
             row,
@@ -76,10 +76,10 @@ module.exports = {
             let horizontalIncr = !!horizontalLength;
 
             for (let i = 0 ; i < max(verticalLength, horizontalLength) ; i++) {
-                result[row + i * verticalIncr][col + i * horizontalIncr] = 1;
+                decoded[row + i * verticalIncr][col + i * horizontalIncr] = 1;
             }
         });
 
-        return result;
+        return decoded;
     }
 };
