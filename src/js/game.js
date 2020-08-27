@@ -26,8 +26,8 @@ class Game {
         this.windowsAlpha = 1;
 
         this.introAlpha = 1;
-        this.titleAlpha = 1;
-        this.titleYOffset = 1;
+        this.mainTitleAlpha = 1;
+        this.mainTitleYOffset = 1;
         this.interTitleYOffset = 1;
 
         this.bandanaSource = {'x': NINJA_POSITION.x, 'y': NINJA_POSITION.y - 10};
@@ -35,15 +35,15 @@ class Game {
             return { 'x': this.bandanaSource.x + PLAYER_RADIUS / 2 + i * 10 };
         })
 
-        this.title = nomangle('NINJA');
+        this.mainTitle = nomangle('NINJA');
         this.interTitle = nomangle('VS');
 
         interp(this, 'introAlpha', 1, 0, 1, 2);
-        interp(this, 'titleYOffset', -CANVAS_HEIGHT , 0, 0.3, 0.5, null, () => {
+        interp(this, 'mainTitleYOffset', -CANVAS_HEIGHT , 0, 0.3, 0.5, null, () => {
             this.shakeTitleTime = 0.1;
 
             R.font = TITLE_FONT;
-            this.dust(measureText(this.title).width / 2, TITLE_Y + 50, 100);
+            this.dust(measureText(this.mainTitle).width / 2, TITLE_Y + 50, 100);
         });
         interp(this, 'interTitleYOffset', CANVAS_HEIGHT, 0, 0.3, 1, null, () => {
             this.shakeTitleTime = 0.1;
@@ -166,7 +166,7 @@ class Game {
         interp(this, 'windowsAlpha', 0, 1, 1, 1);
 
         // Replace the title and fade it in
-        this.title = 'YOU BEAT';
+        this.mainTitle = 'YOU BEAT';
         this.interTitle = '';
         interp(this, 'titleAlpha', 0, 1, 1, 3);
 
@@ -428,7 +428,7 @@ class Game {
 
         wrap(() => {
             // Instructions
-            if (G.clock % 2 < 1.5 && this.titleAlpha == 1) {
+            if (G.clock % 2 < 1.5 && this.mainTitleAlpha == 1) {
                 const instructions = [
                     nomangle('PRESS [SPACE] TO START'),
                     nomangle('PRESS [K] TO CHANGE DIFFICULTY'),
@@ -542,7 +542,7 @@ class Game {
                 translate(rnd(-10, 10), rnd(-10, 10));
             }
 
-            R.globalAlpha = this.titleAlpha;
+            R.globalAlpha = this.mainTitleAlpha;
             R.textAlign = nomangle('center');
             R.textBaseline = nomangle('middle');
             R.fillStyle = '#fff';
@@ -551,7 +551,7 @@ class Game {
             // Main title
             R.lineWidth = 5;
             R.font = TITLE_FONT;
-            outlinedText(this.title, CANVAS_WIDTH / 2, TITLE_Y + this.titleYOffset);
+            outlinedText(this.mainTitle, CANVAS_WIDTH / 2, TITLE_Y + this.mainTitleYOffset);
 
             // "Inter" title (between the title and EVILCORP)
             R.font = INTER_TITLE_FONT;
