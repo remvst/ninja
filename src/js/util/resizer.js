@@ -1,21 +1,21 @@
 onresize = () => {
-    var mw = innerWidth,
-        mh = innerHeight,
+    var windowWidth = innerWidth,
+        windowHeight = innerHeight,
 
-        ar = mw / mh, // available ratio
-        br = CANVAS_WIDTH / CANVAS.height, // base ratio
-        w,
-        h,
-        s = nomangle(t).style;
+        availableRatio = windowWidth / windowHeight, // available ratio
+        canvasRatio = CANVAS_WIDTH / CANVAS.height, // base ratio
+        appliedWidth,
+        appliedHeight,
+        containerStyle = nomangle(t).style;
 
-    if (ar <= br) {
-        w = mw;
-        h = w / br;
+    if (availableRatio <= canvasRatio) {
+        appliedWidth = windowWidth;
+        appliedHeight = appliedWidth / canvasRatio;
     } else {
-        h = mh;
-        w = h * br;
+        appliedHeight = windowHeight;
+        appliedWidth = appliedHeight * canvasRatio;
     }
 
-    s.width = w + 'px';
-    s.height = h + 'px';
+    containerStyle.width = appliedWidth + 'px';
+    containerStyle.height = appliedHeight + 'px';
 };
