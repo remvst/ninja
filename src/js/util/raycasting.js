@@ -14,10 +14,10 @@ castRay = (x, y, angle, maxDistance) => {
     }
 
     if (distP(x, y, impact.x, impact.y) > maxDistance) {
-        cast = {'x': x + cos(angle) * maxDistance, 'y': y + sin(angle) * maxDistance};
+        impact = {'x': x + cos(angle) * maxDistance, 'y': y + sin(angle) * maxDistance};
     }
 
-    return cast;
+    return impact;
 }
 
 castAgainstHorizontal = (startX, startY, angle, maxDistance) => {
