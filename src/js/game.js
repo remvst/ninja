@@ -80,6 +80,10 @@ class Game {
             return;
         }
 
+        if (!this.timer) {
+            alert(nomangle('Change the difficulty at any time by pressing [K].'));
+        }
+
         this.isStarted = true;
 
         this.timerActive = true;
@@ -497,12 +501,12 @@ class Game {
 
         if (this.timer) {
             hudItems.push([nomangle('LEVEL:'), (this.level.index + 1) + '/' + LEVELS.length]);
-            hudItems.push([nomangle('TIME:'), formatTime(this.timer)]);
+            hudItems.push([nomangle('TIME' ) + (this.wasDifficultyChangedDuringRun ? nomangle(' (INVALIDATED):') : ':'), formatTime(this.timer)]);
         }
 
         hudItems.push([
             nomangle('BEST [') + this.difficulty.label + ']:',
-            this.wasDifficultyChangedDuringRun ? nomangle('N/A') : formatTime(this.bestTime)
+            formatTime(this.bestTime)
         ]);
 
         if (DEBUG) {
