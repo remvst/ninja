@@ -1,4 +1,4 @@
-GOD_RAY = createCanvas(CELL_SIZE * 0.6, CELL_SIZE * 4, (c, can) => {
+GOD_RAY = createCanvas(evaluate(CELL_SIZE * 0.6), evaluate(CELL_SIZE * 4), (c, can) => {
     const g = c.createLinearGradient(0, 0, 0, CELL_SIZE * 4);
     g.addColorStop(0, 'rgba(255,255,255, 0)');
     g.addColorStop(0.5, 'rgba(255,255,255, 0.5)');
@@ -8,7 +8,7 @@ GOD_RAY = createCanvas(CELL_SIZE * 0.6, CELL_SIZE * 4, (c, can) => {
     c.fr(0, 0, 99, 999);
 });
 
-HALO = createCanvas(CELL_SIZE * 4, CELL_SIZE * 4, (c, can) => {
+HALO = createCanvas(evaluate(CELL_SIZE * 4), evaluate(CELL_SIZE * 4), (c, can) => {
     const g = c.createRadialGradient(can.width / 2, can.height / 2, 0, can.width / 2, can.height / 2, can.width / 2);
     g.addColorStop(0.5, 'rgba(255,255,255, 0.5)');
     g.addColorStop(1, 'rgba(255,255,255, 0)');
@@ -17,7 +17,7 @@ HALO = createCanvas(CELL_SIZE * 4, CELL_SIZE * 4, (c, can) => {
     c.fr(0, 0, 999, 999);
 });
 
-RED_HALO = createCanvas(CELL_SIZE * 6, CELL_SIZE * 6, (c, can) => {
+RED_HALO = createCanvas(evaluate(CELL_SIZE * 6), evaluate(CELL_SIZE * 6), (c, can) => {
     const g = c.createRadialGradient(
         can.width / 2, can.height / 2, 0,
         can.width / 2, can.height / 2, can.width / 2
@@ -29,7 +29,7 @@ RED_HALO = createCanvas(CELL_SIZE * 6, CELL_SIZE * 6, (c, can) => {
     c.fr(0, 0, 999, 999);
 });
 
-WINDOW_PATTERN = createCanvasPattern(CELL_SIZE * 2, CELL_SIZE * 2, (c, can) => {
+WINDOW_PATTERN = createCanvasPattern(evaluate(CELL_SIZE * 2), evaluate(CELL_SIZE * 2), (c, can) => {
     c.fillStyle = '#637ab5';
     c.fr(0, 0, 999, 999);
 
@@ -37,7 +37,7 @@ WINDOW_PATTERN = createCanvasPattern(CELL_SIZE * 2, CELL_SIZE * 2, (c, can) => {
     c.fr(can.width / 10, can.height / 4, can.width * 8 / 10, can.height / 2);
 });
 
-BUILDING_PATTERN = createCanvasPattern(CELL_SIZE * LEVEL_COLS, CELL_SIZE * 10, (c, can) => {
+BUILDING_PATTERN = createCanvasPattern(evaluate(CELL_SIZE * LEVEL_COLS), evaluate(CELL_SIZE * 10), (c, can) => {
     c.fillStyle = '#485473';
     c.fr(0, 0, can.width, 999);
 
@@ -47,7 +47,7 @@ BUILDING_PATTERN = createCanvasPattern(CELL_SIZE * LEVEL_COLS, CELL_SIZE * 10, (
     c.fr(0, CELL_SIZE / 4, can.width, can.height - CELL_SIZE / 2);
 });
 
-SIGN_HOLDER_PATTERN = createCanvasPattern(CELL_SIZE * 2, CELL_SIZE * 2, (c, can) => {
+SIGN_HOLDER_PATTERN = createCanvasPattern(evaluate(CELL_SIZE * 2), evaluate(CELL_SIZE * 2), (c, can) => {
     c.fillStyle = c.strokeStyle = '#111';
     c.lineWidth = 4;
     c.fr(0, 0, 99, 99);

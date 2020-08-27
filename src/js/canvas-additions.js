@@ -11,26 +11,26 @@ canvasProto.fs = function(x) {
     this.fillStyle = x;
 };
 
-canvasProto.roundedRectangle = function(x, y, width, height, rounded) {
+canvasProto.roundedRectangle = function(x, y, w, h, rounded) {
     const radiansInCircle = 2 * PI;
     const halfRadians = (2 * PI) / 2;
     const quarterRadians = (2 * PI) / 4;
 
     this.arc(rounded + x, rounded + y, rounded, -quarterRadians, halfRadians, true)
-    this.arc(rounded + x, height - rounded + y, rounded, halfRadians, quarterRadians, true)
-    this.arc(x + width - rounded, y + height - rounded, rounded, quarterRadians, 0, true)
-    this.arc(x + width - rounded, y + rounded, rounded, 0, -quarterRadians, true)
+    this.arc(rounded + x, h - rounded + y, rounded, halfRadians, quarterRadians, true)
+    this.arc(x + w - rounded, y + h - rounded, rounded, quarterRadians, 0, true)
+    this.arc(x + w - rounded, y + rounded, rounded, 0, -quarterRadians, true)
 }
 
 canvasProto.fillCircle = function(x, y, radius) {
-    beginPath();
-    arc(x, y, radius, 0, PI * 2, true);
-    fill();
+    this.beginPath();
+    this.arc(x, y, radius, 0, PI * 2, true);
+    this.fill();
 };
 
 canvasProto.outlinedText = function(s, x, y) {
-    fillText(s, x, y);
-    strokeText(s, x, y);
+    this.fillText(s, x, y);
+    this.strokeText(s, x, y);
 };
 
 canvasProto.shadowedText = function(s, x, y) {
@@ -38,5 +38,5 @@ canvasProto.shadowedText = function(s, x, y) {
         this.fillStyle = '#000';
         fillText(s, x, y + 5);
     })
-    fillText(s, x, y);
+    this.fillText(s, x, y);
 };
