@@ -165,8 +165,7 @@ LEVELS = [
             new CameraCycle(12.5, 9.5, PI / 2).wait(3).rotateBy(5, -PI * 2).withPhase(2.5),
             new CameraCycle(12.5, 13.5, PI / 2).wait(3).rotateBy(5, -PI * 2).withPhase(3),
 
-            new CameraCycle(5, 14, PI * 7 / 8).wait(2).rotateTo(1, PI / 2).wait(2).rotateTo(1, PI * 7 / 8),
-            // new CameraCycle(1, 1, PI / 2).patrol(1, 0, 2),
+            new CameraCycle(5, 14, PI * 7 / 8).patrol(1, PI / 2, 2),
         ],
         'guards': [
             new GuardCycle(2, 1).patrol(1, 10, 1),
@@ -201,7 +200,7 @@ LEVELS = [
         'exit': [3, 17],
         // 'message': [7.5, nomangle('GUARDS ARE PREDICTABLE')],
         'cameras': [
-            new CameraCycle(1, 8.5, PI / 4).rotateTo(2, PI * 2 / 3).wait(1).rotateTo(2, PI / 4).wait(1),
+            new CameraCycle(1, 8.5, PI / 4).patrol(2, PI * 3 / 3, 1),
         ],
         'guards': [
             new GuardCycle(17, 8).patrol(1, 11, 1),
@@ -308,8 +307,8 @@ LEVELS = [
         'exit': [18, 8],
         'message': [9.5, nomangle('BE PATIENT')],
         'cameras': [
-            new CameraCycle(13, 8, PI / 2).rotateTo(1, PI).wait(3).rotateTo(1, PI / 2).wait(3),
-            new CameraCycle(13, 11, 0).rotateTo(1, PI / 2).wait(3).rotateTo(1, 0).wait(3),
+            new CameraCycle(13, 8, PI).patrol(1, PI / 2, 3),
+            new CameraCycle(13, 11, PI / 2).patrol(1, 0, 3),
         ],
         'guards': [
             new GuardCycle(7, 7).patrol(2, 3, 2),
@@ -345,11 +344,7 @@ LEVELS = [
         'spawn': [14, 2],
         'exit': [3, 17],
         'cameras': [
-            new CameraCycle(10, 11.5, PI / 2)
-            .wait(1)
-            .rotateBy(1, PI)
-            .wait(1)
-            .rotateBy(1, PI)
+            new CameraCycle(10, 11.5, PI / 2).wait(1).rotateBy(1, PI).wait(1).rotateBy(1, PI)
         ],
         'guards': [
             new GuardCycle(16, 6).patrol(2, 12, 2),
@@ -386,9 +381,6 @@ LEVELS = [
         'exit': [2, 15],
         'cameras': [
             new CameraCycle(5, 4.5, PI / 2).patrol(1, PI * 3 / 2, 2),
-            // new CameraCycle(13, 1, 0).wait(2).rotateBy(1, PI / 2).wait(2).rotateBy(1, -PI / 2),
-            // new CameraCycle(10, 1, 0),
-            // new CameraCycle(7, 1, 0).wait(2).rotateBy(1, PI / 2).wait(2).rotateBy(1, -PI / 2),
         ],
         'guards': [
             new GuardCycle(15, 13).patrol(1, 15, 2.5),
@@ -424,10 +416,8 @@ LEVELS = [
         'spawn': [18, 1],
         'exit': [5, 15.5],
         'cameras': [
-            new CameraCycle(14, 3.5, PI * 3 / 4).wait(1).rotateTo(1.5, PI / 4).wait(1).rotateTo(1.5, PI * 3 / 4),
-            // new CameraCycle(6, 7, -PI * 3 / 4).wait(1).rotateTo(1, -PI / 4).wait(1).rotateTo(1, -PI * 3 / 4),
-            new CameraCycle(4, 7, PI * 3 / 4).wait(1).rotateTo(1, PI / 4).wait(1).rotateTo(1, PI * 3 / 4),
-            // new CameraCycle(12, 3.5, -PI / 4)
+            new CameraCycle(14, 3.5, PI * 3 / 4).patrol(1.5, PI / 4, 1),
+            new CameraCycle(4, 7, PI * 3 / 4).patrol(1, PI / 4, 1),
         ],
         'guards': [
             new GuardCycle(12, 5).patrol(1, 2, 1),
@@ -543,7 +533,6 @@ LEVELS = [
         ],
         'guards': [
             new GuardCycle(5, 9).patrol(1, 14, 1),
-            // new GuardCycle(15, 12).patrol(1, 18, 1),
         ]
     },
 
