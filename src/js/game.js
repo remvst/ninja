@@ -94,7 +94,7 @@ class Game {
         this.level.prepare();
 
         // Fade the title and intertitle out
-        interp(this, 'titleAlpha', 1, 0, 0.5);
+        interp(this, 'mainTitleAlpha', 1, 0, 0.5);
         interp(this, 'interTitleAlpha', 1, 0, 0.5);
 
         // Center the level, hide the windows, then start it
@@ -168,7 +168,7 @@ class Game {
         // Replace the title and fade it in
         this.mainTitle = 'YOU BEAT';
         this.interTitle = '';
-        interp(this, 'titleAlpha', 0, 1, 1, 3);
+        interp(this, 'mainTitleAlpha', 0, 1, 1, 3);
 
         // Trophies for OS13K (not checking if the player changed difficulty just so they can win trophies more easily)
         const normalTrophy = this.difficulty == NORMAL_DIFFICULTY;
