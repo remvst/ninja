@@ -81,7 +81,7 @@ class Game {
         }
 
         if (!this.timer) {
-            alert(nomangle('Change the difficulty at any time by pressing [K].'));
+            alert(nomangle('Difficulty can be changed at any time by pressing [K].'));
         }
 
         this.isStarted = true;
