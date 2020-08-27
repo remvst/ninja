@@ -1,8 +1,9 @@
 class Menu {
 
-    constructor(title, subtitle) {
+    constructor(title, subtitle, footer) {
         this.title = title;
         this.subtitle = subtitle;
+        this.footer = footer || '';
 
         this.titlePosition = this.subtitlePosition = 9999;
         this.dimAlpha = 0;
@@ -54,6 +55,10 @@ class Menu {
 
         R.font = nomangle('bold italic 48pt ') + FONT;
         shadowedText(this.subtitle, this.subtitlePosition, levelHeight / 2 + 25);
+
+        R.fillStyle = '#888';
+        R.font = nomangle('12pt ') + FONT;
+        shadowedText(this.footer, LEVEL_WIDTH / 2, levelHeight - 20);
     }
 
 }

@@ -80,10 +80,6 @@ class Game {
             return;
         }
 
-        if (!this.timer) {
-            alert(nomangle('Difficulty can be changed at any time by pressing [K].'));
-        }
-
         this.isStarted = true;
 
         this.timerActive = true;
@@ -497,7 +493,7 @@ class Game {
 
         // HUD
         const hudItems = [];
-        hudItems.push([nomangle('DIFFICULTY [K]:'), this.difficulty.label]);
+        hudItems.push([nomangle('DIFFICULTY:'), this.difficulty.label]);
 
         if (this.timer) {
             hudItems.push([nomangle('LEVEL:'), (this.level.index + 1) + '/' + LEVELS.length]);

@@ -58,7 +58,8 @@ class Level {
         this.endWith(() => {
             G.menu = new Menu(
                 nomangle('YOU WERE FOUND!'),
-                nomangle('PRESS [SPACE] TO TRY AGAIN')
+                nomangle('PRESS [SPACE] TO TRY AGAIN'),
+                nomangle('PRESS [K] TO CHANGE DIFFICULTY')
             );
             G.menu.animateIn();
 
