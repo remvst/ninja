@@ -4,30 +4,28 @@ easeOutQuint = t => 1 + (--t) * t * t * t * t;
 easeInQuint = t => t * t * t * t * t;
 easeInOutCubic = t => t < .5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
 
-interp = (object, property, fromValue, toValue, duration, delay, easing, endCallback) => {
+interp = (
+    object,
+    property,
+    fromValue,
+    toValue,
+    duration,
+    delay,
+    easing,
+    endCallback
+) => {
+    let progress = 0;
+
     const interpolation = {
-        object: object, // object
-        property: property, // property
-        fromValue: fromValue, // from
-        toValue: toValue, // to
-        duration: duration, // duration
-        delay: delay || 0, // delay
-        easing: easing || linear, // easing function
-        endCallback: endCallback || (() => 0), // end callback
-        progress: 0,
-        cycle: e => {
-            if (interpolation.delay > 0) {
-                interpolation.delay -= e;
-                interpolation.object[interpolation.property] = interpolation.fromValue;
-            } else {
-                interpolation.progress = min(interpolation.duration, interpolation.progress + e);
+        'cycle': e => {
+            progress += e;
 
-                interpolation.object[interpolation.property] = interpolation.easing(interpolation.progress / interpolation.duration) * (interpolation.toValue - interpolation.fromValue) + interpolation.fromValue;
-                if (interpolation.progress == interpolation.duration) {
-                    interpolation.endCallback();
+            const progressAsRatio = limit(0, (progress - (delay || 0)) / duration, 1);
+            object[property] = (easing || linear)(progressAsRatio) * (toValue - fromValue) + fromValue;
 
-                    remove(INTERPOLATIONS, interpolation);
-                }
+            if (progressAsRatio >= 1) {
+                remove(INTERPOLATIONS, interpolation);
+                endCallback && endCallback();
             }
         }
     };
