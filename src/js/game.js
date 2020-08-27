@@ -561,10 +561,10 @@ class Game {
         this.renderables.forEach(renderable => wrap(() => renderable.render()));
     }
 
-    particle(properties) {
+    particle(props) {
         let particle;
-        properties.onFinish = () => remove(this.renderables, particle);
-        this.renderables.push(particle = new Particle(properties));
+        props.onFinish = () => remove(this.renderables, particle);
+        this.renderables.push(particle = new Particle(props));
     }
 
 }

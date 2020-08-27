@@ -19,10 +19,10 @@ onload = () => {
 
     new Game();
 
-    repeat = (func, nextFrameFunc) => {
-        let lastFrame = Date.now();
+    const loop = (func, nextFrameFunc) => {
+        let lastFrame = performance.now();
         const iteration = () => {
-            let n = Date.now(),
+            let n = performance.now(),
                 e = min((n - lastFrame) / 1000, 1000 / 10);
 
             lastFrame = n;
@@ -36,7 +36,7 @@ onload = () => {
 
     // Run the game at 200 FPS
     let didCycle = false;
-    repeat(
+    loop(
         (e, fps) => {
             G.cycle(e);
             didCycle = true;
@@ -49,7 +49,7 @@ onload = () => {
     );
 
     // Render at 60 FPS
-    repeat(
+    loop(
         (e, fps) => {
             // Don't render if nothing was updated
             if (!didCycle) {
