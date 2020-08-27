@@ -86,11 +86,9 @@ renderCharacter = (
 renderEyes = (context, clock) => {
     context.fillStyle = '#000';
 
-    const blinkInterval = 4;
-    const blinkTime = 0.3;
-    const moduloTime = clock % blinkInterval;
-    const middleBlinkTime = blinkInterval - blinkTime / 2;
-    const eyeScale = min(1, max(-moduloTime + middleBlinkTime, moduloTime - middleBlinkTime) / (blinkTime / 2));
+    const moduloTime = clock % BLINK_INTERVAL;
+    const middleBlinkTime = evaluate(BLINK_INTERVAL - BLINK_TIME / 2);
+    const eyeScale = min(1, max(-moduloTime + middleBlinkTime, moduloTime - middleBlinkTime) / (BLINK_TIME / 2));
 
     context.fr(bodyWidth - 1, 7, -4, 4 * eyeScale);
     context.fr(bodyWidth - 8, 7, -4, 4 * eyeScale);
