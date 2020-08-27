@@ -95,7 +95,6 @@ class Game {
 
         // Fade the title and intertitle out
         interp(this, 'mainTitleAlpha', 1, 0, 0.5);
-        interp(this, 'interTitleAlpha', 1, 0, 0.5);
 
         // Center the level, hide the windows, then start it
         this.centerLevel(
