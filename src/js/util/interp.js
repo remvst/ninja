@@ -1,8 +1,8 @@
 linear = t => t;
-easeOutQuad = t => t*(2-t);
-easeOutQuint = t => 1+(--t)*t*t*t*t;
-easeInQuint = t => t*t*t*t*t;
-easeInOutCubic = t => t<.5 ? 4*t*t*t : (t-1)*(2*t-2)*(2*t-2)+1;
+easeOutQuad = t => t * (2 - t);
+easeOutQuint = t => 1 + (--t) * t * t * t * t;
+easeInQuint = t => t * t * t * t * t;
+easeInOutCubic = t => t < .5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
 
 interp = (o, p, a, b, d, l, f, e) => {
     const i = {
