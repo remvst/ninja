@@ -49,6 +49,7 @@
         "level",
         "matrix",
         "maxDistance",
+        "precision",
         "remove",
         "right",
         "rows",

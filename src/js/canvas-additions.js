@@ -13,8 +13,8 @@ canvasProto.fs = function(x) {
 
 canvasProto.roundedRectangle = function(x, y, w, h, rounded) {
     const radiansInCircle = 2 * PI;
-    const halfRadians = (2 * PI) / 2;
-    const quarterRadians = (2 * PI) / 4;
+    const halfRadians = PI;
+    const quarterRadians = PI / 2;
 
     this.arc(rounded + x, rounded + y, rounded, -quarterRadians, halfRadians, true)
     this.arc(rounded + x, h - rounded + y, rounded, halfRadians, quarterRadians, true)
