@@ -10,10 +10,10 @@ castRay = (x, y, angle, maxDistance) => {
     } else {
         const dHorizontal = distP(x, y, castHorizontal.x, castHorizontal.y);
         const dVertical = distP(x, y, castVertical.x, castVertical.y);
-        cast = dHorizontal < dVertical ? castHorizontal : castVertical;
+        impact = dHorizontal < dVertical ? castHorizontal : castVertical;
     }
 
-    if (distP(x, y, cast.x, cast.y) > maxDistance) {
+    if (distP(x, y, impact.x, impact.y) > maxDistance) {
         cast = {'x': x + cos(angle) * maxDistance, 'y': y + sin(angle) * maxDistance};
     }
 
