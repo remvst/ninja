@@ -90,16 +90,8 @@ LEVELS = [
         'message': [13.5, nomangle('AVOID CAMERAS')],
         'cameras': [
             new CameraCycle(16, 9.5, PI / 2),
-            new CameraCycle(5, 6.5, PI * 3 / 4)
-            .wait(1)
-            .rotateTo(2, PI / 4)
-            .wait(1)
-            .rotateTo(2, PI * 3 / 4),
-            new CameraCycle(3, 12, PI / 2)
-            .wait(1)
-            .rotateTo(2, PI / 9)
-            .wait(1)
-            .rotateTo(2, PI / 2)
+            new CameraCycle(5, 6.5, PI * 3 / 4).patrol(2, PI / 4, 1),
+            new CameraCycle(3, 12, PI / 2).patrol(2, PI / 9, 1)
         ],
         'guards': []
     },
