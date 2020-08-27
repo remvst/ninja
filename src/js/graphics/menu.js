@@ -27,22 +27,19 @@ class Menu {
     }
 
     render() {
-        const LEVEL_WIDTH = LEVEL_COLS * CELL_SIZE;
-        const levelHeight = LEVEL_ROWS * CELL_SIZE;
-
         translate(
             (CANVAS_WIDTH - LEVEL_WIDTH) / 2,
-            (CANVAS_HEIGHT - levelHeight) / 2
+            (CANVAS_HEIGHT - LEVEL_HEIGHT) / 2
         );
 
         if (this.dim) {
             beginPath();
-            rect(0, 0, LEVEL_WIDTH, levelHeight);
+            rect(0, 0, LEVEL_WIDTH, LEVEL_HEIGHT);
             clip();
 
             // Dim
             R.fillStyle = 'rgba(0,0,0,' + this.dimAlpha * 0.8 + ')';
-            fr(0, 0, LEVEL_WIDTH, levelHeight);
+            fr(0, 0, LEVEL_WIDTH, LEVEL_HEIGHT);
         }
 
 
@@ -51,14 +48,14 @@ class Menu {
         R.fillStyle = '#fff';
 
         R.font = nomangle('bold italic 24pt ') + FONT;
-        shadowedText(this.title, this.titlePosition, levelHeight / 2 - 25);
+        shadowedText(this.title, this.titlePosition, LEVEL_HEIGHT / 2 - 25);
 
         R.font = nomangle('bold italic 48pt ') + FONT;
-        shadowedText(this.subtitle, this.subtitlePosition, levelHeight / 2 + 25);
+        shadowedText(this.subtitle, this.subtitlePosition, LEVEL_HEIGHT / 2 + 25);
 
         R.fillStyle = '#888';
         R.font = nomangle('12pt ') + FONT;
-        shadowedText(this.footer, LEVEL_WIDTH / 2, levelHeight - 20);
+        shadowedText(this.footer, LEVEL_WIDTH / 2, LEVEL_HEIGHT - 20);
     }
 
 }
