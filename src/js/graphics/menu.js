@@ -50,7 +50,7 @@ class Menu {
         shadowedText(this.subtitle, this.subtitlePosition, LEVEL_HEIGHT / 2 + 25);
 
         R.fillStyle = '#888';
-        R.font = nomangle('12pt ') + FONT;
+        R.font = nomangle('16pt ') + FONT;
         shadowedText(this.footer, LEVEL_WIDTH / 2, LEVEL_HEIGHT - 20);
     }
 
