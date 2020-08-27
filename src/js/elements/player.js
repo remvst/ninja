@@ -182,14 +182,15 @@ class Player {
         }
 
         if (this.sticksToWall) {
-            for (let i = 0 ; i < 10 ; i++)
-            this.level.particle({
-                'size': [6],
-                'color': '#fff',
-                'duration': rnd(0.4, 0.8),
-                'x': [this.x - this.sticksToWall * PLAYER_RADIUS, rnd(-20, 20)],
-                'y': [this.y + rnd(-PLAYER_RADIUS, PLAYER_RADIUS), rnd(-20, 20)]
-            });
+            for (let i = 0 ; i < 10 ; i++) {
+                this.level.particle({
+                    'size': [6],
+                    'color': '#fff',
+                    'duration': rnd(0.4, 0.8),
+                    'x': [this.x - this.sticksToWall * PLAYER_RADIUS, rnd(-20, 20)],
+                    'y': [this.y + rnd(-PLAYER_RADIUS, PLAYER_RADIUS), rnd(-20, 20)]
+                });
+            }
         }
     }
 
