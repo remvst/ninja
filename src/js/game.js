@@ -82,7 +82,6 @@ class Game {
 
         this.isStarted = true;
 
-        this.timerActive = true;
         this.timer = 0;
 
         this.wasDifficultyChangedDuringRun = false;
@@ -105,7 +104,10 @@ class Game {
             0.5,
             () => {
                 // Hide the windows, then start the level
-                interp(this, 'windowsAlpha', 1, 0, 1, 0, null, () => this.level.start());
+                interp(this, 'windowsAlpha', 1, 0, 1, 0, null, () => {
+                    this.timerActive = true;
+                    this.level.start()
+                });
             }
         )
 
