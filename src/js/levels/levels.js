@@ -238,7 +238,7 @@ LEVELS = [
             new CameraCycle(7, 18, PI / 2).patrol(1, PI * 5 / 4, 1)
         ],
         'guards': [
-            new GuardCycle(17, 8).patrol(1, 9, 1)
+            new GuardCycle(17, 8).patrol(1.1, 9, 1.1)
         ]
     },
 
