@@ -1,7 +1,7 @@
 padCanvas = (rows, cols, anchorY, image) => createCanvas(CELL_SIZE * cols, CELL_SIZE * rows, (c, can) => {
     let y;
 
-    y = can.height * anchorY - image.height * anchorY;
+    y = (can.height - image.height) * anchorY;
 
     c.drawImage(
         image,
