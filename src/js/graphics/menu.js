@@ -22,10 +22,6 @@ class Menu {
         interp(this, 'dimAlpha', 1, 0, 0.3, 0.2);
     }
 
-    cycle(e) {
-
-    }
-
     render() {
         translate(
             (CANVAS_WIDTH - LEVEL_WIDTH) / 2,
