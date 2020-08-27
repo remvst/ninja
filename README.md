@@ -25,6 +25,10 @@ You can then run commands in the browser's console.
 
 Press <kbd>F</kbd> to speed up the game, <kbd>G</kbd> to slow it down.
 
+### Skip level
+
+Press <kbd>N</kbd>.
+
 ### In-game level editor
 
 A simple level editor allows you to modify the obstacles while in-game.
