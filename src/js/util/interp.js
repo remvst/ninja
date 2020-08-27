@@ -4,35 +4,34 @@ easeOutQuint = t => 1 + (--t) * t * t * t * t;
 easeInQuint = t => t * t * t * t * t;
 easeInOutCubic = t => t < .5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
 
-interp = (o, p, a, b, d, l, f, e) => {
-    const i = {
-        o: o, // object
-        p: p, // property
-        a: a, // from
-        b: b, // to
-        d: d, // duration
-        l: l || 0, // delay
-        f: f || linear, // easing function
-        e: e || (() => 0), // end callback
-        t: 0,
+interp = (object, property, fromValue, toValue, duration, delay, easing, endCallback) => {
+    const interpolation = {
+        object: object, // object
+        property: property, // property
+        fromValue: fromValue, // from
+        toValue: toValue, // to
+        duration: duration, // duration
+        delay: delay || 0, // delay
+        easing: easing || linear, // easing function
+        endCallback: endCallback || (() => 0), // end callback
+        progress: 0,
         cycle: e => {
-            if (i.l > 0) {
-                i.l -= e;
-                i.o[i.p] = i.a;
+            if (interpolation.delay > 0) {
+                interpolation.delay -= e;
+                interpolation.object[interpolation.property] = interpolation.fromValue;
             } else {
-                i.t = min(i.d, i.t + e);
+                interpolation.progress = min(interpolation.duration, interpolation.progress + e);
 
-                i.o[i.p] = i.f(i.t / i.d) * (i.b - i.a) + i.a;
-                if (i.t == i.d) {
-                    i.e();
+                interpolation.object[interpolation.property] = interpolation.easing(interpolation.progress / interpolation.duration) * (interpolation.toValue - interpolation.fromValue) + interpolation.fromValue;
+                if (interpolation.progress == interpolation.duration) {
+                    interpolation.endCallback();
 
-                    const index = INTERPOLATIONS.indexOf(i);
-                    if (index >= 0) INTERPOLATIONS.splice(index, 1);
+                    remove(INTERPOLATIONS, interpolation);
                 }
             }
         }
     };
-    INTERPOLATIONS.push(i);
+    INTERPOLATIONS.push(interpolation);
 };
 
 INTERPOLATIONS = [];
