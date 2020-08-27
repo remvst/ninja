@@ -59,7 +59,6 @@ module.exports = {
         decoded.push(topAndBottomRow);
         for (let i = 0 ; i < rows - 2 ; i++) {
             const row = Array(cols).fill(0);
-            row.length = cols;
             row[0] = 1;
             row[cols - 1] = 1;
             decoded.push(row);
