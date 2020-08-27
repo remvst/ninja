@@ -315,7 +315,7 @@ class Player {
         const adjustmentDirectionX = sign(this.x - x)
 
         // Player hit a wall in the face, reset horizontal momentum
-        if (hitWall && adjustmentDirectionX != this.facing) {
+        if (hitWall && adjustmentDirectionX != sign(this.vX)) {
             this.vX = 0;
         }
 
