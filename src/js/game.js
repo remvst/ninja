@@ -506,6 +506,7 @@ class Game {
         if (DEBUG) {
             hudItems.push(['Render FPS', ~~this.renderFps]);
             hudItems.push(['Cycle FPS', ~~this.cycleFps]);
+            hudItems.push(['Interpolations', INTERPOLATIONS.length]);
             hudItems.push(['Cast iterations', ~~this.castIterations]);
             perfLogs.forEach(log => {
                 hudItems.push(log);
