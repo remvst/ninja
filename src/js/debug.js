@@ -11,7 +11,7 @@ if (DEBUG) {
     }
 
     // In game level editor
-    onclick = event => {
+    addEventListener('click', event => {
         const canvasCoords = CANVAS.getBoundingClientRect();
         const x = CANVAS.width * (event.pageX - canvasCoords.left) / canvasCoords.width;
         const y = CANVAS.height * (event.pageY - canvasCoords.top) / canvasCoords.height;
@@ -25,7 +25,7 @@ if (DEBUG) {
                 G.level.background = null;
             }
         }
-    };
+    }, false);
 
     addEventListener('keydown', e => {
         if (getDebugValue('editor') && e.keyCode == KEYBOARD_S) {
