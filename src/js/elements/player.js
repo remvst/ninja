@@ -103,9 +103,10 @@ class Player {
 
         if (holdingJump && !this.jumpReleased) {
             const jumpHoldRatio = min(this.jumpHoldTime, MAX_JUMP_HOLD_TIME) / MAX_JUMP_HOLD_TIME;
-            const height = CELL_SIZE / 2 + jumpHoldRatio * CELL_SIZE * 3;
+            const steppedRatio = max(0.33, roundToNearest(jumpHoldRatio, 0.33));
+            const height = CELL_SIZE / 2 + steppedRatio * CELL_SIZE * 3;
 
-            this.jumpPeakTime = 0.1 + 0.2 * jumpHoldRatio;
+            this.jumpPeakTime = 0.1 + 0.2 * steppedRatio;
             this.jumpEndY = this.jumpStartY - height;
         }
 
