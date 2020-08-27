@@ -14,3 +14,4 @@ onkeydown = e => {
 onkeyup = e => {
     w.down[e.keyCode] = false;
 };
+onblur = () => w.down = {};
