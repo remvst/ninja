@@ -1,16 +1,17 @@
 class Particle {
-    constructor(props) {
-        const duration = props.duration || 1;
-
-        this.color = props.color || '#f00';
-
-        const size = props.size || [5, 5];
-        const alpha = props.alpha || [1, -1];
-
-        interp(this, 'x', props.x[0], props.x[0] + props.x[1], duration);
-        interp(this, 'y', props.y[0], props.y[0] + props.y[1], duration);
+    constructor({
+        x,
+        y,
+        duration = 1,
+        color = '#f00',
+        size = [5, 5],
+        alpha = [1, -1],
+        onFinish
+    }) {
+        interp(this, 'x', x[0], x[0] + x[1], duration);
+        interp(this, 'y', y[0], y[0] + y[1], duration);
         interp(this, 'alpha', alpha[0], alpha[0] + alpha[1], duration);
-        interp(this, 'size', size[0], size[0] + (size[1] || 0), duration, 0, null, props.onFinish);
+        interp(this, 'size', size[0], size[0] + (size[1] || 0), duration, 0, null, onFinish);
     }
 
     render() {
