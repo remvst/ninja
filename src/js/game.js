@@ -16,6 +16,7 @@ class Game {
 
         this.difficulty = NORMAL_DIFFICULTY;
         this.wasDifficultyChangedDuringRun = false;
+        this.difficultyPromptShown = false;
 
         this.level = LEVELS[0];
         this.level.prepare();

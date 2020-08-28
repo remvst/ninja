@@ -3,6 +3,8 @@ class Level {
         this.index = index;
         this.definition = definition;
 
+        this.deathCount = 0;
+
         this.backgroundColor = LEVEL_COLORS[index % LEVEL_COLORS.length];
         this.obstacleColor = darken(this.backgroundColor, 0.18);
 
@@ -56,6 +58,8 @@ class Level {
 
     wasFound() {
         this.endWith(() => {
+            this.deathCount++;
+
             G.menu = new Menu(
                 nomangle('YOU WERE FOUND!'),
                 nomangle('PRESS [R] TO TRY AGAIN'),
@@ -64,9 +68,9 @@ class Level {
             G.menu.animateIn();
 
             failSound();
-        });
 
-        setTimeout(() => this.waitingForRetry = true, 1000);
+            setTimeout(() => this.waitingForRetry = true, 1000);
+        });
     }
 
     prepare() {
@@ -135,6 +139,11 @@ class Level {
             this.waitingForRetry = false;
             if (G.menu) {
                 G.menu.animateOut();
+
+                if (!G.difficultyPromptShown && this.deathCount > DIFFICULTY_PROMPT_DEATH_COUNT) {
+                    G.difficultyPromptShown = true;
+                    alert(nomangle('You can change the difficulty at any time by pressing [K]'));
+                }
             }
             this.prepare();
 
