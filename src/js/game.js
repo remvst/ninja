@@ -444,6 +444,10 @@ class Game {
         }
 
         wrap(() => {
+            if (DEBUG && getDebugValue('nohud')) {
+                return;
+            }
+
             // Instructions
             if (G.clock % 2 < 1.5 && this.mainTitleAlpha == 1) {
                 const instructions = [
@@ -523,6 +527,10 @@ class Game {
         }
 
         hudItems.forEach(([label, value], i) => wrap(() => {
+            if (DEBUG && getDebugValue('nohud')) {
+                return;
+            }
+
             R.textAlign = nomangle('left');
             R.textBaseline = nomangle('middle');
             R.fillStyle = '#fff';
