@@ -315,7 +315,7 @@ class Game {
 
         // Rain
         wrap(() => {
-            R.fillStyle = 'rgba(255,255,255,0.5)';
+            R.fillStyle = 'rgba(255,255,255,0.4)';
             const rng = createNumberGenerator(1);
             for (let i = 0 ; i < 200 ; i++) {
                 const startX = rng.between(-0.2, 1);
