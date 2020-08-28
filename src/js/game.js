@@ -395,7 +395,7 @@ class Game {
 
                     this.bandanaTrail.forEach((item, i, arr) => {
                         const ratio = i / arr.length
-                        const amplitude = 10 * ratio;
+                        const amplitude = 15 * ratio;
                         item.y = this.bandanaSource.y - ratio * 30 + sin(-ratio * 20 + G.clock * 35) * amplitude;
                     });
 
