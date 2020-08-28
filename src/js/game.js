@@ -32,8 +32,8 @@ class Game {
         this.interTitleYOffset = 1;
 
         this.bandanaSource = {'x': NINJA_POSITION.x, 'y': NINJA_POSITION.y - 10};
-        this.bandanaTrail = Array(MAX_BANDANA_LENGTH / 10).fill(0).map((x, i) => {
-            return { 'x': this.bandanaSource.x + PLAYER_RADIUS / 2 + i * 10 };
+        this.bandanaTrail = Array(~~(MAX_BANDANA_LENGTH / MAIN_MENU_BANDANA_X_INTERVAL)).fill(0).map((x, i) => {
+            return { 'x': this.bandanaSource.x + PLAYER_RADIUS / 2 + i * MAIN_MENU_BANDANA_X_INTERVAL};
         })
 
         this.mainTitle = nomangle('NINJA');
@@ -258,6 +258,13 @@ class Game {
             this.castIterations = 0;
         }
 
+        if (DEBUG && getDebugValue('zoom')) {
+            translate(-mousePosition.x + CANVAS_WIDTH / 2, -mousePosition.y + CANVAS_HEIGHT / 2);
+            translate(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
+            scale(getDebugValue('zoom'), getDebugValue('zoom'));
+            translate(-CANVAS_WIDTH / 2, -CANVAS_HEIGHT / 2);
+        }
+
         // Sky
         R.fillStyle = SKY_BACKGROUND;
         fr(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT); // TODO maybe split into two?
@@ -387,8 +394,9 @@ class Game {
                     const ninjaScale = 1.5;
 
                     this.bandanaTrail.forEach((item, i, arr) => {
-                        const amplitude = 20 * i / arr.length;
-                        item.y = this.bandanaSource.y - i * 5 + sin(i * 30 + G.clock * 35) * amplitude;
+                        const ratio = i / arr.length
+                        const amplitude = 10 * ratio;
+                        item.y = this.bandanaSource.y - ratio * 30 + sin(-ratio * 20 + G.clock * 35) * amplitude;
                     });
 
                     scale(1.5, 1.5);
