@@ -27,7 +27,7 @@ class Player {
 
     get landed() {
         const leftX = this.x - PLAYER_RADIUS;
-        const rightX = this.x + PLAYER_RADIUS;
+        const rightX = this.x + PLAYER_RADIUS - 1; // -1 so we can't jump off a wall
         const bottomY = this.y + PLAYER_RADIUS + 1;
 
         return hasBlock(leftX, bottomY) || hasBlock(rightX, bottomY);
