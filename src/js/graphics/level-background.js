@@ -140,14 +140,12 @@ createLevelBackground = (level) => createCanvas(LEVEL_WIDTH, LEVEL_WIDTH, (c, ca
             if (!below && belowBelow) {
                 maybeAdd(FRAME);
                 maybeAdd(WINDOW, (x, y) => {
-                    c.wrap(() => {
-                        c.clearRect(
-                            x + (CELL_SIZE - UNPADDED_WINDOW.width) / 2,
-                            y + (CELL_SIZE * 2 - UNPADDED_WINDOW.height) / 2,
-                            UNPADDED_WINDOW.width,
-                            UNPADDED_WINDOW.height
-                        );
-                    });
+                    c.clearRect(
+                        x + (CELL_SIZE - UNPADDED_WINDOW.width) / 2,
+                        y + (CELL_SIZE * 2 - UNPADDED_WINDOW.height) / 2,
+                        UNPADDED_WINDOW.width,
+                        UNPADDED_WINDOW.height
+                    );
                 });
             }
 
