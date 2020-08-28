@@ -5,7 +5,7 @@ easeInQuint = t => t * t * t * t * t;
 easeInOutCubic = t => t < .5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
 
 interp = (
-    object,
+    obj,
     property,
     fromValue,
     toValue,
@@ -21,7 +21,7 @@ interp = (
             progress += e;
 
             const progressAsRatio = limit(0, (progress - (delay || 0)) / duration, 1);
-            object[property] = (easing || linear)(progressAsRatio) * (toValue - fromValue) + fromValue;
+            obj[property] = (easing || linear)(progressAsRatio) * (toValue - fromValue) + fromValue;
 
             if (progressAsRatio >= 1) {
                 remove(INTERPOLATIONS, interpolation);
