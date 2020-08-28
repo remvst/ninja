@@ -184,7 +184,7 @@ class Level {
         R.textAlign = 'center';
         R.textBaseline = 'middle';
         R.fillStyle = 'rgba(255,255,255,0.7)';
-        R.font = nomangle('bold 30pt ') + FONT;
+        R.font = nomangle('bold 26pt ') + FONT;
         fillText(
             message,
             LEVEL_WIDTH / 2,

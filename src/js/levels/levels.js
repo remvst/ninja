@@ -25,7 +25,7 @@ LEVELS = [
         ]),
         'spawn': [16, 2],
         'exit': [5, 17],
-        'message': [3, nomangle('PRESS [SPACE] TO JUMP')],
+        'message': [3, nomangle('PRESS [SPACE] TO JUMP, HOLD TO JUMP HIGHER')],
         'cameras': [],
         'guards': []
     },
