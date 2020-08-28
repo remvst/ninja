@@ -11,14 +11,14 @@ class Menu {
     }
 
     animateIn() {
-        interp(this, 'titlePosition', -CANVAS_WIDTH / 2, LEVEL_WIDTH / 2, 0.5, 0, easeOutQuint);
-        interp(this, 'subtitlePosition', CANVAS_WIDTH * 3 / 2, LEVEL_WIDTH / 2, 0.5, 1, easeOutQuint);
+        interp(this, 'titlePosition', evaluate(-CANVAS_WIDTH / 2), (LEVEL_WIDTH / 2), 0.5, 0, easeOutQuint);
+        interp(this, 'subtitlePosition', evaluate(CANVAS_WIDTH * 3 / 2), (LEVEL_WIDTH / 2), 0.5, 1, easeOutQuint);
         interp(this, 'dimAlpha', 0, 1, 0.3);
     }
 
     animateOut() {
-        interp(this, 'titlePosition', LEVEL_WIDTH / 2, CANVAS_WIDTH * 3 / 2, 0.5, 0, easeInQuint);
-        interp(this, 'subtitlePosition', LEVEL_WIDTH / 2, -CANVAS_WIDTH / 2, 0.5, 0, easeInQuint, () => G.menu = null);
+        interp(this, 'titlePosition', (LEVEL_WIDTH / 2), evaluate(CANVAS_WIDTH * 3 / 2), 0.5, 0, easeInQuint);
+        interp(this, 'subtitlePosition', (LEVEL_WIDTH / 2), evaluate(-CANVAS_WIDTH / 2), 0.5, 0, easeInQuint, () => G.menu = null);
         interp(this, 'dimAlpha', 1, 0, 0.3, 0.2);
     }
 
