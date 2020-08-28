@@ -1,14 +1,14 @@
-LEVEL_BACKGROUND_PATTERN = createCanvasPattern(CELL_SIZE * 4, CELL_SIZE * 6, (c, can) => {
-    c.fillStyle = '#000';
+LEVEL_BACKGROUND_PATTERN = createCanvasPattern(evaluate(CELL_SIZE * 4), evaluate(CELL_SIZE * 6), (c, can) => {
+    c.fs('#000');
     c.globalAlpha = 0.05;
 
     // Horizontal ridges
-    c.fr(0, 0, can.width, 2);
-    c.fr(0, CELL_SIZE * 3, can.width, 2);
+    c.fr(0, 0, evaluate(CELL_SIZE * 4), 2);
+    c.fr(0, evaluate(CELL_SIZE * 3), evaluate(CELL_SIZE * 4), 2);
 
     // Vertical ridges
     c.fr(0, 0, 2, CELL_SIZE * 3);
-    c.fr(CELL_SIZE * 2, CELL_SIZE * 3, 2, CELL_SIZE * 10);
+    c.fr(evaluate(CELL_SIZE * 2), evaluate(CELL_SIZE * 3), 2, CELL_SIZE * 10);
 });
 
 LEVEL_COLORS = [
@@ -39,18 +39,18 @@ darken = (color, amount = 0.5) => {
 // }));
 
 createLevelBackground = (level) => createCanvas(LEVEL_WIDTH, LEVEL_WIDTH, (c, can) => {
-    c.fillStyle = level.backgroundColor;
+    c.fs(level.backgroundColor);
     c.fr(0, 0, LEVEL_WIDTH, LEVEL_HEIGHT);
 
-    c.fillStyle = LEVEL_BACKGROUND_PATTERN;
+    c.fs(LEVEL_BACKGROUND_PATTERN);
     c.fr(0, 0, LEVEL_WIDTH, LEVEL_HEIGHT);
 
     // Add a gradient from the top left to make the background less flat
     const grad = c.createRadialGradient(0, 0, 0, 0, 0, LEVEL_WIDTH);
     grad.addColorStop(0, 'rgba(255,255,255,0.5)');
     grad.addColorStop(1, 'rgba(255,255,255,0)');
-    c.fillStyle = grad;
-    c.fr(0, 0, can.width, can.height);
+    c.fs(grad);
+    c.fr(0, 0, LEVEL_WIDTH, LEVEL_HEIGHT);
 
     const rng = createNumberGenerator(1);
 
