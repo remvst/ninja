@@ -180,16 +180,22 @@ class Level {
         }
 
         // Message
-        const [row, message] = this.definition.message || [0, ''];
-        R.textAlign = 'center';
-        R.textBaseline = 'middle';
-        R.fillStyle = 'rgba(255,255,255,0.7)';
-        R.font = nomangle('bold 26pt ') + FONT;
-        fillText(
-            message,
-            LEVEL_WIDTH / 2,
-            toMiddleCellCoord(row)
-        );
+        wrap(() => {
+            const ratio = limit(0, (this.clock - LEVEL_MESSAGE_DELAY) * 3, 1);
+            R.globalAlpha = ratio;
+            translate(0, (1 - ratio) * -10);
+
+            const [row, message] = this.definition.message || [0, ''];
+            R.textAlign = 'center';
+            R.textBaseline = 'middle';
+            R.fillStyle = 'rgba(255,255,255,0.7)';
+            R.font = nomangle('bold 26pt ') + FONT;
+            fillText(
+                message,
+                LEVEL_WIDTH / 2,
+                toMiddleCellCoord(row)
+            );
+        });
 
         // Renderables
         this.renderables.forEach(x => wrap(() => x.render()));
