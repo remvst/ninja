@@ -22,6 +22,12 @@ compiler.run((tasks) => {
         const constants = copy(CONSTANTS);
         constants.DEBUG = !uglify;
 
+        // Inject some computed constants
+        constants.LEVEL_WIDTH = constants.LEVEL_COLS * constants.CELL_SIZE;
+        constants.LEVEL_HEIGHT = constants.LEVEL_ROWS * constants.CELL_SIZE;
+        constants.TOWER_BASE_HEIGHT = (constants.CANVAS_HEIGHT - constants.LEVEL_HEIGHT) / 2,
+        constants.LEVEL_X = constants.CANVAS_WIDTH / 2 - constants.LEVEL_COLS * constants.CELL_SIZE / 2;
+
         const sequence = [
             tasks.label('Building JS'),
             tasks.loadFiles(JS_FILES),
