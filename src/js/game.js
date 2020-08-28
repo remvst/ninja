@@ -389,7 +389,6 @@ class Game {
                 R.font = nomangle('bold italic 96pt ') + FONT;
                 outlinedText(nomangle('EVILCORP'), LEVEL_WIDTH / 2, -30);
 
-
                 wrap(() => {
                     const ninjaScale = 1.5;
 
