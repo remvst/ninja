@@ -63,7 +63,7 @@ class Level {
             G.menu = new Menu(
                 nomangle('YOU WERE FOUND!'),
                 nomangle('PRESS [R] TO TRY AGAIN'),
-                nomangle('PRESS [K] TO CHANGE DIFFICULTY')
+                DIFFICULTY_INSTRUCTION.toUpperCase()
             );
             G.menu.animateIn();
 
@@ -146,7 +146,7 @@ class Level {
 
                 if (!G.difficultyPromptShown && this.deathCount > DIFFICULTY_PROMPT_DEATH_COUNT) {
                     G.difficultyPromptShown = true;
-                    alert(nomangle('You can change the difficulty at any time by pressing [K]'));
+                    alert(DIFFICULTY_INSTRUCTION);
                 }
             }
             this.prepare();

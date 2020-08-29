@@ -451,7 +451,7 @@ class Game {
             if (G.clock % 2 < 1.5 && this.mainTitleAlpha == 1) {
                 const instructions = [
                     nomangle('PRESS [SPACE] TO START'),
-                    nomangle('PRESS [K] TO CHANGE DIFFICULTY'),
+                    DIFFICULTY_INSTRUCTION.toUpperCase(),
                 ]
                 if (this.queuedTweet) {
                     instructions.unshift(nomangle('PRESS [T] TO TWEET YOUR TIME'));
