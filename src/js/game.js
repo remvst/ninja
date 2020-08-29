@@ -139,17 +139,8 @@ class Game {
         return location.pathname + this.difficulty.label;
     }
 
-    endAnimation() {
-        // Allow the player to start the game again
-        this.isStarted = false;
-        this.timerActive = false;
-
-        // Only save the best time if the player didn't switch the difficulty during
-        if (!this.wasDifficultyChangedDuringRun) {
-            localStorage[this.bestTimeKey] = min(this.bestTime || 999999, this.timer);
-        }
-
-        this.queuedTweet = nomangle('I beat ') + document.title + nomangle(' in ') + formatTime(this.timer) + nomangle(' on ') + this.difficulty.label + ' ' + nomangle('difficulty!');
+    mainMenu() {
+        INTERPOLATIONS = [];
 
         // Go to the top of the tower
         interp(
@@ -163,12 +154,27 @@ class Game {
         );
 
         // Show the windows so the tower can be rendered again
-        interp(this, 'windowsAlpha', 0, 1, 1, 1);
+        interp(this, 'windowsAlpha', this.windowsAlpha, 1, 1, 1);
+        interp(this, 'mainTitleAlpha', 0, 1, 1, 3);
+    }
 
-        // Replace the title and fade it in
+    endAnimation() {
+        // Allow the player to start the game again
+        this.isStarted = false;
+        this.timerActive = false;
+
+        // Only save the best time if the player didn't switch the difficulty during
+        if (!this.wasDifficultyChangedDuringRun) {
+            localStorage[this.bestTimeKey] = min(this.bestTime || 999999, this.timer);
+        }
+
+        this.queuedTweet = nomangle('I beat ') + document.title + nomangle(' in ') + formatTime(this.timer) + nomangle(' on ') + this.difficulty.label + ' ' + nomangle('difficulty!');
+
+        this.mainMenu();
+
+        // Replace the title
         this.mainTitle = 'YOU BEAT';
         this.interTitle = '';
-        interp(this, 'mainTitleAlpha', 0, 1, 1, 3);
 
         // Trophies for OS13K (not checking if the player changed difficulty just so they can win trophies more easily)
         const normalTrophy = this.difficulty == NORMAL_DIFFICULTY;

@@ -10,6 +10,10 @@ onkeydown = e => {
     if (e.keyCode == KEYBOARD_T && G.queuedTweet) {
         tweet(G.queuedTweet);
     }
+
+    if (e.keyCode == 27 && G.isStarted && confirm(nomangle('Exit?'))) {
+        G.mainMenu();
+    }
 };
 onkeyup = e => {
     w.down[e.keyCode] = false;
