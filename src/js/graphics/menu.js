@@ -43,14 +43,14 @@ class Menu {
         R.textBaseline = 'middle';
         fs('#fff');
 
-        R.font = nomangle('italic ') + font(24);
+        R.font = italicFont(24);
         shadowedText(this.title, this.titlePosition, LEVEL_HEIGHT / 2 - 25);
 
-        R.font = nomangle('italic ') + font(48);
+        R.font = italicFont(48);
         shadowedText(this.subtitle, this.subtitlePosition, LEVEL_HEIGHT / 2 + 25);
 
         fs('#888');
-        R.font = font(16);
+        R.font = italicFont(16);
         shadowedText(this.footer, LEVEL_WIDTH / 2, LEVEL_HEIGHT - 20);
     }
 

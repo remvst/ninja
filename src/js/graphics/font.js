@@ -17,3 +17,4 @@ FONT = createCanvas(1, 1, (c) => {
 });
 
 font = size => `bold ${size}pt ` + FONT;
+italicFont = size => nomangle(`italic `) + font(size);
