@@ -4,7 +4,7 @@ GOD_RAY = createCanvas(evaluate(CELL_SIZE * 0.6), evaluate(CELL_SIZE * 4), (c, c
     g.addColorStop(0.5, 'rgba(255,255,255, 0.5)');
     g.addColorStop(1, 'rgba(255,255,255, 0)');
 
-    c.fillStyle = g;
+    c.fs(g);
     c.fr(0, 0, 99, 999);
 });
 
@@ -13,7 +13,7 @@ HALO = createCanvas(evaluate(CELL_SIZE * 4), evaluate(CELL_SIZE * 4), (c, can) =
     g.addColorStop(0.5, 'rgba(255,255,255, 0.5)');
     g.addColorStop(1, 'rgba(255,255,255, 0)');
 
-    c.fillStyle = g;
+    c.fs(g);
     c.fr(0, 0, 999, 999);
 });
 
@@ -25,25 +25,25 @@ RED_HALO = createCanvas(evaluate(CELL_SIZE * 6), evaluate(CELL_SIZE * 6), (c, ca
     g.addColorStop(0.5, 'rgba(255,0,0, 0.5)');
     g.addColorStop(1, 'rgba(255,0,0, 0)');
 
-    c.fillStyle = g;
+    c.fs(g);
     c.fr(0, 0, 999, 999);
 });
 
 WINDOW_PATTERN = createCanvasPattern(evaluate(CELL_SIZE * 2), evaluate(CELL_SIZE * 2), (c, can) => {
-    c.fillStyle = '#637ab5';
+    c.fs('#67b');
     c.fr(0, 0, 999, 999);
 
-    c.fillStyle = '#2c3556';
+    c.fs('#235');
     c.fr(can.width / 10, can.height / 4, can.width * 8 / 10, can.height / 2);
 });
 
 BUILDING_PATTERN = createCanvasPattern(evaluate(CELL_SIZE * LEVEL_COLS), evaluate(CELL_SIZE * 10), (c, can) => {
-    c.fillStyle = '#485473';
+    c.fs('#457');
     c.fr(0, 0, can.width, 999);
 
     // c.translate(CELL_SIZE / 4, CELL_SIZE / 4);
 
-    c.fillStyle = WINDOW_PATTERN;
+    c.fs(WINDOW_PATTERN);
     c.fr(0, CELL_SIZE / 4, can.width, can.height - CELL_SIZE / 2);
 });
 

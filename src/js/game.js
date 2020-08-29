@@ -2,8 +2,8 @@ const NINJA_POSITION = {
     'x': LEVEL_WIDTH / 2 + 30,
     'y': -PLAYER_RADIUS
 };
-const TITLE_FONT = font(120);
-const INTER_TITLE_FONT = font(24);
+const TITLE_FONT = 'italic ' + font(120);
+const INTER_TITLE_FONT = 'italic ' + font(24);
 
 class Game {
 
@@ -267,14 +267,14 @@ class Game {
         }
 
         // Sky
-        R.fillStyle = SKY_BACKGROUND;
+        fs(SKY_BACKGROUND);
         fr(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT); // TODO maybe split into two?
 
         if (DEBUG) logPerf('sky');
 
         // Moon
         wrap(() => {
-            R.fillStyle = '#fff';
+            fs('#fff');
             fillCircle(CANVAS_WIDTH - 200, 100, 50);
         })
 
@@ -283,7 +283,7 @@ class Game {
         // Thunder
         if (G.clock % THUNDER_INTERVAL < 0.3) {
             if (G.clock % 0.1 < 0.05) {
-                R.fillStyle = 'rgba(255, 255, 255, 0.2)';
+                fs('rgba(255, 255, 255, 0.2)');
                 fr(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
             }
 
@@ -306,7 +306,7 @@ class Game {
 
             const altitudeRatio = this.bottomScreenAltitude / MAX_LEVEL_ALTITUDE;
 
-            R.fillStyle = layer;
+            fs(layer);
             translate(0, ~~(CANVAS_HEIGHT - layer.height + altitudeRatio * layerRatio * 400));
 
             fr(0, 0, CANVAS_WIDTH, layer.height);
@@ -316,7 +316,7 @@ class Game {
 
         // Rain
         wrap(() => {
-            R.fillStyle = 'rgba(255,255,255,0.4)';
+            fs('rgba(255,255,255,0.4)');
             const rng = createNumberGenerator(1);
             for (let i = 0 ; i < 200 ; i++) {
                 const startX = rng.between(-0.2, 1);
@@ -384,10 +384,10 @@ class Game {
                 // Sign
                 R.textAlign = nomangle('center');
                 R.textBaseline = nomangle('alphabetic');
-                R.fillStyle = '#900';
+                fs('#900');
                 R.strokeStyle = '#f00';
                 R.lineWidth = 5;
-                R.font = font(96);
+                R.font = 'italic ' + font(96);
                 outlinedText(nomangle('EVILCORP'), LEVEL_WIDTH / 2, -30);
 
                 wrap(() => {
@@ -430,7 +430,7 @@ class Game {
 
             // Render the windows in front
             R.globalAlpha = this.windowsAlpha;
-            R.fillStyle = BUILDING_PATTERN;
+            fs(BUILDING_PATTERN);
             wrap(() => {
                 // translate(-CELL_SIZE / 2, 0);
                 fr(0, 0, LEVEL_WIDTH, -MAX_LEVEL_ALTITUDE - LEVEL_HEIGHT);
@@ -461,7 +461,7 @@ class Game {
                     R.textAlign = nomangle('center');
                     R.textBaseline = nomangle('middle');
                     R.font = font(24);
-                    R.fillStyle = '#fff';
+                    fs('#fff');
                     R.strokeStyle = '#000';
                     R.lineWidth = 2;
 
@@ -473,10 +473,10 @@ class Game {
         if (DEBUG) logPerf('instructions');
 
         // Mobile controls
-        R.fillStyle = '#000';
+        fs('#000');
         fr(0, CANVAS_HEIGHT, CANVAS_WIDTH, MOBILE_CONTROLS_HEIGHT);
 
-        R.fillStyle = '#fff';
+        fs('#fff');
 
         wrap(() => {
             R.globalAlpha = 0.5 + 0.5 * !!down[KEYBOARD_LEFT];
@@ -540,8 +540,7 @@ class Game {
 
             R.textAlign = nomangle('left');
             R.textBaseline = nomangle('middle');
-            R.fillStyle = '#fff';
-            R.fillStyle = '#fff';
+            fs('#fff');
 
             // Label
             R.font = font(18);
@@ -555,8 +554,8 @@ class Game {
         // Gamepad info
         R.textAlign = nomangle('right');
         R.textBaseline = nomangle('alphabetic');
-        R.fillStyle = '#888';
         R.font = nomangle('18pt Courier');
+        fs('#888');
         fillText(
             nomangle('Gamepad: ') + (gamepads().length ? nomangle('yes') : nomangle('no')),
             evaluate(CANVAS_WIDTH - 20),
@@ -579,7 +578,7 @@ class Game {
             R.globalAlpha = this.mainTitleAlpha;
             R.textAlign = nomangle('center');
             R.textBaseline = nomangle('middle');
-            R.fillStyle = '#fff';
+            fs('#fff');
             R.strokeStyle = '#000';
 
             // Main title

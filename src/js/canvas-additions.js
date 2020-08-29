@@ -35,7 +35,7 @@ canvasProto.outlinedText = function(s, x, y) {
 
 canvasProto.shadowedText = function(s, x, y) {
     this.wrap(() => {
-        this.fillStyle = '#000';
+        this.fs('#000');
         fillText(s, x, y + 5);
     })
     this.fillText(s, x, y);
