@@ -548,7 +548,7 @@ class Game {
         R.textAlign = nomangle('right');
         R.textBaseline = nomangle('alphabetic');
         R.fillStyle = '#888';
-        R.font = nomangle('12pt Courier');
+        R.font = nomangle('18pt Courier');
         fillText(
             nomangle('Gamepad: ') + (gamepads().length ? nomangle('yes') : nomangle('no')),
             evaluate(CANVAS_WIDTH - 20),
