@@ -13,6 +13,10 @@ module.exports = {
         const rows = matrix.length;
         const cols = matrix[0].length;
 
+        if (rows !== LEVEL_ROWS || cols !== LEVEL_COLS) {
+            throw new Error('Invalid rows or cols');
+        }
+
         for (let row = 1; row < rows - 1; row++) {
             for (let col = 1; col < cols - 1; col++) {
                 if (!matrix[row][col]) {
@@ -54,16 +58,16 @@ module.exports = {
         //     Math.round(100 * JSON.stringify(lines).length / JSON.stringify(matrix).length) + '%'
         // );
 
-        return `${rows}, ${cols}, ${JSON.stringify(lines)}`;
+        return JSON.stringify(lines);
     },
-    'revert': function(rows, cols, lines) {
+    'revert': function(lines) {
         const decoded = [];
-        const topAndBottomRow = Array(cols).fill(1);
+        const topAndBottomRow = Array(LEVEL_COLS).fill(1);
         decoded.push(topAndBottomRow);
-        for (let i = 0; i < rows - 2; i++) {
-            const row = Array(cols).fill(0);
+        for (let i = 0; i < LEVEL_ROWS - 2; i++) {
+            const row = Array(LEVEL_COLS).fill(0);
             row[0] = 1;
-            row[cols - 1] = 1;
+            row[LEVEL_COLS - 1] = 1;
             decoded.push(row);
         }
         decoded.push(topAndBottomRow);

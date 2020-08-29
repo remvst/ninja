@@ -32,11 +32,11 @@ compiler.run((tasks) => {
             tasks.label('Building JS'),
             tasks.loadFiles(JS_FILES),
             tasks.concat(),
+            tasks.macro('optimizeMatrix', optimizeMatrix),
             tasks.constants(constants),
             tasks.macro('evaluate'),
             tasks.macro('nomangle'),
             tasks.macro('rawFile', rawFile),
-            tasks.macro('optimizeMatrix', optimizeMatrix)
         ];
 
         if (mangle) {
