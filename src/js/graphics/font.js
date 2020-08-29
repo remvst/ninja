@@ -15,3 +15,5 @@ FONT = createCanvas(1, 1, (c) => {
         return c.measureText(testText).width != reference;
     })[0] || nomangle('serif');
 });
+
+font = size => `bold ${size}pt ` + FONT;

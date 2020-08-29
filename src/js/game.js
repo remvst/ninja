@@ -2,8 +2,8 @@ const NINJA_POSITION = {
     'x': LEVEL_WIDTH / 2 + 30,
     'y': -PLAYER_RADIUS
 };
-const TITLE_FONT = nomangle('bold italic 120pt ') + FONT;
-const INTER_TITLE_FONT = nomangle('bold italic 24pt ') + FONT;
+const TITLE_FONT = font(120);
+const INTER_TITLE_FONT = font(24);
 
 class Game {
 
@@ -384,7 +384,7 @@ class Game {
                 R.fillStyle = '#900';
                 R.strokeStyle = '#f00';
                 R.lineWidth = 5;
-                R.font = nomangle('bold italic 96pt ') + FONT;
+                R.font = font(96);
                 outlinedText(nomangle('EVILCORP'), LEVEL_WIDTH / 2, -30);
 
                 wrap(() => {
@@ -457,7 +457,7 @@ class Game {
                 instructions.forEach((s, i) => {
                     R.textAlign = nomangle('center');
                     R.textBaseline = nomangle('middle');
-                    R.font = nomangle('bold 24pt ') + FONT;
+                    R.font = font(24);
                     R.fillStyle = '#fff';
                     R.strokeStyle = '#000';
                     R.lineWidth = 2;
@@ -534,11 +534,11 @@ class Game {
             R.fillStyle = '#fff';
 
             // Label
-            R.font = nomangle('bold italic 18pt ') + FONT;
+            R.font = font(18);
             shadowedText(label, 20, 30 + i * 90);
 
             // Value
-            R.font = nomangle('bold 36pt ') + FONT;
+            R.font = font(36);
             shadowedText(value, 20, 30 + 40 + i * 90);
         }));
 
