@@ -503,12 +503,19 @@ class Game {
         if (DEBUG) logPerf('mobile');
 
         // HUD
-        const hudItems = [];
-        hudItems.push([nomangle('DIFFICULTY:'), this.difficulty.label]);
+        const hudItems = [
+            [nomangle('DIFFICULTY:'), this.difficulty.label]
+        ];
 
         if (this.timer) {
-            hudItems.push([nomangle('LEVEL:'), (this.level.index + 1) + '/' + LEVELS.length]);
-            hudItems.push([nomangle('TIME' ) + (this.wasDifficultyChangedDuringRun ? nomangle(' (INVALIDATED):') : ':'), formatTime(this.timer)]);
+            hudItems.push([
+                nomangle('LEVEL:'),
+                (this.level.index + 1) + '/' + LEVELS.length
+            ]);
+            hudItems.push([
+                nomangle('TIME' ) + (this.wasDifficultyChangedDuringRun ? nomangle(' (INVALIDATED):') : ':'),
+                formatTime(this.timer)
+            ]);
         }
 
         hudItems.push([
