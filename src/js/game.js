@@ -177,18 +177,21 @@ class Game {
         this.interTitle = '';
 
         // Trophies for OS13K (not checking if the player changed difficulty just so they can win trophies more easily)
-        const normalTrophy = this.difficulty == NORMAL_DIFFICULTY;
         const hardTrophy = this.difficulty == HARD_DIFFICULTY;
+        const normalTrophy = this.difficulty == NORMAL_DIFFICULTY || hardTrophy;
+
+        const keyPrefix = nomangle(`OS13kTrophy,GG,${document.title},Beat the game - `);
+        const value = nomangle(`Find the evil plans`);
 
         if (normalTrophy) {
-            localStorage[nomangle('OS13kTrophy,GG,' + document.title + ',Beat the game - normal')] = nomangle('Beat the game in normal difficulty');
+            localStorage[keyPrefix + nomangle('normal')] = value;
         }
 
         if (hardTrophy) {
-            localStorage[nomangle('OS13kTrophy,GG,' + document.title + ',Beat the game - hard')] = nomangle('Beat the game in hard difficulty');
+            localStorage[keyPrefix + nomangle('nightmare')] = value;
         }
 
-        localStorage[nomangle('OS13kTrophy,GG,' + document.title + ',Beat the game - any difficulty')] = nomangle('Beat the game in any difficulty');
+        localStorage[keyPrefix + nomangle('any')] = value;
     }
 
     cycle(e) {
