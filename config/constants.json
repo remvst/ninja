@@ -12,7 +12,7 @@
     "LEVEL_ROWS": 20,
     "LEVEL_COLS": 20,
     "CELL_SIZE": 40,
-    "LEVEL_MESSAGE_DELAY": 2,
+    "LEVEL_MESSAGE_DELAY": 1,
 
     "TITLE_Y": 264,
     "INTER_TITLE_Y": 344,
