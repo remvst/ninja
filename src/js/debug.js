@@ -43,4 +43,17 @@ if (DEBUG) {
             G.nextLevel();
         }
     }, false);
+
+    const lastLogTime = performance.now();
+    perfLogs = [];
+    resetPerf = () => perfLogs = [];
+    logPerf = label => {
+        if (!getDebugValue('perf')) {
+            return;
+        }
+
+        const now = performance.now();
+        perfLogs.push([label, now - lastTime]);
+        lastTime = now;
+    };
 }

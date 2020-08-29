@@ -248,17 +248,9 @@ class Game {
     }
 
     render() {
-        let lastTime = performance.now();
-        const perfLogs = [];
-        const logPerf = label => {
-            if (!getDebugValue('perf')) {
-                return;
-            }
-
-            const now = performance.now();
-            perfLogs.push([label, now - lastTime]);
-            lastTime = now;
-        };
+        if (DEBUG) {
+            resetPerfLogs();
+        }
 
         if (DEBUG) {
             this.castIterations = 0;
