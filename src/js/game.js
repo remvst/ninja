@@ -543,7 +543,7 @@ class Game {
             fs('#fff');
 
             // Label
-            R.font = font(18);
+            R.font = nomangle('italic ') + font(18);
             shadowedText(label, 20, 30 + i * 90);
 
             // Value
