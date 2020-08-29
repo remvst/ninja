@@ -69,7 +69,11 @@ class Level {
 
             failSound();
 
-            setTimeout(() => this.waitingForRetry = true, 1000);
+            setTimeout(() => {
+                if (this.ended) {
+                    this.waitingForRetry = true;
+                }
+            }, 1000);
         });
     }
 
@@ -135,7 +139,7 @@ class Level {
             this.cyclables.forEach(x => x.cycle(e));
         }
 
-        if (INPUT.jump() && this.waitingForRetry && !this.started || down[KEYBOARD_R] && this.started) {
+        if (INPUT.jump() && this.waitingForRetry || down[KEYBOARD_R] && this.started) {
             this.waitingForRetry = false;
             if (G.menu) {
                 G.menu.animateOut();
