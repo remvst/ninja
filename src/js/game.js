@@ -2,8 +2,8 @@ const NINJA_POSITION = {
     'x': LEVEL_WIDTH / 2 + 30,
     'y': -PLAYER_RADIUS
 };
-const TITLE_FONT = 'italic ' + font(120);
-const INTER_TITLE_FONT = 'italic ' + font(24);
+const TITLE_FONT = nomangle('italic ') + font(120);
+const INTER_TITLE_FONT = nomangle('italic ') + font(24);
 
 class Game {
 

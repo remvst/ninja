@@ -4,7 +4,7 @@ const bodyWidth = visualRadius * 2 - 8;
 const bodyHeight = visualRadius * 2 - 4;
 
 createCharacterBody = instructions => createCanvas(bodyWidth, bodyHeight + legLength, (c, can) => {
-    c.fillStyle = '#000';
+    c.fs('#000');
 
     c.beginPath();
     c.roundedRectangle(
@@ -23,29 +23,29 @@ createCharacterBody = instructions => createCanvas(bodyWidth, bodyHeight + legLe
 
 PLAYER_BODY = createCharacterBody((c, can) => {
     // Skin
-    c.fillStyle = '#daab79';
+    c.fs('#daab79');
     c.fr(can.width, 6, -bodyWidth / 2 - 4, 6);
 
     // Belt
-    c.fillStyle = '#400';
+    c.fs('#400');
     c.fr(0, bodyHeight - 10, 99, 4);
 });
 
 GUARD_BODY = createCharacterBody((c, can) => {
     // Shirt
-    c.fillStyle = '#a3b5ce';
+    c.fs('#a3b5ce');
     c.fr(0, 0, 99, 99);
 
     // Skin
-    c.fillStyle = '#daab79';
+    c.fs('#daab79');
     c.fr(0, 0, 99, 14);
 
     // Pants
-    c.fillStyle = '#010640';
+    c.fs('#010640');
     c.fr(0, 25, 99, 99);
 
     // Tie
-    c.fillStyle = '#f00';
+    c.fs('#f00');
     c.fr(bodyWidth - 6, 14, 2, 10);
 });
 
@@ -84,7 +84,7 @@ renderCharacter = (
 };
 
 renderEyes = (context, clock) => {
-    context.fillStyle = '#000';
+    context.fs('#000');
 
     const moduloTime = clock % BLINK_INTERVAL;
     const middleBlinkTime = evaluate(BLINK_INTERVAL - BLINK_TIME / 2);
@@ -95,7 +95,7 @@ renderEyes = (context, clock) => {
 };
 
 renderLegs = (context, clock, walking) => {
-    R.fillStyle = '#000';
+    context.fs('#000');
 
     const legLengthRatio = sin(clock * PI * 2 / 0.25) * 0.5 + 0.5;
     const leftRatio = walking ? legLengthRatio : 1

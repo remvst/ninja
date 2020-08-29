@@ -4,6 +4,7 @@
         "callee",
         "left",
         "px",
+        "pt",
         "movementX",
         "movementY",
         "imageSmoothingEnabled",

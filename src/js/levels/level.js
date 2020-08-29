@@ -162,13 +162,13 @@ class Level {
         drawImage(this.background, 0, 0);
 
         if (DEBUG && getDebugValue('grid')) {
-            R.fillStyle = 'rgba(0,0,0,0.2)';
+            R.fs('rgba(0,0,0,0.2)');
             for (let k = 0 ; k < LEVEL_ROWS ; k++) {
                 fr(0, k * CELL_SIZE, LEVEL_COLS * CELL_SIZE, 1);
                 fr(k * CELL_SIZE, 0, 1, LEVEL_ROWS * CELL_SIZE);
             }
 
-            R.fillStyle = '#fff';
+            R.fs('#fff');
             R.textAlign = 'center';
             R.textBaseline = 'middle';
             R.font = '8pt Arial';
@@ -192,7 +192,7 @@ class Level {
             const [row, message] = this.definition.message || [0, ''];
             R.textAlign = 'center';
             R.textBaseline = 'middle';
-            R.fillStyle = 'rgba(255,255,255,0.7)';
+            R.fs('rgba(255,255,255,0.7)');
             R.font = font(26);
             fillText(
                 message,
@@ -205,7 +205,7 @@ class Level {
         this.renderables.forEach(x => wrap(() => x.render()));
 
         // Matrix
-        R.fillStyle = this.obstacleColor;
+        R.fs(this.obstacleColor);
         for (let row = 0 ; row < LEVEL_ROWS ; row++) {
             for (let col = 0 ; col < LEVEL_ROWS ; col++) {
                 if (this.definition.matrix[row][col]) {

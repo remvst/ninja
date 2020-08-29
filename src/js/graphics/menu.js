@@ -34,14 +34,14 @@ class Menu {
             clip();
 
             // Dim
-            R.fillStyle = 'rgba(0,0,0,' + this.dimAlpha * 0.8 + ')';
+            fs('rgba(0,0,0,' + this.dimAlpha * 0.8 + ')');
             fr(0, 0, LEVEL_WIDTH, LEVEL_HEIGHT);
         }
 
 
         R.textAlign = 'center';
         R.textBaseline = 'middle';
-        R.fillStyle = '#fff';
+        fs('#fff');
 
         R.font = font(24);
         shadowedText(this.title, this.titlePosition, LEVEL_HEIGHT / 2 - 25);
@@ -49,7 +49,7 @@ class Menu {
         R.font = font(48);
         shadowedText(this.subtitle, this.subtitlePosition, LEVEL_HEIGHT / 2 + 25);
 
-        R.fillStyle = '#888';
+        fs('#888');
         R.font = font(16);
         shadowedText(this.footer, LEVEL_WIDTH / 2, LEVEL_HEIGHT - 20);
     }

@@ -3,7 +3,7 @@ BUILDINGS_BACKGROUND = [
     ['#222', 500],
     ['#333', 300]
 ].map(([color, patternHeight]) => createCanvasPattern(400, patternHeight, (c, can) => {
-    c.fillStyle = color;
+    c.fs(color);
 
     const rng = createNumberGenerator(patternHeight * 5);
 
