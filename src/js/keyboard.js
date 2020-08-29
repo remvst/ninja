@@ -1,6 +1,6 @@
-w.down = {};
+down = {};
 onkeydown = e => {
-    w.down[e.keyCode] = true;
+    down[e.keyCode] = true;
 
     if (e.keyCode == KEYBOARD_K) {
         G.changeDifficulty();
@@ -16,9 +16,9 @@ onkeydown = e => {
     }
 };
 onkeyup = e => {
-    w.down[e.keyCode] = false;
+    down[e.keyCode] = false;
 };
-onblur = oncontextmenu = () => w.down = {};
+onblur = oncontextmenu = () => down = {};
 
 if (DEBUG) {
     mousePosition = {'x': 0, 'y': 0};

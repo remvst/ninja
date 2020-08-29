@@ -193,10 +193,10 @@ class Game {
 
     cycle(e) {
         if (DEBUG) {
-            if (w.down[KEYBOARD_F]) {
+            if (down[KEYBOARD_F]) {
                 e *= 4;
             }
-            if (w.down[KEYBOARD_G]) {
+            if (down[KEYBOARD_G]) {
                 e *= 0.25;
             }
         }
