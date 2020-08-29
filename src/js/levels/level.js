@@ -6,7 +6,7 @@ class Level {
         this.deathCount = 0;
 
         this.backgroundColor = LEVEL_COLORS[index % LEVEL_COLORS.length];
-        this.obstacleColor = darken(this.backgroundColor, 0.18);
+        this.obstacleColor = darken(this.backgroundColor, 0.2);
 
         this.stop();
     }
