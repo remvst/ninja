@@ -17,6 +17,7 @@ onload = () => {
         }
     });
 
+    // Create the game
     new Game();
 
     // Run the game at 200 FPS
@@ -37,14 +38,12 @@ onload = () => {
     loop(
         (e, fps) => {
             // Don't render if nothing was updated
-            if (!didCycle) {
-                return;
-            }
+            if (didCycle) {
+                wrap(() => G.render());
 
-            wrap(() => G.render());
-
-            if (DEBUG) {
-                G.renderFps = fps;
+                if (DEBUG) {
+                    G.renderFps = fps;
+                }
             }
         },
         func => requestAnimationFrame(func)

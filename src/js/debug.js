@@ -46,7 +46,7 @@ if (DEBUG) {
 
     const lastLogTime = performance.now();
     perfLogs = [];
-    resetPerf = () => perfLogs = [];
+    resetPerfLogs = () => perfLogs = [];
     logPerf = label => {
         if (!getDebugValue('perf')) {
             return;
