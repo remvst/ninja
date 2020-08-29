@@ -19,6 +19,5 @@ SKY_BACKGROUND = createCanvas(1, CANVAS_HEIGHT, (c) => {
     const gradient = c.createLinearGradient(0, 0, 0, CANVAS_HEIGHT);
     gradient.addColorStop(0, '#00032c');
     gradient.addColorStop(0.7, '#14106f');
-    gradient.addColorStop(1, '#64196c');
     return gradient;
 });
