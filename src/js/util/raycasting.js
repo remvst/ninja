@@ -8,9 +8,7 @@ castRay = (x, y, angle, maxDistance) => {
     } else if(!castVertical) {
         cast = castHorizontal;
     } else {
-        const dHorizontal = distP(x, y, castHorizontal.x, castHorizontal.y);
-        const dVertical = distP(x, y, castVertical.x, castVertical.y);
-        impact = dHorizontal < dVertical ? castHorizontal : castVertical;
+        impact = distP(x, y, castHorizontal.x, castHorizontal.y) < distP(x, y, castVertical.x, castVertical.y) ? castHorizontal : castVertical;
     }
 
     if (distP(x, y, impact.x, impact.y) > maxDistance) {
