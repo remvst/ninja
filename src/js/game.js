@@ -156,6 +156,8 @@ class Game {
         // Show the windows so the tower can be rendered again
         interp(this, 'windowsAlpha', this.windowsAlpha, 1, 1, 1);
         interp(this, 'mainTitleAlpha', 0, 1, 1, 3);
+
+        this.isStarted = false;
     }
 
     endAnimation() {
