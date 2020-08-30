@@ -11,52 +11,52 @@ class Game {
         G = this;
         G.clock = 0;
 
-        this.timer = 0;
-        this.timerActive = false;
+        G.timer = 0;
+        G.timerActive = false;
 
-        this.difficulty = NORMAL_DIFFICULTY;
-        this.wasDifficultyChangedDuringRun = false;
-        this.difficultyPromptShown = false;
+        G.difficulty = NORMAL_DIFFICULTY;
+        G.wasDifficultyChangedDuringRun = false;
+        G.difficultyPromptShown = false;
 
-        this.level = LEVELS[0];
-        this.level.prepare();
+        G.level = LEVELS[0];
+        G.level.prepare();
 
-        this.renderables = [];
+        G.renderables = [];
 
-        this.bottomScreenAltitude = MAX_LEVEL_ALTITUDE + LEVEL_HEIGHT - CANVAS_HEIGHT / 2 + 100;
-        this.windowsAlpha = 1;
+        G.bottomScreenAltitude = MAX_LEVEL_ALTITUDE + LEVEL_HEIGHT - CANVAS_HEIGHT / 2 + 100;
+        G.windowsAlpha = 1;
 
-        this.introAlpha = 1;
-        this.mainTitleAlpha = 1;
-        this.mainTitleYOffset = 1;
-        this.interTitleYOffset = 1;
+        G.introAlpha = 1;
+        G.mainTitleAlpha = 1;
+        G.mainTitleYOffset = 1;
+        G.interTitleYOffset = 1;
 
-        this.bandanaSource = {'x': NINJA_POSITION.x, 'y': NINJA_POSITION.y - 10};
-        this.bandanaTrail = Array(~~(MAX_BANDANA_LENGTH / MAIN_MENU_BANDANA_X_INTERVAL)).fill(0).map((x, i) => {
-            return { 'x': this.bandanaSource.x + PLAYER_RADIUS / 2 + i * MAIN_MENU_BANDANA_X_INTERVAL};
+        G.bandanaSource = {'x': NINJA_POSITION.x, 'y': NINJA_POSITION.y - 10};
+        G.bandanaTrail = Array(~~(MAX_BANDANA_LENGTH / MAIN_MENU_BANDANA_X_INTERVAL)).fill(0).map((x, i) => {
+            return { 'x': G.bandanaSource.x + PLAYER_RADIUS / 2 + i * MAIN_MENU_BANDANA_X_INTERVAL};
         })
 
-        this.mainTitle = nomangle('NINJA');
-        this.interTitle = nomangle('VS');
+        G.mainTitle = nomangle('NINJA');
+        G.interTitle = nomangle('VS');
 
-        interp(this, 'introAlpha', 1, 0, 1, 2);
-        interp(this, 'mainTitleYOffset', -CANVAS_HEIGHT , 0, 0.3, 0.5, null, () => {
-            this.shakeTitleTime = 0.1;
+        interp(G, 'introAlpha', 1, 0, 1, 2);
+        interp(G, 'mainTitleYOffset', -CANVAS_HEIGHT , 0, 0.3, 0.5, null, () => {
+            G.shakeTitleTime = 0.1;
 
             R.font = TITLE_FONT;
-            this.dust(measureText(this.mainTitle).width / 2, TITLE_Y + 50, 100);
+            G.dust(measureText(G.mainTitle).width / 2, TITLE_Y + 50, 100);
         });
-        interp(this, 'interTitleYOffset', CANVAS_HEIGHT, 0, 0.3, 1, null, () => {
-            this.shakeTitleTime = 0.1;
+        interp(G, 'interTitleYOffset', CANVAS_HEIGHT, 0, 0.3, 1, null, () => {
+            G.shakeTitleTime = 0.1;
 
             R.font = INTER_TITLE_FONT;
-            this.dust(measureText(this.interTitle).width / 2, INTER_TITLE_Y - 20, 5);
+            G.dust(measureText(G.interTitle).width / 2, INTER_TITLE_Y - 20, 5);
         });
     }
 
     dust(spreadRadius, y, count) {
         for (let i = 0 ; i < count ; i++) {
-            this.particle({
+            G.particle({
                 'size': [16],
                 'color': '#fff',
                 'duration': rnd(0.4, 0.8),
@@ -67,46 +67,46 @@ class Game {
     }
 
     changeDifficulty() {
-        if (this.isStarted) {
-            this.wasDifficultyChangedDuringRun = true;
+        if (G.isStarted) {
+            G.wasDifficultyChangedDuringRun = true;
         }
 
         const settings = difficultySettings();
-        const currentDifficultyIndex = settings.indexOf(this.difficulty);
-        this.difficulty = settings[(currentDifficultyIndex + 1) % settings.length];
+        const currentDifficultyIndex = settings.indexOf(G.difficulty);
+        G.difficulty = settings[(currentDifficultyIndex + 1) % settings.length];
     };
 
     startAnimation() {
-        if (this.isStarted) {
+        if (G.isStarted) {
             return;
         }
 
-        this.isStarted = true;
+        G.isStarted = true;
 
-        this.timer = 0;
+        G.timer = 0;
 
-        this.wasDifficultyChangedDuringRun = false;
-        this.queuedTweet = null;
+        G.wasDifficultyChangedDuringRun = false;
+        G.queuedTweet = null;
 
-        this.level = LEVELS[0];
+        G.level = LEVELS[0];
         if (DEBUG) {
-            this.level = LEVELS[getDebugValue('level', 0)];
+            G.level = LEVELS[getDebugValue('level', 0)];
         }
-        this.level.prepare();
+        G.level.prepare();
 
         // Fade the title and intertitle out
-        interp(this, 'mainTitleAlpha', 1, 0, 0.5);
+        interp(G, 'mainTitleAlpha', 1, 0, 0.5);
 
         // Center the level, hide the windows, then start it
-        this.centerLevel(
-            this.level.index,
+        G.centerLevel(
+            G.level.index,
             5,
             0.5,
             () => {
                 // Hide the windows, then start the level
-                interp(this, 'windowsAlpha', 1, 0, 1, 0, null, () => {
-                    this.timerActive = true;
-                    this.level.start()
+                interp(G, 'windowsAlpha', 1, 0, 1, 0, null, () => {
+                    G.timerActive = true;
+                    G.level.start()
                 });
             }
         )
@@ -127,14 +127,14 @@ class Game {
 
     get bestTime() {
         try {
-            return parseFloat(localStorage[this.bestTimeKey]) || 0;
+            return parseFloat(localStorage[G.bestTimeKey]) || 0;
         } catch(e) {
             return 0;
         }
     }
 
     get bestTimeKey() {
-        return location.pathname + this.difficulty.label;
+        return location.pathname + G.difficulty.label;
     }
 
     mainMenu() {
@@ -142,9 +142,9 @@ class Game {
 
         // Go to the top of the tower
         interp(
-            this,
+            G,
             'bottomScreenAltitude',
-            this.bottomScreenAltitude,
+            G.bottomScreenAltitude,
             MAX_LEVEL_ALTITUDE + LEVEL_HEIGHT - CANVAS_HEIGHT / 2 + 100,
             2,
             0.5,
@@ -152,35 +152,35 @@ class Game {
         );
 
         // Show the windows so the tower can be rendered again
-        interp(this, 'windowsAlpha', this.windowsAlpha, 1, 1, 1);
-        interp(this, 'mainTitleAlpha', 0, 1, 1, 3);
+        interp(G, 'windowsAlpha', G.windowsAlpha, 1, 1, 1);
+        interp(G, 'mainTitleAlpha', 0, 1, 1, 3);
 
-        this.isStarted = false;
-        this.timerActive = false;
-        this.timer = 0;
+        G.isStarted = false;
+        G.timerActive = false;
+        G.timer = 0;
     }
 
     endAnimation() {
         // Allow the player to start the game again
-        this.isStarted = false;
-        this.timerActive = false;
+        G.isStarted = false;
+        G.timerActive = false;
 
         // Only save the best time if the player didn't switch the difficulty during
-        if (!this.wasDifficultyChangedDuringRun) {
-            localStorage[this.bestTimeKey] = min(this.bestTime || 999999, this.timer);
+        if (!G.wasDifficultyChangedDuringRun) {
+            localStorage[G.bestTimeKey] = min(G.bestTime || 999999, G.timer);
         }
 
-        this.queuedTweet = nomangle('I beat ') + document.title + nomangle(' in ') + formatTime(this.timer) + nomangle(' on ') + this.difficulty.label + ' ' + nomangle('difficulty!');
+        G.queuedTweet = nomangle('I beat ') + document.title + nomangle(' in ') + formatTime(G.timer) + nomangle(' on ') + G.difficulty.label + ' ' + nomangle('difficulty!');
 
-        this.mainMenu();
+        G.mainMenu();
 
         // Replace the title
-        this.mainTitle = nomangle('YOU BEAT');
-        this.interTitle = '';
+        G.mainTitle = nomangle('YOU BEAT');
+        G.interTitle = '';
 
         // Trophies for OS13K (not checking if the player changed difficulty just so they can win trophies more easily)
-        const hardTrophy = this.difficulty == HARD_DIFFICULTY;
-        const normalTrophy = this.difficulty == NORMAL_DIFFICULTY || hardTrophy;
+        const hardTrophy = G.difficulty == HARD_DIFFICULTY;
+        const normalTrophy = G.difficulty == NORMAL_DIFFICULTY || hardTrophy;
 
         const keyPrefix = nomangle(`OS13kTrophy,GG,${document.title},Beat the game - `);
         const value = nomangle(`Find the evil plans`);
@@ -206,27 +206,27 @@ class Game {
             }
         }
 
-        if (this.timerActive) {
-            this.timer += e;
+        if (G.timerActive) {
+            G.timer += e;
         }
-        this.clock += e;
-        this.shakeTitleTime -= e;
+        G.clock += e;
+        G.shakeTitleTime -= e;
 
         if (INPUT.jump()) {
-            this.startAnimation();
+            G.startAnimation();
         }
 
-        this.level.cycle(e);
+        G.level.cycle(e);
         INTERPOLATIONS.slice().forEach(i => i.cycle(e));
     }
 
     centerLevel(levelIndex, duration, delay, callback) {
         // Move the camera to the new level, and only then start it
         interp(
-            this,
+            G,
             'bottomScreenAltitude',
-            this.bottomScreenAltitude,
-            this.levelBottomAltitude(levelIndex) - TOWER_BASE_HEIGHT,
+            G.bottomScreenAltitude,
+            G.levelBottomAltitude(levelIndex) - TOWER_BASE_HEIGHT,
             duration,
             delay,
             easeInOutCubic,
@@ -236,14 +236,14 @@ class Game {
 
     nextLevel() {
         // Stop the previous level
-        this.level.stop();
+        G.level.stop();
 
         // Prepare the new one
-        this.level = LEVELS[this.level.index + 1];
-        this.level.prepare();
+        G.level = LEVELS[G.level.index + 1];
+        G.level.prepare();
 
         // Move the camera to the new level, and only then start it
-        this.centerLevel(this.level.index, 0.5, 0, () => this.level.start());
+        G.centerLevel(G.level.index, 0.5, 0, () => G.level.start());
 
         nextLevelSound();
     }
@@ -258,7 +258,7 @@ class Game {
         }
 
         if (DEBUG) {
-            this.castIterations = 0;
+            G.castIterations = 0;
         }
 
         if (DEBUG && getDebugValue('zoom')) {
@@ -306,7 +306,7 @@ class Game {
         BUILDINGS_BACKGROUND.forEach((layer, i) => wrap (() => {
             const layerRatio = 0.2 + 0.8 * i / (BUILDINGS_BACKGROUND.length - 1);
 
-            const altitudeRatio = this.bottomScreenAltitude / MAX_LEVEL_ALTITUDE;
+            const altitudeRatio = G.bottomScreenAltitude / MAX_LEVEL_ALTITUDE;
 
             fs(layer);
             translate(0, ~~(CANVAS_HEIGHT - layer.height + altitudeRatio * layerRatio * 400));
@@ -343,7 +343,7 @@ class Game {
 
         // Render the tower
         wrap(() => {
-            translate(LEVEL_X, ~~this.bottomScreenAltitude + LEVEL_HEIGHT + TOWER_BASE_HEIGHT);
+            translate(LEVEL_X, ~~G.bottomScreenAltitude + LEVEL_HEIGHT + TOWER_BASE_HEIGHT);
 
             // Render the rooftop (sign, lights)
             wrap(() => {
@@ -395,19 +395,19 @@ class Game {
                 wrap(() => {
                     const ninjaScale = 1.5;
 
-                    this.bandanaTrail.forEach((item, i, arr) => {
+                    G.bandanaTrail.forEach((item, i, arr) => {
                         const ratio = i / arr.length
                         const amplitude = 15 * ratio;
-                        item.y = this.bandanaSource.y - ratio * 30 + sin(-ratio * 20 + G.clock * 35) * amplitude;
+                        item.y = G.bandanaSource.y - ratio * 30 + sin(-ratio * 20 + G.clock * 35) * amplitude;
                     });
 
                     scale(1.5, 1.5);
-                    renderBandana(R, this.bandanaSource, this.bandanaTrail);
+                    renderBandana(R, G.bandanaSource, G.bandanaTrail);
 
                     translate(NINJA_POSITION.x, NINJA_POSITION.y);
                     renderCharacter(
                         R,
-                        this.clock,
+                        G.clock,
                         PLAYER_BODY,
                         true,
                         -1,
@@ -420,10 +420,10 @@ class Game {
             if (DEBUG) logPerf('roof');
 
             // Render the levels
-            const currentLevelIndex = LEVELS.indexOf(this.level);
+            const currentLevelIndex = LEVELS.indexOf(G.level);
             for (let i = max(0, currentLevelIndex - 1) ; i < min(LEVELS.length, currentLevelIndex + 2) ; i++) {
                 wrap(() => {
-                    translate(0, -this.levelBottomAltitude(i) - LEVEL_HEIGHT);
+                    translate(0, -G.levelBottomAltitude(i) - LEVEL_HEIGHT);
                     LEVELS[i].render();
                 });
             }
@@ -431,7 +431,7 @@ class Game {
             if (DEBUG) logPerf('levels');
 
             // Render the windows in front
-            R.globalAlpha = this.windowsAlpha;
+            R.globalAlpha = G.windowsAlpha;
             fs(BUILDING_PATTERN);
             wrap(() => {
                 // translate(-CELL_SIZE / 2, 0);
@@ -441,8 +441,8 @@ class Game {
             if (DEBUG) logPerf('windows');
         });
 
-        if (this.menu) {
-            wrap(() => this.menu.render());
+        if (G.menu) {
+            wrap(() => G.menu.render());
         }
 
         wrap(() => {
@@ -451,12 +451,12 @@ class Game {
             }
 
             // Instructions
-            if (G.clock % 2 < 1.5 && this.mainTitleAlpha == 1) {
+            if (G.clock % 2 < 1.5 && G.mainTitleAlpha == 1) {
                 const instructions = [
                     nomangle('PRESS [SPACE] TO START'),
                     DIFFICULTY_INSTRUCTION.toUpperCase(),
                 ]
-                if (this.queuedTweet) {
+                if (G.queuedTweet) {
                     instructions.unshift(nomangle('PRESS [T] TO TWEET YOUR TIME'));
                 }
                 instructions.forEach((s, i) => {
@@ -506,30 +506,30 @@ class Game {
 
         // HUD
         const hudItems = [
-            [nomangle('DIFFICULTY:'), this.difficulty.label]
+            [nomangle('DIFFICULTY:'), G.difficulty.label]
         ];
 
-        if (this.timer) {
+        if (G.timer) {
             hudItems.push([
                 nomangle('LEVEL:'),
-                (this.level.index + 1) + '/' + LEVELS.length
+                (G.level.index + 1) + '/' + LEVELS.length
             ]);
             hudItems.push([
-                nomangle('TIME' ) + (this.wasDifficultyChangedDuringRun ? nomangle(' (INVALIDATED):') : ':'),
-                formatTime(this.timer)
+                nomangle('TIME' ) + (G.wasDifficultyChangedDuringRun ? nomangle(' (INVALIDATED):') : ':'),
+                formatTime(G.timer)
             ]);
         }
 
         hudItems.push([
-            nomangle('BEST [') + this.difficulty.label + ']:',
-            formatTime(this.bestTime)
+            nomangle('BEST [') + G.difficulty.label + ']:',
+            formatTime(G.bestTime)
         ]);
 
         if (DEBUG) {
-            hudItems.push(['Render FPS', ~~this.renderFps]);
-            hudItems.push(['Cycle FPS', ~~this.cycleFps]);
+            hudItems.push(['Render FPS', ~~G.renderFps]);
+            hudItems.push(['Cycle FPS', ~~G.cycleFps]);
             hudItems.push(['Interpolations', INTERPOLATIONS.length]);
-            hudItems.push(['Cast iterations', ~~this.castIterations]);
+            hudItems.push(['Cast iterations', ~~G.castIterations]);
             perfLogs.forEach(log => {
                 hudItems.push(log);
             });
@@ -566,18 +566,18 @@ class Game {
 
         // Intro background
         wrap(() => {
-            R.globalAlpha = this.introAlpha;
+            R.globalAlpha = G.introAlpha;
             fs('#000');
             fr(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         });
 
         // Title
         wrap(() => {
-            if (this.shakeTitleTime > 0) {
+            if (G.shakeTitleTime > 0) {
                 translate(rnd(-10, 10), rnd(-10, 10));
             }
 
-            R.globalAlpha = this.mainTitleAlpha;
+            R.globalAlpha = G.mainTitleAlpha;
             R.textAlign = nomangle('center');
             R.textBaseline = nomangle('middle');
             fs('#fff');
@@ -586,21 +586,21 @@ class Game {
             // Main title
             R.lineWidth = 5;
             R.font = TITLE_FONT;
-            outlinedText(this.mainTitle, CANVAS_WIDTH / 2, TITLE_Y + this.mainTitleYOffset);
+            outlinedText(G.mainTitle, CANVAS_WIDTH / 2, TITLE_Y + G.mainTitleYOffset);
 
             // "Inter" title (between the title and EVILCORP)
             R.font = INTER_TITLE_FONT;
             R.lineWidth = 2;
-            outlinedText(this.interTitle, CANVAS_WIDTH / 2, INTER_TITLE_Y + this.interTitleYOffset);
+            outlinedText(G.interTitle, CANVAS_WIDTH / 2, INTER_TITLE_Y + G.interTitleYOffset);
         });
 
-        this.renderables.forEach(renderable => wrap(() => renderable.render()));
+        G.renderables.forEach(renderable => wrap(() => renderable.render()));
     }
 
     particle(props) {
         let particle;
-        props.onFinish = () => remove(this.renderables, particle);
-        this.renderables.push(particle = new Particle(props));
+        props.onFinish = () => remove(G.renderables, particle);
+        G.renderables.push(particle = new Particle(props));
     }
 
 }
