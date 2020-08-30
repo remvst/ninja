@@ -1,7 +1,6 @@
 renderVision = (x, y, fromAngle, toAngle, maxDistance, color) => wrap(() => {
     R.fillStyle = R.strokeStyle = color;
     R.lineWidth = 2;
-    R.globalAlpha = 0.3;
 
     beginPath();
     moveTo(x, y);
@@ -23,6 +22,10 @@ renderVision = (x, y, fromAngle, toAngle, maxDistance, color) => wrap(() => {
     }
 
     closePath();
+
+    R.globalAlpha = 0.3;
     fill();
+
+    R.globalAlpha = 0.8;
     stroke();
 });
