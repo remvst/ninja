@@ -175,7 +175,7 @@ class Game {
         this.mainMenu();
 
         // Replace the title
-        this.mainTitle = 'YOU BEAT';
+        this.mainTitle = nomangle('YOU BEAT');
         this.interTitle = '';
 
         // Trophies for OS13K (not checking if the player changed difficulty just so they can win trophies more easily)
