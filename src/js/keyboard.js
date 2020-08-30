@@ -11,7 +11,7 @@ onkeydown = e => {
         tweet(G.queuedTweet);
     }
 
-    if (e.keyCode == 27 && G.isStarted && confirm(nomangle('Exit?'))) {
+    if (e.keyCode == 27 && G.isStarted && G.timerActive && confirm(nomangle('Exit?'))) {
         G.mainMenu();
     }
 };
