@@ -45,7 +45,7 @@ class Player {
         }
 
         // If the user hasn't landed recently, don't let us jump
-        if (dist(this, this.lastLanded) > COYOTE_RADIUS && abs(this.x - this.lastWallStick.x) > COYOTE_RADIUS) {
+        if (dist(this, this.lastLanded) > COYOTE_RADIUS && abs(this.x - this.lastWallStick.x) > COYOTE_RADIUS_WALLJUMP) {
             return false;
         }
 
