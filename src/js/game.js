@@ -119,9 +119,7 @@ class Game {
             G.menu.dim = false;
             G.menu.animateIn();
 
-            setTimeout(() => {
-                G.menu.animateOut();
-            }, 3000);
+            setTimeout(() => G.menu.animateOut(), 3000);
         }, 1000);
 
         beepSound();
@@ -158,6 +156,8 @@ class Game {
         interp(this, 'mainTitleAlpha', 0, 1, 1, 3);
 
         this.isStarted = false;
+        this.timerActive = false;
+        this.timer = 0;
     }
 
     endAnimation() {
