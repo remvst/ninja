@@ -249,20 +249,16 @@ class Player {
             );
         }
 
-        return snapX.map((x) => {
-            return snapY.map((y) => {
-                return {
+        const res = [];
+        snapX.forEach((x) => snapY.forEach((y) => {
+            if (!hasBlock(x, y, PLAYER_RADIUS)) {
+                res.push({
                     'x': x,
                     'y': y
-                };
-            });
-        }).flat().filter((adjustment) => {
-            return !hasBlock(
-                adjustment.x,
-                adjustment.y,
-                PLAYER_RADIUS
-            );
-        });
+                });
+            }
+        }));
+        return res;
     }
 
     dust(y) {
