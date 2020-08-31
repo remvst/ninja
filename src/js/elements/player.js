@@ -249,14 +249,14 @@ class Player {
             );
         }
 
-        return snapX.flatMap((x) => {
+        return snapX.map((x) => {
             return snapY.map((y) => {
                 return {
                     'x': x,
                     'y': y
                 };
             });
-        }).filter((adjustment) => {
+        }).flat().filter((adjustment) => {
             return !hasBlock(
                 adjustment.x,
                 adjustment.y,

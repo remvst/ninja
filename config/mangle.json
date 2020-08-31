@@ -2,6 +2,7 @@
     "skip": [
         "arguments",
         "callee",
+        "flat",
         "left",
         "px",
         "pt",
