@@ -32,7 +32,7 @@ UNPADDED_DESK = createCanvas(CELL_SIZE * 1.1, CELL_SIZE * 0.5, (c, can) => {
 
     // Top
     c.fs('#494742');
-    c.fr(0, 0, 99, 4);
+    c.fr(0, 0, can.width, 4);
 
     // Drawers
     c.fs('#ccc');
